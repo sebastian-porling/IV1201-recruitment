@@ -9,8 +9,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const posts = require('./routes/posts');
+const applications = require('./routes/applications');
 
 app.use('/api/posts', posts);
+app.use('/api/applications', applications);
 
 // Handle production
 if(process.env.NODE_ENV == 'production'){
