@@ -6,7 +6,6 @@
 var express = require('express'); 
 var router = express.Router();
 var bodyParser = require('body-parser');
-//var config = process.env.CONFIG;
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -19,7 +18,6 @@ var mongoConnection = require('../util/mongodb/mongodbConnection');
 
 var User = require('../integration/User');
 var ObjectId = require('mongodb').ObjectID;
-//const MongoClient = require('mongodb').MongoClient;
 
 
 
@@ -79,9 +77,7 @@ router.post('/login', function(req, res) {
     collection.findOne({email: req.body.email}, function(err, user) {
       if (err) return res.status(500).send({ auth: false, msg:'Error on the server.'});
       if (!user) return res.status(404).send({ auth: false, msg:'Username or password incorrect'});
-      //if(user) return res.status(200).send('user found');
       var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
-      // if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
       if (!passwordIsValid) return res.status(401).send({ auth: false, msg:'Username or password incorrect'});
       console.log('Found one user with email in collection: ');
       console.log(user);
@@ -132,7 +128,6 @@ router.get('/userpage', VerifyUser, function(req, res, next) {
 
 
 
-    //res.status(200).send('Welcome ');
 });
 
 /**
@@ -158,7 +153,6 @@ router.get('/adminpage', VerifyAdmin
 
     });
 });
-//return res.status(200).send("Welcome Admin"); 
 
 }
 );
