@@ -1,17 +1,13 @@
 import axios from 'axios';
 
-//const login = 'http://localhost:5000/login';
-//const logout = 'http://localhost:5000/logout';
-const login = 'login';
-const logout = 'logout';
-const register = 'register';
+const url = 'auth';
 
 class AuthServices {
 
     static register(name, email, password){
         return new Promise(async (resolve, reject) => {
             try{
-                const res = await axios.post(register, {
+                const res = await axios.post(url+'/register', {
                             name: name,
                             password: password,
                             email: email
@@ -32,7 +28,7 @@ class AuthServices {
     static login(email, password){
         return new Promise(async (resolve, reject) => {
             try{
-                const res = await axios.post(login, {
+                const res = await axios.post(url+'/login', {
                     email: email,
                     password: password,
                 });
@@ -50,7 +46,7 @@ class AuthServices {
     static logout(){
         return new Promise(async (resolve, reject) => {
             try{
-                const res = await axios.get(logout);
+                const res = await axios.get(url+'/logout');
                 const data = res.data;
                 resolve(
                     data.msg
