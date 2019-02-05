@@ -5,6 +5,11 @@
       <label for="create-post">Say Something...</label>
       <input type="text" id="create-post" v-model="text" placeholder="Create a post">
       <button v-on:click="createPost">Post!</button>
+      <button v-on:click="login('bla@mail.com', 'easypassword')">Login</button>
+      <button v-on:click="logout()">Logout</button>
+      <button v-on:click="register('bob','bla@mail.com','easypassword')">register</button>
+      <span>Message: {{ msgFromServer }}</span>
+      
     </div>
     <hr>
     <p class="error" v-if="error">{{error}}</p>
@@ -25,6 +30,7 @@
 
 <script>
 import PostService from '../PostService'
+import AuthServices from '../AuthServices'
 
 export default {
   name: 'PostComponent',
@@ -32,7 +38,9 @@ export default {
     return {
       posts: [],
       error: '',
-      text: ''
+      text: '',
+      msgFromServer: 'test'
+      
     }
   },
   async created() {
@@ -50,6 +58,16 @@ export default {
     async deletePost(id){
       await PostService.deletePost(id);
       this.posts = await PostService.getPosts();
+    },
+    async login(email, password){
+      this.msgFromServer = await AuthServices.login(email, password);
+    },
+    async logout(){
+      this.msgFromServer = await AuthServices.logout(); 
+    },
+
+    async register(name, email, password){
+      this.msgFromServer = await AuthServices.register(name, email, password);
     }
   }
 }
