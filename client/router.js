@@ -10,7 +10,7 @@ Vue.use(Router);
 
 const router = new Router({
         mode: 'history',
-        base: process.env.BASE_URL,
+        base: 'https://localhost:8080',
         routes: [
                 {
                         path: '/',

@@ -6,10 +6,6 @@
 		<li class="nav__item"><router-link to="/" class="nav__link">Home</router-link></li>
 		<li class="nav__item"><router-link to="/Login" class="nav__link">Login</router-link></li>
 		</ul>
-		<ul class="navbar_nav">
-		<a href="/" class="nav__link">Home</a>
-		<a href="/Login" class="nav__link">Login</a>
-		</ul>
 	</div>
 </template>
 
