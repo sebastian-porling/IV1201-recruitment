@@ -2,12 +2,14 @@
 	<div class ="header">
 		<img alt="Vue logo" src="../assets/logo.png">
 		<h1>this is our header</h1>
-		<ul class ="navbar_nav">
+		<ul class="navbar_nav">
 		<li class="nav__item"><router-link to="/" class="nav__link">Home</router-link></li>
 		<li class="nav__item"><router-link to="/Login" class="nav__link">Login</router-link></li>
 		</ul>
-		<router-link to="/" class="nav__link">Home</router-link>
-
+		<ul class="navbar_nav">
+		<a href="/" class="nav__link">Home</a>
+		<a href="/Login" class="nav__link">Login</a>
+		</ul>
 	</div>
 </template>
 
