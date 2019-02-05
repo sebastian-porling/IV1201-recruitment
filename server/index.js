@@ -9,8 +9,12 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const posts = require('./routes/posts');
+const home = require('./routes/home');
+const login = require('./routes/login');
 
-app.use('/api/posts', posts);
+app.use('/posts', posts);
+app.use('/posts', home);
+app.use('/posts', login);
 
 // Handle production
 if(process.env.NODE_ENV == 'production'){

@@ -1,17 +1,16 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <PostComponent/>
+    <HeaderComponent/>
   </div>
 </template>
 
 <script>
-import PostComponent from './components/PostComponent.vue'
+import HeaderComponent from './components/HeaderComponent.vue'
 
 export default {
   name: 'app',
   components: {
-    PostComponent
+    HeaderComponent
   }
 }
 </script>
