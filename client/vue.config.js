@@ -6,6 +6,15 @@ module.exports = {
         proxy: {
             '/api': {
                 target: 'http://localhost:5000'
+            },
+            '/login': {
+                target: 'http://localhost:5000'
+            },
+            '/logout': {
+                target: 'http://localhost:5000'
+            },
+            '/register': {
+                target: 'http://localhost:5000'
             }
         }
     }
