@@ -34,8 +34,6 @@ class AuthServices {
                             return 'Error on the server.'
                         case 'Email already taken':
                             return 'Email already taken'
-                        case '':
-    
                         default:
                             return e.response.data.error;
                     }
@@ -67,8 +65,6 @@ class AuthServices {
                         return 'usr or pw inc'
                     case 'email incorrect':
                         return 'email invalid'
-                    case '':
-
                     default:
                         return e.response.data.error;
                 }
@@ -96,8 +92,6 @@ class AuthServices {
                             return 'usr or pw inc'
                         case 'email incorrect':
                             return 'email invalid'
-                        case '':
-    
                         default:
                             return e.response.data.error;
                     }
