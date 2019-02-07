@@ -19,13 +19,7 @@ var mongoConnection = require('../util/mongodb/mongodbConnection');
 var User = require('../integration/User');
 var ObjectId = require('mongodb').ObjectID;
 var validator = require('validator');
-
-
 var readfromenv= process.env.CONFIG;
-
-
-
- 
 
  /**
  * Registers a user with the given name, email address and password. The email address functions as the users username.
@@ -67,11 +61,13 @@ router.post('/register', async function(req, res) {
   }
 
   }
+
 });
 
 /**
  * Login the user with the given email and password
  */
+
 router.post('/login', async function(req, res) {
   try{
     assert.strictEqual(true, validator.isEmail(req.body.email), "1");
@@ -109,9 +105,7 @@ router.post('/login', async function(req, res) {
         return res.status(400).send({error: 'Error on the server'});
   }
 }
- 
 });
-
 
 /**
  * Logut the user current active user. 
@@ -137,6 +131,7 @@ router.get('/userpage', VerifyUser, function(req, res, next) {
           console.log("No user found");
           return res.status(400).send({error: 'No user found.'});
           //return res.status(500).send('No user found.');
+
       }
       else{
           console.log("user accessed user page");
@@ -145,9 +140,6 @@ router.get('/userpage', VerifyUser, function(req, res, next) {
 
       });
   });
-
-
-
 });
 
 /**
@@ -176,6 +168,5 @@ router.get('/adminpage', VerifyAdmin
 
 }
 );
-
 
 module.exports = router;

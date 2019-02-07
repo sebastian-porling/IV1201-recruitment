@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const url = 'auth';
 
+
 /**  
  *   Class used to handle authentication with the server using axios
 */
@@ -15,6 +16,7 @@ class AuthServices {
     * @param password The users password
  */
     static async register(name, email, password){
+
             try{
                 const res = await axios.post(url+'/register', {
                             name: name,
@@ -104,6 +106,7 @@ class AuthServices {
                 }
                 
             }
+
     }
 
 }
