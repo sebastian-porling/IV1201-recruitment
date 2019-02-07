@@ -5,7 +5,7 @@
       <label for="create-post">Say Something...</label>
       <input type="text" id="create-post" v-model="text" placeholder="Create a post">
       <button v-on:click="createPost">Post!</button>
-      <button v-on:click="login('bla@mail.com', 'easypassword')">Login</button>
+      <button v-on:click="login('abc', 'easypassw')">Login</button>
       <button v-on:click="logout()">Logout</button>
       <button v-on:click="register('bob','bla@mail.com','easypassword')">register</button>
       <span>Message: {{ msgFromServer }}</span>

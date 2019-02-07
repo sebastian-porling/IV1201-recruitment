@@ -18,7 +18,7 @@ var mongoConnection = require('../util/mongodb/mongodbConnection');
 
 var User = require('../integration/User');
 var ObjectId = require('mongodb').ObjectID;
-
+var validator = require('validator');
 
 
 var readfromenv= process.env.CONFIG;
@@ -30,66 +30,91 @@ var readfromenv= process.env.CONFIG;
  /**
  * Registers a user with the given name, email address and password. The email address functions as the users username.
  */
-router.post('/register', function(req, res) {
-  var hashedPassword = bcrypt.hashSync(req.body.password, 8);
-  console.log('registering user');
-  console.log(req.body.email)
-  mongoConnection.then((client, err) => {
-    assert.equal(null, err);
+router.post('/register', async function(req, res) {
+  try{
+    var hashedPassword = bcrypt.hashSync(req.body.password, 8);
+    console.log('registering user');
+    assert.strictEqual(true, validator.isEmail(req.body.email), "1");
+    const client = await mongoConnection;
     console.log("Connected successfully to mongodb");
-    dbName = 'posts'
+    const dbName = 'posts'
     const db = client.db(dbName);
     const collection = db.collection('users');
-    collection.findOne({email: req.body.email}, function(err, user) {
-      if (err) return res.status(500).send({ registered: false, msg:'Error on the server.'});
-      if (user) return res.status(404).send({ registered: false, msg:'Email already taken'});
-      else{
-          collection.insertOne({name: req.body.name, email: req.body.email, password: hashedPassword, role:'applicant'},
-          function(err, result){
-            if(err) return res.status(500).send({ registered: false, msg:'Error on the server.'});
-            console.log('new user created ');
-            console.log(result.ops[0])
-            var token = jwt.sign({ id: result.ops[0]._id }, config, {
-              expiresIn: 86400 // expires in 24 hours
-            });
-            req.session.token = token;
-            res.status(200).send({ registered: true, msg:'Registration successful'});
-          }
-          )
+    var user = await collection.findOne({email: req.body.email});
+    if (user) return res.status(400).send({ error:'Email already taken'});
+    else{
+      const result = await collection.insertOne({name: req.body.name, email: req.body.email, password: hashedPassword, role:'applicant'});
+      console.log('new user created ');
+      console.log(result.ops[0])
+      var token = jwt.sign({ id: result.ops[0]._id }, config, {
+                expiresIn: 86400 // expires in 24 hours
+      });
+      req.session.token = token;
+      res.status(200).send({ registered: true, msg:'Registration successful'});
+    }
+            
 
-      }
-    });
-  })
+  }
+  catch(e){
+    switch(e.message) {
+      case '1':
+        console.log('email not valid');
+        return res.status(400).send({error: 'email incorrect'});
+      // case '2':
+      //   console.log('Username or password incorrect');
+      //   return res.status(400).send({ error: 'Username or password incorrect'})
+        //break;
+      default:
+        console.log(e.name +': ' + e.message);
+        console.trace();
+        return res.status(400).send({error: 'Error on the server'});
+  }
+
+  }
 });
 
 /**
  * Login the user with the given email and password
  */
-router.post('/login', function(req, res) {
-  console.log('usermail '+req.body.email);
+router.post('/login', async function(req, res) {
+  try{
+    assert.strictEqual(true, validator.isEmail(req.body.email), "1");
 
-  mongoConnection.then((client, err) => {
-    assert.equal(null, err);
+    var client = await mongoConnection;
     console.log("Connected successfully to mongodb");
+
     dbName = 'posts'
     const db = client.db(dbName);
     const collection = db.collection('users');
-    collection.findOne({email: req.body.email}, function(err, user) {
-      if (err) return res.status(500).send({ auth: false, msg:'Error on the server.'});
-      if (!user) return res.status(404).send({ auth: false, msg:'Username or password incorrect'});
-      var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
-      if (!passwordIsValid) return res.status(401).send({ auth: false, msg:'Username or password incorrect'});
-      console.log('Found one user with email in collection: ');
-      console.log(user);
-      var token = jwt.sign({ id: user._id }, config, {
-        expiresIn: 86400 // expires in 24 hours
-      });
-      req.session.token = token;
-      res.status(200).send({ auth: true, msg:'login successful'});
-   
-    });
 
-  });
+    var user = await collection.findOne({email: req.body.email});
+    //assert.strictEqual(true, user, "2");
+    if (!user) return res.status(400).send({ error: 'Username or password incorrect'});
+
+
+    var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+    if (!passwordIsValid) return res.status(400).send({ error: 'Username or password incorrect'});
+    
+    var token = jwt.sign({ id: user._id }, config, {
+        expiresIn: 86400 // expires in 24 hours
+    });
+    req.session.token = token;
+    res.status(200).send({ auth: true, msg:'login successful'});
+  }
+
+  catch(e){
+    //console.log(e.name +': ' + e.message);
+    switch(e.message) {
+      case '1':
+        console.log('email not valid');
+        return res.status(400).send({error: 'email incorrect'});
+
+      default:
+        console.log(e.name +': ' + e.message);
+        console.trace();
+        return res.status(400).send({error: 'Error on the server'});
+  }
+}
  
 });
 
@@ -116,7 +141,8 @@ router.get('/userpage', VerifyUser, function(req, res, next) {
       }
       else if(!user){ 
           console.log("No user found");
-          return res.status(500).send('No user found.');
+          return res.status(400).send({error: 'No user found.'});
+          //return res.status(500).send('No user found.');
       }
       else{
           console.log("user accessed user page");
@@ -144,7 +170,7 @@ router.get('/adminpage', VerifyAdmin
     }
     else if(!user){ 
         console.log("No user found");
-        return res.status(500).send('No user found.');
+        return res.status(400).send({error: 'No user found.'});
     }
     else{
         console.log("admin accessed admin page");
