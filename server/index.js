@@ -9,14 +9,13 @@ const MongoClient = require('mongodb').MongoClient;
 
 const app = express();
 
-
 //All code for routes etc should be in this function 
 async function init(){
 
     try{
 
-        const dbUrl =  process.env.MONGOLAB_URI || 'mongodb://localhost:27017';
-        const dbName = 'posts';
+        const dbUrl =  process.env.MONGOLAB_URI || 'mongodb://IV1201:IV1201@ds119993.mlab.com:19993/recruitment';
+        const dbName = 'recruitment';
         const client = new MongoClient(dbUrl);
         connection = await client.connect();
         var db = connection.db(dbName);
@@ -30,19 +29,13 @@ async function init(){
             }
             ));
         
-
         app.use(bodyParser.json());
         app.use(cors());
         
-        //var vall = 10;
-    //     assert.equal(typeof (vall), 'string',
-    //   "argument 'vall' must be a string");
-        //await Promise.reject(Error("whops"));
-        
-
-
         const posts = require('./routes/posts');
+        const applications = require('./routes/applications');
 
+        app.use('/api/applications', applications);
         app.use('/api/posts', posts);
         app.use('/auth', authRouter);
         // Handle production
@@ -62,10 +55,6 @@ async function init(){
         console.log('msglog: '+ e.message);
         console.log(e.stack)
     }
-
-
-    
-    
 
 };
 
