@@ -3,46 +3,42 @@ const bodyParser = require('express');
 const cors = require('cors');
 var session = require('express-session');
 const assert = require('assert');
-var authRouter = require('./routes/auth');
 const app = express();
+
+app.use(bodyParser.json());
+app.use(cors());
+
+const posts = require('./routes/posts');
+const applications = require('./routes/applications');
+var authRouter = require('./routes/auth');
+
 
 
 //MongoDB 
 const MongoStore = require('connect-mongo')(session);
 const MongoClient = require('mongodb').MongoClient;
-const dbUrl =  process.env.MONGOLAB_URI || 'mongodb://localhost:27017';
-const sessiondbName = 'posts';
-const client = new MongoClient(dbUrl);
+const dbUrl =  process.env.MONGOLAB_URI || 'mongodb://IV1201:IV1201@ds119993.mlab.com:19993/recruitment';
+const sessiondbName = 'recruitment';
+const client = new MongoClient(dbUrl, {useNewUrlParser: true});
 client.connect(function(err, client) {
     assert.equal(null, err);
     console.log("Connected successfully to mongodb server");
     var sessiondb = client.db(sessiondbName);
     app.use(session({
         secret: 'sessionSecret',
-        cookie: { maxAge: 86400 },
+        cookie: { maxAge: 8640000000 },
         store: new MongoStore({db: sessiondb }),
         saveUninitialized: true, //Default value. Change?
         resave: true //Default value. Change?
-        
     }
     ))
     //Need to use router after session to work correctly possible fix  to move route outside callback
     //would be to await client connect set session using then() and then do app.use after. 
     app.use('/auth', authRouter);
+    app.use('/api/posts', posts);
+    app.use('/api/applications', applications);
   });
-
-
-app.use(bodyParser.json());
-app.use(cors());
-   
   
-
-
-const posts = require('./routes/posts');
-const applications = require('./routes/applications');
-
-app.use('/api/posts', posts);
-app.use('/api/applications', applications);
 
 // Handle production
 if(process.env.NODE_ENV == 'production'){

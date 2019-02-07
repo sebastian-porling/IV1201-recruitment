@@ -19,17 +19,12 @@ var mongoConnection = require('../util/mongodb/mongodbConnection');
 var User = require('../integration/User');
 var ObjectId = require('mongodb').ObjectID;
 
-
-
 var readfromenv= process.env.CONFIG;
-
-
-
- 
 
  /**
  * Registers a user with the given name, email address and password. The email address functions as the users username.
  */
+
 router.post('/register', function(req, res) {
   var hashedPassword = bcrypt.hashSync(req.body.password, 8);
   console.log('registering user');
@@ -39,7 +34,7 @@ router.post('/register', function(req, res) {
     console.log("Connected successfully to mongodb");
     dbName = 'posts'
     const db = client.db(dbName);
-    const collection = db.collection('users');
+    const collection = db.collection('recruitment');
     collection.findOne({email: req.body.email}, function(err, user) {
       if (err) return res.status(500).send({ registered: false, msg:'Error on the server.'});
       if (user) return res.status(404).send({ registered: false, msg:'Email already taken'});
@@ -65,15 +60,16 @@ router.post('/register', function(req, res) {
 /**
  * Login the user with the given email and password
  */
+
 router.post('/login', function(req, res) {
   console.log('usermail '+req.body.email);
 
   mongoConnection.then((client, err) => {
     assert.equal(null, err);
     console.log("Connected successfully to mongodb");
-    dbName = 'posts'
+    dbName = 'recruitment'
     const db = client.db(dbName);
-    const collection = db.collection('users');
+    const collection = db.collection('recruitment');
     collection.findOne({email: req.body.email}, function(err, user) {
       if (err) return res.status(500).send({ auth: false, msg:'Error on the server.'});
       if (!user) return res.status(404).send({ auth: false, msg:'Username or password incorrect'});
@@ -82,7 +78,7 @@ router.post('/login', function(req, res) {
       console.log('Found one user with email in collection: ');
       console.log(user);
       var token = jwt.sign({ id: user._id }, config, {
-        expiresIn: 86400 // expires in 24 hours
+        expiresIn: 8640000000000000 // expires in 24 hours
       });
       req.session.token = token;
       res.status(200).send({ auth: true, msg:'login successful'});
@@ -152,10 +148,7 @@ router.get('/adminpage', VerifyAdmin
     }
 
     });
+  });
 });
-
-}
-);
-
 
 module.exports = router;

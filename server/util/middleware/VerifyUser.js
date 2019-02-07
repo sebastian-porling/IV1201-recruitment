@@ -14,7 +14,6 @@ config = 'supersecretstuff';
 
 function verifyUser(req, res, next) {
   var token = req.session.token;
-  console.log(token)
   if (!token)
     return res.status(403).send({ auth: false, message: 'No token provided.' });
   jwt.verify(token, config, function(err, decoded) {
