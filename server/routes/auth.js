@@ -31,9 +31,9 @@ router.post('/register', async function(req, res) {
     assert.strictEqual(true, validator.isEmail(req.body.email), "1");
     const client = await mongoConnection;
     console.log("Connected successfully to mongodb");
-    const dbName = 'posts'
+    const dbName = 'recruitment'
     const db = client.db(dbName);
-    const collection = db.collection('users');
+    const collection = db.collection('recruitment');
     var user = await collection.findOne({email: req.body.email});
     if (user) return res.status(400).send({ error:'Email already taken'});
     else{
@@ -75,9 +75,9 @@ router.post('/login', async function(req, res) {
     var client = await mongoConnection;
     console.log("Connected successfully to mongodb");
 
-    dbName = 'posts'
+    dbName = 'recruitment'
     const db = client.db(dbName);
-    const collection = db.collection('users');
+    const collection = db.collection('recruitment');
 
     var user = await collection.findOne({email: req.body.email});
     if (!user) return res.status(400).send({ error: 'Username or password incorrect'});
