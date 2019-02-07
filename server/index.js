@@ -6,6 +6,7 @@ const assert = require('assert');
 var authRouter = require('./routes/auth');
 const MongoStore = require('connect-mongo')(session);
 const MongoClient = require('mongodb').MongoClient;
+const maxAge = 43200000; //12 hours (time in miliseconds)
 
 const app = express();
 
@@ -22,7 +23,7 @@ async function init(){
         var db = connection.db(dbName);
             app.use(session({
                 secret: 'sessionSecret',
-                cookie: { maxAge: 86400 },
+                cookie: { maxAge: maxAge,                   //12 hours },
                 store: new MongoStore({db: db}),
                 saveUninitialized: true, //Default value. Change?
                 resave: true //Default value. Change?
