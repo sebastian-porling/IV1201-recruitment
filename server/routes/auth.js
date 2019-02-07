@@ -60,10 +60,6 @@ router.post('/register', async function(req, res) {
       case '1':
         console.log('email not valid');
         return res.status(400).send({error: 'email incorrect'});
-      // case '2':
-      //   console.log('Username or password incorrect');
-      //   return res.status(400).send({ error: 'Username or password incorrect'})
-        //break;
       default:
         console.log(e.name +': ' + e.message);
         console.trace();
@@ -88,7 +84,6 @@ router.post('/login', async function(req, res) {
     const collection = db.collection('users');
 
     var user = await collection.findOne({email: req.body.email});
-    //assert.strictEqual(true, user, "2");
     if (!user) return res.status(400).send({ error: 'Username or password incorrect'});
 
 
@@ -103,7 +98,6 @@ router.post('/login', async function(req, res) {
   }
 
   catch(e){
-    //console.log(e.name +': ' + e.message);
     switch(e.message) {
       case '1':
         console.log('email not valid');

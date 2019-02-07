@@ -23,25 +23,19 @@ async function init(){
         var db = connection.db(dbName);
             app.use(session({
                 secret: 'sessionSecret',
-                cookie: { maxAge: maxAge,                   //12 hours },
+                cookie: { maxAge: maxAge},                   //12 hours },
                 store: new MongoStore({db: db}),
                 saveUninitialized: true, //Default value. Change?
                 resave: true //Default value. Change?
                 
-            }
-            ));
+            })
+            );
         
 
         app.use(bodyParser.json());
         app.use(cors());
         
-        //var vall = 10;
-    //     assert.equal(typeof (vall), 'string',
-    //   "argument 'vall' must be a string");
-        //await Promise.reject(Error("whops"));
         
-
-
         const posts = require('./routes/posts');
 
         app.use('/api/posts', posts);
