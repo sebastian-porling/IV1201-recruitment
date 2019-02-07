@@ -8,12 +8,17 @@
     </div>
     <div class="text-center">
         <mdb-btn>Login</mdb-btn>
+        <mdb-btn v-on:click="login('bla@mail.com', 'easypassword')">Login</mdb-btn>
+        <mdb-btn v-on:click="logout()">Logout</mdb-btn>
+        <mdb-btn v-on:click="register('bob','bla@mail.com','easypassword')">register</mdb-btn>
+        <span>Message: {{ msgFromServer }}</span>
     </div>
     </form>
     <!-- Material form login -->    
 </template>
 
 <script>
+  import AuthServices from '../AuthServices'
   import { mdbContainer, mdbBtn, mdbModal, mdbModalHeader, mdbModalBody, mdbModalFooter, mdbInput } from 'mdbvue';
 
     export default {
@@ -29,7 +34,21 @@
     },
     data() {
         return {
-        login: false,
+            login: false,
+            error: '',
+            text: '',
+            msgFromServer: 'test'
+        }
+    },
+    methods: {
+        async login(email, password){
+            this.msgFromServer = await AuthServices.login(email, password);
+        },
+        async logout(){
+            this.msgFromServer = await AuthServices.logout(); 
+        },
+        async register(name, email, password){
+            this.msgFromServer = await AuthServices.register(name, email, password);
         }
     }
     }
