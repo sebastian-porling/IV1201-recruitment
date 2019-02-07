@@ -18,43 +18,40 @@ config = 'supersecretstuff';
  * @returns 
  */
     
- function verifyAdmin(req, res, next) {
+ async function verifyAdmin(req, res, next) {
     try{  
         var token = req.session.token;
         console.log(token)
-        if (!token) return res.status(403).send({ auth: false, message: 'No token provided.' });
+        if (!token) return res.status(400).send({ error: 'No token provided.' });
             
-        var decoded = jwt.verify(token, config); 
-        console.log(decoded)
-        User.then((collection) => { 
-            collection.findOne({ _id: new ObjectId(decoded.id)}, function(err, user){
-            if (err){ 
-                console.log("Error on the server");
-                return res.status(500).send('Error on the server.');
-            }
-            else if(!user){ 
-                console.log("No user found");
-                return res.status(500).send('No user found.');
+        var decoded = jwt.verify(token, config);
+        console.log(decoded);
 
-            }
-            else if(!(user.role === "admin")){
-                console.log("unauthorized user attempted to access admin functionality");
-                return res.status(401).send({auth: false, message: 'You are not authorized to view this page'})
-            }
-            else{
-                req.userId = decoded.id;
-                next()
-            }
-            });
-        });
-
+        collection = await User;
+        user = await collection.findOne({ _id: new ObjectId(decoded.id)});
+       
+        if(!user){ 
+            console.log("No user found");
+            return res.status(400).send({error: 'No user found.'});
+        }
+        else if(!(user.role === "admin")){
+            console.log("unauthorized user attempted to access admin functionality");
+            return res.status(400).send({error: 'You are not authorized to view this page'})
+        }
+        else{
+            req.userId = decoded.id;
+            next()
+        }
+    
 
     }
     catch(e){
-        console.log('msglog: '+ e.message);
-
-            return res.status(500).send({ auth: false, message: 'Failed to authenticate token.'});
-
+        switch(e.message) {
+            default:
+              console.log(e.name +': ' + e.message);
+              console.trace();
+              return res.status(400).send({error: 'Error on the server'});
+        }
     } 
 };   
     
