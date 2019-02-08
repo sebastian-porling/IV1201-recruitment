@@ -1,0 +1,252 @@
+body {
+    background-image: url("../Images/background.jpg");  
+}
+h1 {
+    display: block;
+    font-size: 2em;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+}
+h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+}
+h1.logo {
+    text-align: center;
+    font-family: 'Monoton';font-size: 5em;
+    font-weight: normal;
+}
+h2.title {
+    font-size: 2em;
+}
+div {
+    display: block;
+}
+li {
+    display: list-item;
+}
+ul {
+    display: block;
+    list-style-type: disc;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 40px;
+}
+ol {
+    display: block;
+    list-style-type: decimal;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 40px;
+}
+p {
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+}
+.heavytext {
+    text-align: center;
+    font-family: Verdana;
+    font-size: 2em;
+}
+.unamedisplay {
+    text-align: right;
+    font-family: Verdana;
+    font-size: 1em;
+}
+
+ul.list {
+    font-family: 'Verdana';
+    font-size: 1em;
+    background-color: white;
+    list-style-type: disc;
+    
+}
+
+.image {
+    width: 35%;
+    height: auto;  
+}
+
+/* CSS for the calendar */
+ul {list-style-type: none;}
+body {font-family: Verdana, sans-serif;}
+
+/* The alert message box */
+.alert {
+    padding: 20px;
+    background-color: #f44336; /* Red */
+    color: white;
+    margin-bottom: 15px;
+    opacity: 0.8;
+    text-align: center;
+}
+.notification {
+    padding: 20px;
+    background-color: green; 
+    color: white;
+    margin-bottom: 15px;
+    opacity: 0.8;
+    text-align: center;
+}
+
+/* The close button */
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.centerimage {
+    display: block;
+    width: 7%;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* When moving the mouse over the close button */
+.roundbutton:hover {
+    background-color: White;
+    color: Black;
+}
+.roundbutton {    
+    background-color: blue;
+    opacity: 0.8;
+    color: white;
+    padding: 14px 7px;
+    margin-left: 45%;
+    border: none;
+    cursor: pointer;
+    height: 20%;
+    width: 10%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    border-radius: 100%;
+}
+.loginbutton {
+    background-color: blue;
+    opacity: 0.8;
+    color: white;
+    padding: 14px 7px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 40%;
+}
+.loginbutton:hover {
+    background-color: White;
+    color: Black;
+}
+.container {
+    padding: 16px;
+}
+.container2 {
+    padding: 16px;
+    margin-right: 60%;   
+}
+.colourcontainer {
+    background: rgba(100,255,250,0.4);
+    margin-left: 5%; 
+    margin-right: 40%; 
+    margin-bottom: 1%;
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;  
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+    color: black;
+}
+.nav {
+    overflow: hidden;
+    background-color: black;   
+}
+.nav a {
+    float: left;
+    color: white;
+    text-align: center;
+    padding: 1em 1em;
+    text-decoration: none;
+    font-size: 1em;
+}
+.nav a:hover {
+    background-color: white;
+    color: black;
+}
+
+/* Add media queries for smaller screens */
+@media screen and (max-width: 1024px) {
+    .weekdays li, .days li {width: 13.3%;}
+    .roundbutton {width: 10%;}
+}
+@media screen and (max-width: 720px) {
+    .weekdays li, .days li {width: 12.0%;}
+    p.breadtext {font-size: 0.75em;}
+    .heavytext {font-size: 1.5em;}
+    ul.list {font-size: 0.75em;}
+    h1.logo {font-size: 3.3em}
+    h2.title {font-size: 1.5em;}
+    .roundbutton {width: 15%;
+    margin-left: 43%;}
+}
+@media screen and (max-width: 450px) {
+    p.breadtext {font-size: 0.5em;}
+    .heavytext {font-size: 1em;}
+    ul.list {font-size: 0.5em;}
+    h1.logo {font-size: 2.5em}
+    h2.title {font-size: 1em;}
+    .roundbutton {width: 25%;
+    margin-left: 38%;}
+}
+#textblockcenter{
+    background-color: white;
+    padding: 1px;
+    margin-left: 45%;
+    margin-right: 45%;
+}
+
+#textblock{
+    background-color: white;
+    padding: 1px;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+
+
+
+
