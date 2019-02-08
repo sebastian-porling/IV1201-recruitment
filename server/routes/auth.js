@@ -41,7 +41,7 @@ router.post('/register', async function(req, res) {
       console.log('new user created ');
       console.log(result.ops[0])
       var token = jwt.sign({ id: result.ops[0]._id }, config, {
-                expiresIn: 86400 // expires in 24 hours
+        expiresIn: 86400 // expires in 24 hours
       });
       req.session.token = token;
       res.status(200).send({ registered: true, msg:'Registration successful'});
@@ -81,7 +81,6 @@ router.post('/login', async function(req, res) {
 
     var user = await collection.findOne({email: req.body.email});
     if (!user) return res.status(400).send({ error: 'Username or password incorrect'});
-
 
     var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
     if (!passwordIsValid) return res.status(400).send({ error: 'Username or password incorrect'});
@@ -162,10 +161,8 @@ router.get('/adminpage', VerifyAdmin
         console.log("admin accessed admin page");
         return res.status(200).send('Welcome to the admin page '+ user.name);
     }
-
     });
 });
-
 }
 );
 
