@@ -3,7 +3,7 @@ node_js:
   - "7"
 script:
   - "npm start &"
-  - "sleep 25"
+  - "sleep 15"
   - "npm test"
 deploy:
     provider: heroku
