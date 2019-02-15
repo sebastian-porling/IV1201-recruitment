@@ -62,8 +62,8 @@ class AuthServices {
             if(e.response){
                 switch(e.response.data.error){
                     case 'Username or password incorrect':
-                        return 'usr or pw inc'
-                    case 'email incorrect':
+                        return 'Username or password incorrect'
+                    case 'email invalid':
                         return 'email invalid'
                     default:
                         return e.response.data.error;
@@ -89,7 +89,7 @@ class AuthServices {
                 if(e.response){
                     switch(e.response.data.error){
                         case 'Username or password incorrect':
-                            return 'usr or pw inc'
+                            return 'Username or password incorrect'
                         case 'email incorrect':
                             return 'email invalid'
                         default:

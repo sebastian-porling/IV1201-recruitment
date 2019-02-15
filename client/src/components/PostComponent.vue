@@ -9,18 +9,18 @@
       <button v-on:click="logout()">Logout</button>
       <button v-on:click="register('bob','bla@mail.com','easypassword')">register</button>
       <span>Message: {{ msgFromServer }}</span>
-      
     </div>
     <hr>
     <p class="error" v-if="error">{{error}}</p>
     <div class="posts-container">
-      <div class="post"
+      <div
+        class="post"
         v-for="(post, index) in posts"
         v-bind:item="post"
         v-bind:index="index"
         v-bind:key="post._id"
-        v-on:dblclick="deletePost(post._id)">
-
+        v-on:dblclick="deletePost(post._id)"
+      >
         {{`${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}`}}
         <p class="text">{{post.text}}</p>
       </div>
@@ -29,19 +29,18 @@
 </template>
 
 <script>
-import PostService from '../PostService'
-import AuthServices from '../AuthServices'
+import PostService from "../PostService";
+import AuthServices from "../AuthServices";
 
 export default {
-  name: 'PostComponent',
-  data(){
+  name: "PostComponent",
+  data() {
     return {
       posts: [],
-      error: '',
-      text: '',
-      msgFromServer: 'test'
-      
-    }
+      error: "",
+      text: "",
+      msgFromServer: "test"
+    };
   },
   async created() {
     try {
@@ -51,26 +50,26 @@ export default {
     }
   },
   methods: {
-    async createPost(){
+    async createPost() {
       await PostService.insertPost(this.text);
       this.posts = await PostService.getPosts();
     },
-    async deletePost(id){
+    async deletePost(id) {
       await PostService.deletePost(id);
       this.posts = await PostService.getPosts();
     },
-    async login(email, password){
+    async login(email, password) {
       this.msgFromServer = await AuthServices.login(email, password);
     },
-    async logout(){
-      this.msgFromServer = await AuthServices.logout(); 
+    async logout() {
+      this.msgFromServer = await AuthServices.logout();
     },
 
-    async register(name, email, password){
+    async register(name, email, password) {
       this.msgFromServer = await AuthServices.register(name, email, password);
     }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -79,7 +78,7 @@ div.container {
   max-width: 800px;
   margin: 0 auto;
 }
-p.error{
+p.error {
   border: 1px solid #ff5b5f;
   background-color: #ffc5c1;
   padding: 10px;
@@ -92,9 +91,9 @@ div.post {
   padding: 10px 10px 30px 10px;
   margin-bottom: 15px;
 }
-div.created-at{
+div.created-at {
   position: absolute;
-  top:0;
+  top: 0;
   left: 0;
   padding: 5px 15px 5px 15px;
   background-color: darkgreen;
