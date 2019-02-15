@@ -1,10 +1,10 @@
 {
-  "name": "mevn-test",
+  "name": "Recruitment-application",
   "version": "1.0.0",
-  "description": "Full-stack vue, express, node.js and mongodb app",
+  "description": "For the course IV1201",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": " mocha",
     "start": "node server/index.js",
     "dev": "nodemon server/index.js"
   },
