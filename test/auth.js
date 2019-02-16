@@ -48,7 +48,7 @@ describe('Auth', function() {
                 res.should.have.status(400);
                 res.body.should.be.a('object');
                 res.body.should.have.property('error');
-                res.body.should.have.property('error').eql('email incorrect');
+                res.body.should.have.property('error').eql('Username has invalid format');
                 done();
             });
         });
@@ -64,7 +64,7 @@ describe('Auth', function() {
                 res.should.have.status(400);
                 res.body.should.be.a('object');
                 res.body.should.have.property('error');
-                res.body.should.have.property('error').eql('Username or password incorrect');
+                res.body.should.have.property('error').eql('Password has invalid format');
                 done();
             });
         });
@@ -80,7 +80,7 @@ describe('Auth', function() {
                 res.should.have.status(400);
                 res.body.should.be.a('object');
                 res.body.should.have.property('error');
-                res.body.should.have.property('error').eql('Username or password incorrect');
+                res.body.should.have.property('error').eql('Password has invalid format');
                 done();
             });
         });
@@ -91,7 +91,7 @@ describe('Auth', function() {
                 res.should.have.status(400);
                 res.body.should.be.a('object');
                 res.body.should.have.property('error');
-                res.body.should.have.property('error').eql('Error on the server');
+                res.body.should.have.property('error').eql('Username has invalid format');
                 done();
             });
         });
@@ -104,7 +104,7 @@ describe('Auth', function() {
                 res.should.have.status(400);
                 res.body.should.be.a('object');
                 res.body.should.have.property('error');
-                res.body.should.have.property('error').eql('Error on the server');
+                res.body.should.have.property('error').eql('Username has invalid format');
                 done();
             });
         });
@@ -143,7 +143,7 @@ describe('Auth', function() {
                 res.should.have.status(400);
                 res.body.should.be.a('object');
                 res.body.should.have.property('error');
-                res.body.should.have.property('error').eql('email incorrect');
+                res.body.should.have.property('error').eql('Name has invalid format.');
                 done();
             });
         });
@@ -159,7 +159,7 @@ describe('Auth', function() {
                 res.should.have.status(400);
                 res.body.should.be.a('object');
                 res.body.should.have.property('error');
-                res.body.should.have.property('error').eql('email incorrect');
+                res.body.should.have.property('error').eql('Name has invalid format.');
                 done();
             });
         });
@@ -175,7 +175,7 @@ describe('Auth', function() {
                 res.should.have.status(400);
                 res.body.should.be.a('object');
                 res.body.should.have.property('error');
-                res.body.should.have.property('error').eql('Email already taken');
+                res.body.should.have.property('error').eql('Name has invalid format.');
                 done();
             });
         });
@@ -186,7 +186,7 @@ describe('Auth', function() {
                 res.should.have.status(400);
                 res.body.should.be.a('object');
                 res.body.should.have.property('error');
-                res.body.should.have.property('error').eql('Error on the server');
+                res.body.should.have.property('error').eql('Name has invalid format.');
                 done();
             });
         });
@@ -200,7 +200,7 @@ describe('Auth', function() {
                 res.should.have.status(400);
                 res.body.should.be.a('object');
                 res.body.should.have.property('error');
-                res.body.should.have.property('error').eql('Error on the server');
+                res.body.should.have.property('error').eql('Name has invalid format.');
                 done();
             });
         });
@@ -213,7 +213,7 @@ describe('Auth', function() {
                 res.should.have.status(400);
                 res.body.should.be.a('object');
                 res.body.should.have.property('error');
-                res.body.should.have.property('error').eql('Error on the server');
+                res.body.should.have.property('error').eql('Name has invalid format.');
                 done();
             });
         });
