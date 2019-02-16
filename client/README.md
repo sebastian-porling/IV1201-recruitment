@@ -1,4 +1,4 @@
-# client
+# Client
 
 ## Project setup
 ```
@@ -27,3 +27,7 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### Bootstrap
+See [Bootstrap Reference](https://mdbootstrap.com).
+The project uses mdbootstrap (Material Design Bootstrap) for the design.
