@@ -5,6 +5,7 @@ script:
   - "npm start &"
   - "sleep 15"
   - "npm test"
+  - "npm acc-test"
 deploy:
     provider: heroku
     api_key:
