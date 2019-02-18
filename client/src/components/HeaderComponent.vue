@@ -25,7 +25,8 @@
     mdbNavbarNav,
     mdbNavbarToggler,
     mdbNavbarBrand,
-    mdbBtn
+    mdbBtn,
+    mdbContainer
   } from "mdbvue";
 
   export default {
@@ -47,7 +48,8 @@
       mdbNavbarNav,
       mdbNavbarToggler,
       mdbNavbarBrand,
-      mdbBtn
+      mdbBtn,
+      mdbContainer
     },
     methods: {
       /**

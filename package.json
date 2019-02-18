@@ -4,9 +4,10 @@
   "description": "For the course IV1201",
   "main": "index.js",
   "scripts": {
-    "test": " mocha",
+    "test": "mocha",
     "start": "node server/index.js",
-    "dev": "nodemon server/index.js"
+    "dev": "nodemon server/index.js",
+    "acc-test": "./node_modules/.bin/codeceptjs run --steps" 
   },
   "author": "Sebastian Porling",
   "license": "MIT",
@@ -29,9 +30,11 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
+    "codeceptjs": "^2.0.4",
     "eslint": "^5.14.0",
     "eslint-plugin-node": "^8.0.1",
     "mocha": "^5.2.0",
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.9",
+    "puppeteer": "^1.12.2"
   }
 }

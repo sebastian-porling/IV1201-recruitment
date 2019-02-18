@@ -6,9 +6,9 @@
       <div class="grey-text">
       <mdb-input label="Your email" v-model="email" icon="envelope" type="email" name="email" required/>
       <mdb-input label="Your password" v-model="password" icon="lock" type="password" name="password" required/>
-    </div>
-    <div class="text-center">
+      <div class="text-center">
       <mdb-btn color="primary" value="submit">Login</mdb-btn>
+    </div>
     </div>
     <span>Message: {{ msgFromServer }}</span>
     </form>
