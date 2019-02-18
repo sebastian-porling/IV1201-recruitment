@@ -12,18 +12,18 @@ class AuthServices {
     * @param email the users email used to login
     * @param password The users password
     */
-    static async register(name, email, password){
-        try{
-            const res = await axios.post(url+'/register', {
+    static async register(name, email, password) {
+        try {
+            const res = await axios.post(url + '/register', {
                 name: name,
                 password: password,
                 email: email
             });
             const data = res.data;
-            return data.msg;        
-        } catch(e){
-            if(e.response){
-                switch(e.response.data.error){
+            return data.msg;
+        } catch (e) {
+            if (e.response) {
+                switch (e.response.data.error) {
                     case 'Error on the server.':
                         return 'Error on the server.'
                     case 'Email already taken':
@@ -31,7 +31,7 @@ class AuthServices {
                     default:
                         return e.response.data.error;
                 }
-            } 
+            }
         }
     }
     /**
@@ -39,17 +39,17 @@ class AuthServices {
     * @param email the users email used to login
     * @param password The users password
     */
-    static async login(email, password){
-        try{
-            const res = await axios.post(url+'/login', {
+    static async login(email, password) {
+        try {
+            const res = await axios.post(url + '/login', {
                 email: email,
                 password: password,
             });
             const data = res.data;
             return data.msg;
-         } catch(e){
-            if(e.response){
-                switch(e.response.data.error){
+        } catch (e) {
+            if (e.response) {
+                switch (e.response.data.error) {
                     case 'Username or password incorrect':
                         return 'Username or password incorrect'
                     case 'email invalid':
@@ -64,15 +64,15 @@ class AuthServices {
     /**
     * Used to logout a user on the server 
     */
-    static async logout(){
-        try{
-            const res = await axios.get(url+'/logout');
+    static async logout() {
+        try {
+            const res = await axios.get(url + '/logout');
             const data = res.data;
             return data.msg;
-        } 
-        catch(e){
-            if(e.response){
-                switch(e.response.data.error){
+        }
+        catch (e) {
+            if (e.response) {
+                switch (e.response.data.error) {
                     case 'Username or password incorrect':
                         return 'Username or password incorrect'
                     case 'email incorrect':
@@ -80,7 +80,7 @@ class AuthServices {
                     default:
                         return e.response.data.error;
                 }
-            } 
+            }
         }
     }
 }

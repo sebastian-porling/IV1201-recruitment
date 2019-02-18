@@ -1,3 +1,4 @@
+<!-- A header template, it has the navigation -->
 <template>
   <mdb-navbar expand="large" dark class="indigo">
     <!-- Navbar brand -->
@@ -17,42 +18,52 @@
 </template>
 
 <script>
-import AuthServices from "../AuthServices";
-import {
-  mdbNavbar,
-  mdbNavItem,
-  mdbNavbarNav,
-  mdbNavbarToggler,
-  mdbNavbarBrand,
-  mdbBtn
-} from "mdbvue";
-export default {
-  name: "HeaderComponent",
-  data() {
-    return {
-      loginURL: "test.se",
-      msgFromServer: ""
-    };
-  },
-  components: {
+  import AuthServices from "../AuthServices";
+  import {
     mdbNavbar,
     mdbNavItem,
     mdbNavbarNav,
     mdbNavbarToggler,
     mdbNavbarBrand,
     mdbBtn
-  },
-  methods: {
-      async logoutApi() {
-      this.msgFromServer = await AuthServices.logout();
-    }
-  },
-};
+  } from "mdbvue";
+
+  export default {
+    name: "HeaderComponent",
+    data() {
+      /**
+       * The data that can be changed in this module.
+       */
+      return {
+        msgFromServer: "",
+      };
+    },
+    /**
+     * Components needed for this module.
+     */
+    components: {
+      mdbNavbar,
+      mdbNavItem,
+      mdbNavbarNav,
+      mdbNavbarToggler,
+      mdbNavbarBrand,
+      mdbBtn
+    },
+    methods: {
+      /**
+       * Will change the variable msgFromServer when called.
+       */
+        async logoutApi() {
+        this.msgFromServer = await AuthServices.logout();
+      }
+    },
+  };
 </script>
 
 <style>
-mdb-container{
-    min-width: 900px;
-    margin: 0 auto;
-}
+  /* Sets width of the navbar */
+  mdb-container{
+      min-width: 900px;
+      margin: 0 auto;
+  }
 </style>

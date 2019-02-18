@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('express');
 const cors = require('cors');
 var session = require('express-session');
-const assert = require('assert');
 var authRouter = require('./routes/auth');
 const MongoStore = require('connect-mongo')(session);
 const MongoClient = require('mongodb').MongoClient;
@@ -55,7 +54,7 @@ async function init(){
         console.log(e.stack)
     }
 
-};
+}
 
 init();
 

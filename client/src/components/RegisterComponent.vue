@@ -17,41 +17,47 @@
 </template>
 
 <script>
-import AuthServices from "../AuthServices";
-import {
-  mdbBtn,
-  mdbInput
-} from "mdbvue";
-
-export default {
-  name: "RegisterComponent",
-  components: {
+  import AuthServices from "../AuthServices";
+  import {
     mdbBtn,
     mdbInput
-  },
-  data() {
-    return {
-      register: false,
-      name: "",
-      email: "",
-      password: "",
-      msgFromServer: ""
-    };
-  },
-  methods: {
-    async registerApi(event) {
-      event.preventDefault();
-      alert(this.email + " " + this.name + " " +this.password);
-      this.msgFromServer = await AuthServices.register(this.name, this.email, this.password);
-    }
-  },
-};
+  } from "mdbvue";
+
+  export default {
+    name: "RegisterComponent",
+    components: {
+      mdbBtn,
+      mdbInput
+    },
+    /**
+     * The data used for this component.
+     */
+    data() {
+      return {
+        register: false,
+        name: "",
+        email: "",
+        password: "",
+        msgFromServer: ""
+      };
+    },
+    methods: {
+      /**
+       * Will prevent default action by forms. And will register through authservices
+       */
+      async registerApi(event) {
+        event.preventDefault();
+        this.msgFromServer = await AuthServices.register(this.name, this.email, this.password);
+      }
+    },
+  };
 </script>
 
 <style>
-form {
-  max-width: 900px;
-  margin: 0 auto;
-  margin-top: 100px;
-}
+  /* Sets maximum width, centers and pushes it down */
+  form {
+    max-width: 900px;
+    margin: 0 auto;
+    margin-top: 100px;
+  }
 </style>

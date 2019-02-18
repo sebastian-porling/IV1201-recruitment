@@ -110,7 +110,7 @@ describe('Auth', function() {
         });
     });
     /**
-     * 
+     * Test the logout
      */
     describe('/GET logout ', function() {
         it('should logout ', (done) => {

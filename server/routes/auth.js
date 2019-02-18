@@ -12,7 +12,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 var VerifyUser = require('../util/middleware/VerifyUser');
 var VerifyAdmin = require('../util/middleware/VerifyAdmin');
-config = 'supersecretstuff'
+const config = 'supersecretstuff'
 const assert = require('assert');
 var mongoConnection = require('../util/mongodb/mongodbConnection');
 var User = require('../integration/User');
@@ -23,6 +23,7 @@ var readfromenv = process.env.CONFIG;
 
 /**
 * Registers a user with the given name, email address and password. The email address functions as the users username.
+* @api {post} /register post user
 */
 router.post('/register', validateAuthentication('/register'), async function (req, res) {
   try {
@@ -61,12 +62,13 @@ router.post('/register', validateAuthentication('/register'), async function (re
 
 /**
  * Login the user with the given email and password
+ * @api {post} /login post user
  */
 router.post('/login', validateAuthentication(), async function (req, res) {
   try {
     var client = await mongoConnection;
     console.log("Connected successfully to mongodb");
-    dbName = 'recruitment'
+    const dbName = 'recruitment'
     const db = client.db(dbName);
     const collection = db.collection('recruitment');
     var user = await collection.findOne({ email: req.body.email });
@@ -95,6 +97,7 @@ router.post('/login', validateAuthentication(), async function (req, res) {
 
 /**
  * Logut the user current active user. 
+ * @api {get} /logout Logsout the user
  */
 router.get('/logout', function (req, res) {
   req.session.token = null;
@@ -103,6 +106,7 @@ router.get('/logout', function (req, res) {
 
 /**
  * Returns the user page if the user can be verified.
+ * @api {get} /userpage 
  */
 router.get('/userpage', VerifyUser, function (req, res) {
   User.then((collection) => {
@@ -125,6 +129,7 @@ router.get('/userpage', VerifyUser, function (req, res) {
 
 /**
  * Returns the admin page if the user can be verified as an admin
+ * @api {get} /adminpage
  */
 router.get('/adminpage', VerifyAdmin
   , function (req, res) {
@@ -149,6 +154,7 @@ router.get('/adminpage', VerifyAdmin
 
 /**
  * Deletes the currently logged in user. User must provide his/her password to confirm deletion. 
+ * @api {delete} /deleteuser
  */
 router.delete('/deleteuser', VerifyUser, async function (req, res) {
   try {

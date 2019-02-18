@@ -10,4 +10,3 @@ exports.loadUsersCollection = async function loadUsersCollection() {
     });
     return client.db('recruitment').collection('recruitment');
 }
-
