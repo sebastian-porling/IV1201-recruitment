@@ -5,6 +5,9 @@ node_js:
   - "11"
 script:
   - "npm start &"
+  - "cd client"
+  - "npm run serve"
+  - "cd .."
   - "sleep 15"
   - "npm test"
   - "npm run acc-test"
