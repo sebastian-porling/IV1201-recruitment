@@ -1,3 +1,7 @@
+/**
+ * @module Users A connection to db
+ */
+
 var mongoConnection = require('../util/mongodb/mongodbConnection');
 const assert = require('assert');
 

@@ -1,9 +1,14 @@
+/**
+ * Routes used for handling applications
+ * @module applications
+ */
+
 const express = require('express');
 const mongodb = require('mongodb');
 const db = require('../integration/db');
 const VerifyUser = require('../util/middleware/VerifyUser');
 const VerifyAdmin = require('../util/middleware/VerifyAdmin');
-ValidateApplications = require('../util/middleware/ValidateApplications');
+const ValidateApplications = require('../util/middleware/ValidateApplications');
 const router = express.Router();
 
 /** 
