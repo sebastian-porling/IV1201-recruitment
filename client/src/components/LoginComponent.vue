@@ -9,7 +9,6 @@
     </div>
     <div class="text-center">
       <mdb-btn color="primary" value="submit">Login</mdb-btn>
-      <!--<mdb-btn v-on:click="register('bob','bla@mail.com','easypassword', $event)" color="primary">register</mdb-btn>-->
     </div>
     <span>Message: {{ msgFromServer }}</span>
     </form>
@@ -18,41 +17,48 @@
 </template>
 
 <script>
-import AuthServices from "../AuthServices";
-import {
-  mdbContainer,
-  mdbBtn,
-  mdbInput
-} from "mdbvue";
-
-export default {
-  name: "LoginComponent",
-  components: {
+  import AuthServices from "../AuthServices";
+  import {
     mdbContainer,
     mdbBtn,
     mdbInput
-  },
-  data() {
-    return {
-      login: false,
-      msgFromServer: "test",
-      email: "",
-      password: ""
-    };
-  },
-  methods: {
-    async loginApi(event) {
+  } from "mdbvue";
+
+  export default {
+    name: "LoginComponent",
+    components: {
+      mdbContainer,
+      mdbBtn,
+      mdbInput
+    },
+    /**
+     * Data used in this component.
+     */
+    data() {
+      return {
+        login: false,
+        msgFromServer: "test",
+        email: "",
+        password: ""
+      };
+    },
+    methods: {
+      /**
+       * Will prevent default form action and use the authservice login.
+       */
+      async loginApi(event) {
         event.preventDefault();
-      this.msgFromServer = await AuthServices.login(this.email, this.password);
+        this.msgFromServer = await AuthServices.login(this.email, this.password);
+      }
     }
-  }
-};
+  };
 </script>
 
 <style>
-#login {
-  max-width: 900px;
-  margin: 0 auto;
-  margin-top: 100px;
-}
+  /* Sets maximum width, centers and pushes it down */
+  #login {
+    max-width: 900px;
+    margin: 0 auto;
+    margin-top: 100px;
+  }
 </style>

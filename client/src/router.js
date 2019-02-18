@@ -8,6 +8,9 @@ Vue.config.productionTip = false;
 
 Vue.use(Router);
 
+/**
+ * exports a router that is linked to a specific component.
+ */
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
