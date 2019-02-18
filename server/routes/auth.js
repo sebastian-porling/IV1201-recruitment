@@ -112,6 +112,7 @@ router.get('/logout', function(req, res) {
  */
 router.get('/userpage', VerifyUser, function(req, res){
     User.then((collection) => { 
+      console.log(req.userId);
       collection.findOne({ _id: new ObjectId(req.userId)}, function(err, user){
       if (err){ 
           console.log("Error on the server");

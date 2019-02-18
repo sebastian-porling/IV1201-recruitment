@@ -17,7 +17,7 @@ async function init(){
 
         const dbUrl =  process.env.MONGOLAB_URI || 'mongodb://IV1201:IV1201@ds119993.mlab.com:19993/recruitment';
         const dbName = 'recruitment';
-        const client = new MongoClient(dbUrl);
+        const client = new MongoClient(dbUrl, { useNewUrlParser: true });
         connection = await client.connect();
         var db = connection.db(dbName);
             app.use(session({
@@ -33,11 +33,9 @@ async function init(){
         app.use(bodyParser.json());
         app.use(cors());
         
-        const posts = require('./routes/posts');
         const applications = require('./routes/applications');
 
         app.use('/api/applications', applications);
-        app.use('/api/posts', posts);
         app.use('/auth', authRouter);
         // Handle production
         if(process.env.NODE_ENV == 'production'){

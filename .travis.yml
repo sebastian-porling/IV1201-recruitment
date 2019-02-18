@@ -2,6 +2,9 @@ language: node_js
 node_js:
   - "7"
 script:
+  - "cd client"
+  - "npm run lint"
+  - "cd .."
   - "npm start &"
   - "sleep 15"
   - "npm test"
