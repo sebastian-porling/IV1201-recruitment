@@ -4,6 +4,7 @@ node_js:
 script:
   - "npm start &"
   - "sleep 15"
+  - "echo $PORT"
   - "npm test"
   - "npm run acc-test"
 deploy:
