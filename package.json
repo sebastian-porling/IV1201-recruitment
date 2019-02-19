@@ -2,6 +2,9 @@
   "name": "Recruitment-application",
   "version": "1.0.0",
   "description": "For the course IV1201",
+  "engines": {
+    "node": "11.9.0"
+  },
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha ",
