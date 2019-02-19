@@ -6,9 +6,7 @@
 var jwt = require('jsonwebtoken');
 var User = require('../../integration/User');
 var ObjectId = require('mongodb').ObjectID;
-
-config = 'supersecretstuff';
-
+const config = 'supersecretstuff';
 
 /**
  * Verifies that the current client is logged in as a user and has the role admin.  
@@ -40,8 +38,6 @@ config = 'supersecretstuff';
             req.userId = decoded.id;
             next()
         }
-    
-
     }
     catch(e){
         switch(e.message) {
@@ -60,5 +56,5 @@ config = 'supersecretstuff';
                 return res.status(400).send({error: 'Error on the server'});
         }
     } 
-};   
+}
 module.exports = verifyAdmin;

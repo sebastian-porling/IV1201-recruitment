@@ -1,3 +1,7 @@
+/**
+ * @module index This is the main file for the server. It starts it up.
+ */
+
 const express = require('express');
 const bodyParser = require('express');
 const cors = require('cors');
@@ -9,7 +13,9 @@ const maxAge = 43200000; //12 hours (time in miliseconds)
 
 const app = express();
 
-//All code for routes etc should be in this function 
+/**
+ *  All code for routes etc should be in this function 
+ */
 async function init(){
 
     try{

@@ -31,9 +31,14 @@ Build the front-end by:
 npm run build   # Will build the project in /server/public
 ```
 
-To run tests locally use:
+To run unit tests locally use:
 ```bash
 npm test # This will run the tests located in /test
+```
+
+To run acceptance tests locally use:
+```bash
+npm run acc-test # This will run the test located in /acc_test
 ```
 
 After a push or pull request it will run the tests on [Travis](https://travis-ci.org/).
