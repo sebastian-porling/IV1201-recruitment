@@ -2,6 +2,7 @@ language: node_js
 node_js:
   - "11"
 script:
+  - "export NODE_ENV=production"
   - "npm start &"
   - "sleep 15"
   - "echo $PORT"

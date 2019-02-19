@@ -7,7 +7,8 @@
     "test": "./node_modules/.bin/mocha ",
     "start": "node server/index.js",
     "dev": "nodemon server/index.js",
-    "acc-test": "./node_modules/.bin/codeceptjs run --steps"
+    "acc-test": "./node_modules/.bin/codeceptjs run --steps",
+    "heroku-postbuild": "cd client && npm i && npm run build && cd .."
   },
   "author": "Sebastian Porling",
   "license": "MIT",
@@ -25,12 +26,7 @@
     "mongodb": "^3.1.13",
     "validator": "^10.11.0",
     "vue-router": "^3.0.2",
-    "xss-filters": "^1.2.7",
-    "chai": "^4.2.0",
-    "chai-http": "^4.2.1",
-    "codeceptjs": "^2.0.4",
-    "mocha": "^5.2.0",
-    "puppeteer": "^1.12.2"
+    "xss-filters": "^1.2.7"
   },
   "devDependencies": {
     "chai": "^4.2.0",
