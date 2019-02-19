@@ -2,10 +2,9 @@
 <template>
   <mdb-navbar expand="large" dark class="indigo">
     <!-- Navbar brand -->
-    <mdb-container>
-    <mdb-navbar-toggler>
+    <mdb-navbar-toggler class="middle">
         <mdb-navbar-brand>Recruitment</mdb-navbar-brand>
-      <mdb-navbar-nav>
+      <mdb-navbar-nav >
         <mdb-nav-item to="/" active>Home</mdb-nav-item>
         <mdb-nav-item to="/login">Login</mdb-nav-item>
         <mdb-nav-item to="/register">Register</mdb-nav-item>
@@ -13,7 +12,6 @@
       {{msgFromServer}}
       <mdb-btn v-on:click="logoutApi()">Logout</mdb-btn>
     </mdb-navbar-toggler>
-    </mdb-container>
   </mdb-navbar>
 </template>
 
@@ -64,8 +62,15 @@
 
 <style>
   /* Sets width of the navbar */
-  mdb-container{
-      min-width: 900px;
+  #header{
+      max-width: 900px;
       margin: 0 auto;
   }
+  @media screen and (min-width: 992px) {
+  .middle {
+      display: inline-block;
+      margin-left: 50%;
+      transform: translateX(-50%);
+  }
+  } 
 </style>
