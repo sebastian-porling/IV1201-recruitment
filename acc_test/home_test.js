@@ -39,6 +39,6 @@ Scenario('Click on logout', (I) => {
     I.amOnPage('/');
     I.click(locate('.navbar-toggler-icon'));
     I.click('Logout');
-    I.click('.navbar-toggler-icon');
-    I.retry({ retries: 5, minTimeout: 400 }).see('You have been logged out.');
-});
+    I.click(locate('.navbar-toggler-icon'));
+    I.see('You have been logged out.');
+}).retry(5);
