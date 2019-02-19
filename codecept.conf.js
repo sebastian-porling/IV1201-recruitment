@@ -1,9 +1,10 @@
+const port = process.env.PORT || 8080;
 exports.config = {
   tests: './acc_test/*.js',
   output: './output',
   helpers: {
     Puppeteer: {
-      url: 'http://localhost:8080'
+      url: 'http://localhost:' + port
     }
   },
   include: {
