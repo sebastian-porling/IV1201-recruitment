@@ -1,6 +1,9 @@
 
 Feature('Login');
 
+/**
+ * Test if we get error if the username is incorrect
+ */
 Scenario('Login with wrong mail', (I) => {
     I.amOnPage('/login');
     within('form', () => {
@@ -11,6 +14,9 @@ Scenario('Login with wrong mail', (I) => {
       I.retry({ retries: 3, minTimeout: 100 }).see('Username or password incorrect');
 });
 
+/**
+ * Test if the password is incorrect
+ */
 Scenario('Login with wrong password', (I) => {
     I.amOnPage('/login');
     within('form', () => {
@@ -21,6 +27,9 @@ Scenario('Login with wrong password', (I) => {
       I.retry({ retries: 3, minTimeout: 100 }).see('Username or password incorrect');
 });
 
+/**
+ * Test if the login works, and we get a successfull login message
+ */
 Scenario('Login with correct mail and password', (I) => {
     I.amOnPage('/login');
     within('form', () => {

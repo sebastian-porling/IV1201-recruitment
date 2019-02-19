@@ -37,10 +37,11 @@ var validateAvailability = ajv.compile(availabilitySchema);
 function validateApplications(route){
     return async function (req, res, next) {
         try{ 
+            var id;
             if(route === '/:id'){
                 //Validate id from params
                 //sanitize data to prevent xss attacks 
-                var id = xssFilters.inHTMLData(req.params.id);
+                id = xssFilters.inHTMLData(req.params.id);
                 //If something was removed by the filter throw error
                 assert.strictEqual(req.params.id, id, "1");
                 //Check that id is a hexstring
@@ -53,7 +54,7 @@ function validateApplications(route){
             if(route === 'post/'){
                 //Validate id from body
                 //sanitize data to prevent xss attacks 
-                var id = xssFilters.inHTMLData(req.body.id);
+                id = xssFilters.inHTMLData(req.body.id);
                 //If something was removed by the filter throw error
                 assert.strictEqual(req.body.id, id, "1");
                 //Check that id is a hexstring
@@ -120,5 +121,5 @@ function validateApplications(route){
             }
         } 
     };   
-};   
+}
 module.exports = validateApplications;

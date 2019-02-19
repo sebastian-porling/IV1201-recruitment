@@ -69,5 +69,5 @@ function validateAuthentication(route){
             }
         } 
     };   
-};   
+}
 module.exports = validateAuthentication;

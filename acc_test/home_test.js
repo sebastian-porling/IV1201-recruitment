@@ -1,11 +1,17 @@
 
 Feature('Home');
 
+/**
+ * Test if we will get the main headline of the frontpage
+ */
 Scenario('Show the front-page', (I) => {
     I.amOnPage('/');
     I.see('The top one tivoli employer!');
 });
 
+/**
+ * Test if the home button goes to the frontpage
+ */
 Scenario('Click on home button', (I) => {
     I.amOnPage('/');
     I.click(locate('.navbar-toggler-icon'));
@@ -14,6 +20,9 @@ Scenario('Click on home button', (I) => {
     I.seeInCurrentUrl('/')
 });
 
+/**
+ * Test if the login button takes us to the sign in page
+ */
 Scenario('Click on login', (I) => {
     I.amOnPage('/');
     I.click(locate('.navbar-toggler-icon'));
@@ -22,6 +31,9 @@ Scenario('Click on login', (I) => {
     I.see('Sign in');
 });
 
+/**
+ * Test if the register button takes us to the sign up page
+ */
 Scenario('Click on register', (I) => {
     I.amOnPage('/');
     I.click(locate('.navbar-toggler-icon'));
@@ -35,6 +47,9 @@ Scenario('Click on register', (I) => {
     I.see('REGISTER');
 });
 
+/**
+ * Test if the logout button gives us message
+ */
 Scenario('Click on logout', (I) => {
     I.amOnPage('/');
     I.click(locate('.navbar-toggler-icon'));
