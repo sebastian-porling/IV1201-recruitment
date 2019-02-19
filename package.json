@@ -4,7 +4,7 @@
   "description": "For the course IV1201",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "./node_modules/mocha/bin/mocha",
     "start": "node server/index.js",
     "dev": "nodemon server/index.js",
     "acc-test": "./node_modules/.bin/codeceptjs run --steps" 
