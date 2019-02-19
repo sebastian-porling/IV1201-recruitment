@@ -1,4 +1,4 @@
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || "";
 exports.config = {
   tests: './acc_test/*.js',
   output: './output',
