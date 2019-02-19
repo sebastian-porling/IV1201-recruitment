@@ -10,8 +10,7 @@
     "test": "./node_modules/.bin/mocha ",
     "start": "node server/index.js",
     "dev": "nodemon server/index.js",
-    "acc-test": "./node_modules/.bin/codeceptjs run --steps",
-    "heroku-postbuild": "cd client && export NODE_ENV=development && npm i && npm run build && cd .. && export NODE_ENV=production"
+    "acc-test": "./node_modules/.bin/codeceptjs run --steps"
   },
   "author": "Sebastian Porling",
   "license": "MIT",
