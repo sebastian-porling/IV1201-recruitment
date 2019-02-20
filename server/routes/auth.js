@@ -39,13 +39,13 @@ router.post('/register', validate.validateAuthenticationRoute('/register'), asyn
     switch(e.message) {
       case Err.AuthenticationErrors.EMAIL_TAKEN:
         console.log('Email already taken');
-        return res.status(400).send({error: Err.AuthenticationErrors.EMAIL_TAKEN});
-        //return res.status(400).send({error: 'Email already taken'});
+        //return res.status(400).send({error: Err.AuthenticationErrors.EMAIL_TAKEN});
+        return res.status(400).send({error: 'Email already taken'});
       default:
         console.log(e.name +': ' + e.message);
         console.log(e.stack)
-        return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
-        //return res.status(400).send({error: 'Error on the server'});
+        //return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
+        return res.status(400).send({error: 'Error on the server'});
     }
   }
 });
@@ -61,20 +61,20 @@ router.post('/login', validate.validateAuthenticationRoute(), async function(req
     if (!passwordIsValid) throw Error(Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD);
     var token = Token.createToken(user._id);
     req.session.token = token;
-    //res.status(200).send({ auth: true, msg:'login successful'});
-    res.status(200).send({ loggedIn: true});
+    res.status(200).send({ auth: true, msg:'login successful'});
+    //res.status(200).send({ loggedIn: true});
   }
   catch(e){
     switch(e.message) {
       case Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD:
         console.log('Username or password incorrect')
-        return res.status(400).send({ error: Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD});
-        //return res.status(400).send({ error: 'Username or password incorrect'});
+        //return res.status(400).send({ error: Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD});
+        return res.status(400).send({ error: 'Username or password incorrect'});
       default:
         console.log(e.name +': ' + e.message);
         console.log(e.stack)
-        return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
-        //return res.status(400).send({error: 'Error on the server'});
+        //return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
+        return res.status(400).send({error: 'Error on the server'});
 
     }
   }
@@ -85,8 +85,8 @@ router.post('/login', validate.validateAuthenticationRoute(), async function(req
  */
 router.get('/logout', function (req, res) {
   req.session.token = null;
-  //res.status(200).send({auth: false, msg: 'You have been logged out.' });
-  res.status(200).send({loggedIn: false});
+  res.status(200).send({auth: false, msg: 'You have been logged out.' });
+  //res.status(200).send({loggedIn: false});
 });
 /**
  * Returns the user page if the user can be verified.
@@ -97,8 +97,8 @@ router.get('/userpage', VerifyUser, async function(req, res){
     const user = await User.findUserById(req.userId);
     if(!user) throw Err.AuthorizationErrors.USER_DOESNT_EXIST;
     console.log("user accessed user page");
-    //return res.status(200).send('Welcome to the user page '+ user.name);
-    return res.status(200).send({accessGrantedUser: true});
+    return res.status(200).send('Welcome to the user page '+ user.name);
+    //return res.status(200).send({accessGrantedUser: true});
   }
   catch(e){
     switch(e.message) {
@@ -109,8 +109,8 @@ router.get('/userpage', VerifyUser, async function(req, res){
       default:
         console.log(e.name +': ' + e.message);
         console.log(e.stack)
-        //return res.status(400).send({error: 'Error on the server'});
-        return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
+        return res.status(400).send({error: 'Error on the server'});
+        //return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
     }
   }
 });
@@ -129,13 +129,13 @@ router.get('/adminpage', VerifyAdmin, async function(req, res){
     switch(e.message) {
       case Err.AuthorizationErrors.USER_DOESNT_EXIST:
         console.log("No user found");
-        //return res.status(400).send({error: 'No user found.'});
-        return res.status(400).send({error: Err.AuthorizationErrors.USER_DOESNT_EXIST});
+        return res.status(400).send({error: 'No user found.'});
+        //return res.status(400).send({error: Err.AuthorizationErrors.USER_DOESNT_EXIST});
       default:
         console.log(e.name +': ' + e.message);
         console.log(e.stack)
-        //return res.status(400).send({error: 'Error on the server'});
-        return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
+        return res.status(400).send({error: 'Error on the server'});
+        //return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
 
     }
   }
@@ -160,17 +160,17 @@ router.delete('/deleteuser/:password', VerifyUser, async function(req, res){
     switch(e.message) {
       case Err.AuthorizationErrors.USER_DOESNT_EXIST:
         console.log("Couldn't delete user. User not in database")
-        //return res.status(400).send({ error: "Couldn't delete user. User not in database"});
-        return res.status(400).send({ error: Err.AuthorizationErrors.USER_DOESNT_EXIST});
+        return res.status(400).send({ error: "Couldn't delete user. User not in database"});
+        //return res.status(400).send({ error: Err.AuthorizationErrors.USER_DOESNT_EXIST});
       case Err.AuthorizationErrors.WRONG_PASSWORD:
         console.log("Couldn't delete user. Password incorrect")
-        //return res.status(400).send({ error: "Couldn't delete user. Password incorrect"});
-        return res.status(400).send({ error: Err.AuthorizationErrors.WRONG_PASSWORD});
+        return res.status(400).send({ error: "Couldn't delete user. Password incorrect"});
+        //return res.status(400).send({ error: Err.AuthorizationErrors.WRONG_PASSWORD});
       default:
         console.log(e.name +': ' + e.message);
         console.log(e.stack)
-        return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
-        //return res.status(400).send({error: 'Error on the server'});
+        //return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
+        return res.status(400).send({error: 'Error on the server'});
 
     }
   }
