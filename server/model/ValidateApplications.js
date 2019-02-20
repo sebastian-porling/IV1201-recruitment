@@ -96,118 +96,31 @@ exports.validateApplicationsRoute = function validateApplicationsRoute(route){
             switch(e.message) {
                 case Err.ValidationErrors.INVALID_FORMAT_ID:
                     console.log('id has invalid format');
-                    //return res.status(400).send({ error: 'id has invalid format.' });
-                    return res.status(400).send({ error: Err.ValidationErrors.INVALID_FORMAT_ID });
+                    return res.status(400).send({ error: 'id has invalid format.' });
+                    //return res.status(400).send({ error: Err.ValidationErrors.INVALID_FORMAT_ID });
 
                 case Err.ValidationErrors.INVALID_FORMAT_COMPETENCE:
                     console.log('competence has invalid format');
                     console.log(e.name +': ' + e.message);
                     console.log('Invalid: ' + ajv.errorsText(validateCompetence.errors));
-                    //return res.status(400).send({error: 'competence has invalid format'});
-                    return res.status(400).send({error: Err.ValidationErrors.INVALID_FORMAT_COMPETENCE});
+                    return res.status(400).send({error: 'competence has invalid format'});
+                    //return res.status(400).send({error: Err.ValidationErrors.INVALID_FORMAT_COMPETENCE});
 
                 case Err.ValidationErrors.INVALID_FORMAT_AVAILABILITY:
                     console.log('availability has invalid format');
                     console.log(e.name +': ' + e.message);
                     console.log('Invalid: ' + ajv.errorsText(validateAvailability.errors));
-                    //return res.status(400).send({error: 'availability has invalid format'});     
-                    return res.status(400).send({error: Err.ValidationErrors.INVALID_FORMAT_AVAILABILITY});              
+                    return res.status(400).send({error: 'availability has invalid format'});     
+                    //return res.status(400).send({error: Err.ValidationErrors.INVALID_FORMAT_AVAILABILITY});              
          
                 default:
                     console.log(e.name +': ' + e.message);
                     console.log(e.stack)
-                    //return res.status(400).send({error: 'Error on the server'});
-                    return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
+                    return res.status(400).send({error: 'Error on the server'});
+                    //return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
             }
         } 
     };   
 };   
 
-
-// function validateApplications(route){
-//     return async function (req, res, next) {
-//         try{ 
-//             if(route === '/:id'){
-//                 //Validate id from params
-//                 //sanitize data to prevent xss attacks 
-//                 var id = xssFilters.inHTMLData(req.params.id);
-//                 //If something was removed by the filter throw error
-//                 assert.strictEqual(req.params.id, id, "1");
-//                 //Check that id is a hexstring
-//                 assert.strictEqual(true,  validator.isHexadecimal(id), "1");
-//                 //Check that the id has length 24 the number of digits in an objectid hexnumber.  
-//                 assert.strictEqual(true,  validator.isByteLength(id, {min:24, max: 24}), "1");
-//                 //Filtered id is valid
-//                 req.params.id = id; 
-//             }
-//             if(route === 'post/'){
-//                 //Validate id from body
-//                 //sanitize data to prevent xss attacks 
-//                 var id = xssFilters.inHTMLData(req.body.id);
-//                 //If something was removed by the filter throw error
-//                 assert.strictEqual(req.body.id, id, "1");
-//                 //Check that id is a hexstring
-//                 assert.strictEqual(true,  validator.isHexadecimal(id), "1");
-//                 //Check that the id has length 24 the number of digits in an objectid hexnumber.  
-//                 assert.strictEqual(true,  validator.isByteLength(id, {min:24, max: 24}), "1");
-//                 //Filtered id is valid
-//                 req.params.id = id; 
-//                 //Check that competences is an array
-//                 assert.strictEqual(true, Array.isArray(req.body.competences), "2");
-//                 for (let comp of req.body.competences) {
-//                     //Validate that json object has correct properties defined in competenceSchema
-//                     assert.strictEqual(true, validateCompetence(comp), "2");
-//                     //sanitize data to prevent xss attacks 
-//                     var competence = xssFilters.inHTMLData(comp.competence);
-//                     var years_of_experience = Number(xssFilters.inHTMLData(comp.years_of_experience)); 
-//                     //If something was removed by the filter throw error
-//                     assert.strictEqual(comp.competence, competence, "2");    
-//                     assert.strictEqual(comp.years_of_experience, years_of_experience, "2");
-//                     //competence is valid 
-//                     comp.competence = competence;
-//                     comp.years_of_experience = years_of_experience;
-//                 }
-//                 //Check that availability is an array
-//                 assert.strictEqual(true, Array.isArray(req.body.availability), "3");
-//                 for (let avail of req.body.availability) {
-//                     //Validate that json object has correct properties defined in availabilitySchema
-//                     assert.strictEqual(true, validateAvailability(avail), "3");
-//                     //sanitize data to prevent xss attacks 
-//                     var from_date = xssFilters.inHTMLData(avail.from_date);
-//                     var to_date = xssFilters.inHTMLData(avail.to_date); 
-//                     //If something was removed by the filter throw error
-//                     assert.strictEqual(avail.from_date, from_date, "3");    
-//                     assert.strictEqual(avail.to_date, to_date, "3");
-//                     //Check that to_date comes after from_date 
-//                     assert.strictEqual(true, validator.isAfter(to_date, from_date), "3");
-//                     //availability is valid 
-//                     avail.from_date = from_date;
-//                     avail.to_date = to_date;
-//                 }
-//             } 
-//             //All data valid 
-//             next()
-//         }
-//         catch(e){
-//             switch(e.message) {
-//                 case '1':
-//                     console.log('id has invalid format');
-//                     return res.status(400).send({ error: 'id has invalid format.' });
-//                 case '2':
-//                     console.log('competence has invalid format');
-//                     console.log(e.name +': ' + e.message);
-//                     console.log('Invalid: ' + ajv.errorsText(validateCompetence.errors));
-//                     return res.status(400).send({error: 'competence has invalid format'});
-//                 case '3':
-//                     console.log('availability has invalid format');
-//                     console.log(e.name +': ' + e.message);
-//                     console.log('Invalid: ' + ajv.errorsText(validateAvailability.errors));
-//                     return res.status(400).send({error: 'availability has invalid format'});              
-//                 default:
-//                     console.log(e.name +': ' + e.message);
-//                     console.log(e.stack)
-//                     return res.status(400).send({error: 'Error on the server'});
-//             }
-//         } 
-//     };   
-// };   
+ 

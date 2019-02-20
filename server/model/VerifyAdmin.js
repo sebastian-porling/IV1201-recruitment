@@ -32,29 +32,29 @@ var Err = require('../utility/ErrorEnums');
     catch(e){
         if(e.name === 'JsonWebTokenError'){
             console.log('Failed to authenticate token');
-            return res.status(400).send({ error: Err.AuthorizationErrors.INVALID_TOKEN_ERROR });
-            //return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+            //return res.status(400).send({ error: Err.AuthorizationErrors.INVALID_TOKEN_ERROR });
+            return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
         }
         else{
             switch(e.message) {
                 case Err.AuthorizationErrors.NO_TOKEN_PROVIDED:
                     console.log('No token provided');
-                    return res.status(400).send({ error: Err.AuthorizationErrors.NO_TOKEN_PROVIDED });
-                    //return res.status(400).send({ error: 'No token provided.' });
+                    //return res.status(400).send({ error: Err.AuthorizationErrors.NO_TOKEN_PROVIDED });
+                    return res.status(400).send({ error: 'No token provided.' });
                 case Err.AuthorizationErrors.USER_DOESNT_EXIST:
                     console.log('No user found.');
-                    return res.status(400).send({error: Err.AuthorizationErrors.USER_DOESNT_EXIST});   
-                    //return res.status(400).send({error: 'No user found.'});  
+                    //return res.status(400).send({error: Err.AuthorizationErrors.USER_DOESNT_EXIST});   
+                    return res.status(400).send({error: 'No user found.'});  
                 case Err.AuthorizationErrors.UNAUTHORIZED_ACCESS_ATTEMPT:
                     console.log("unauthorized user attempted to access admin functionality");
                     console.log(e.name);
-                    return res.status(400).send({error: Err.AuthorizationErrors.UNAUTHORIZED_ACCESS_ATTEMPT}); 
-                    //return res.status(400).send({error: 'You are not authorized to view this page'});  
+                    //return res.status(400).send({error: Err.AuthorizationErrors.UNAUTHORIZED_ACCESS_ATTEMPT}); 
+                    return res.status(400).send({error: 'You are not authorized to view this page'});  
                 default:
                     console.log(e.name +': ' + e.message);
                     console.log(e.stack)
-                    return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
-                    //return res.status(400).send({error: 'Error on the server'});
+                    //return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
+                    return res.status(400).send({error: 'Error on the server'});
             }
         }
     } 

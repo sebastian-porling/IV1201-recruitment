@@ -14,12 +14,6 @@ var Err = require('../utility/ErrorEnums');
  * @returns HTTP response if error occured else nothing
  */
 
-// function xssFilter(parameter, errorcode){
-//     var filteredparameter = xssFilters.inHTMLData(parameter);
-//     assert.strictEqual(parameter, filteredparameter, errorcode);
-//     return filteredparameter; 
-// }
-
 
 const validateName = function (name){
     var filteredName = xssFilters.inHTMLData(name);
@@ -63,84 +57,27 @@ exports.validateAuthenticationRoute =  function validateAuthenticationRoute(rout
             switch(e.message) {
                 case Err.ValidationErrors.INVALID_FORMAT_NAME:
                     console.log('Name has invalid format');
-                    //return res.status(400).send({ error: 'Name has invalid format.' });
-                    return res.status(400).send({ error: Err.ValidationErrors.INVALID_FORMAT_NAME });
+                    return res.status(400).send({ error: 'Name has invalid format.' });
+                    //return res.status(400).send({ error: Err.ValidationErrors.INVALID_FORMAT_NAME });
 
                 case Err.ValidationErrors.INVALID_FORMAT_EMAIL:
                     console.log('Username has invalid format');
-                    //return res.status(400).send({error: 'Username has invalid format'});  
-                    return res.status(400).send({error: Err.ValidationErrors.INVALID_FORMAT_EMAIL});  
+                    return res.status(400).send({error: 'Username has invalid format'});  
+                    //return res.status(400).send({error: Err.ValidationErrors.INVALID_FORMAT_EMAIL});  
 
                 case Err.ValidationErrors.INVALID_FORMAT_PASSWORD:
                     console.log('Password has invalid format');
-                    //return res.status(400).send({error: 'Password has invalid format'}); 
-                    return res.status(400).send({error: Err.ValidationErrors.INVALID_FORMAT_PASSWORD});            
+                    return res.status(400).send({error: 'Password has invalid format'}); 
+                    //return res.status(400).send({error: Err.ValidationErrors.INVALID_FORMAT_PASSWORD});            
            
                 default:
                     console.log(e.name +': ' + e.message);
                     console.trace();
-                    //return res.status(400).send({error: 'Error on the server'});
-                    return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
+                    return res.status(400).send({error: 'Error on the server'});
+                    //return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
             }
         } 
     };   
 };  
-// function validateAuthentication(route){
-//     return async function (req, res, next) {
-//         try{  
-//             //Validate name if register route. 
-//             if(route === '/register'){
-//                 //sanitize data to prevent xss attacks 
-//                 var name = xssFilters.inHTMLData(req.body.name);
-//                 //If something was removed by the filter throw error
-//                 assert.strictEqual(req.body.name, name, "1");
-//                 //Check that name contains only letters.
-//                 assert.strictEqual(true,  validator.isAlpha(name , 'sv-SE'), "1");
-//                 //Check that name isn't to long  or short min: 1 max: 30 char
-//                 assert.strictEqual(true,  validator.isByteLength(name, {min:1, max: 30}), "1");
-//                 //Filtered name is valid
-//                 req.body.name = name; 
-//             }
-//             //validate email
-//             //sanitize data to prevent xss attacks 
-//             var email = xssFilters.inHTMLData(req.body.email);
-//             //If something was removed by the XSS filter throw error
-//             assert.strictEqual(req.body.email, email, "2");
-//             //validate email
-//             assert.strictEqual(true, validator.isEmail(email), "2");
-//             //Check that email isn't to long or short min: 1 max: 30 char
-//             assert.strictEqual(true,  validator.isByteLength(email, {min:1, max: 30}), "2");
-//             //Filtered email is valid 
-//             req.body.email = email; 
-//             //validate password
-//             //sanitize data to prevent xss attacks 
-//             var password = xssFilters.inHTMLData(req.body.password);
-//             //If something was removed by the XSS filter throw error
-//             assert.strictEqual(req.body.password, password, "3");
-//             //Check that password  isn't to long or short min: 8 max: 120 char
-//             assert.strictEqual(true,  validator.isByteLength(password, {min:8, max: 120}), "3");
-//             //Filtered password is in valid format
-//             req.body.password = password; 
-//             //All data valid 
-//             next()
-//         }
-//         catch(e){
-//             switch(e.message) {
-//                 case '1':
-//                     console.log('Name has invalid format');
-//                     return res.status(400).send({ error: 'Name has invalid format.' });
-//                 case '2':
-//                     console.log('Username has invalid format');
-//                     return res.status(400).send({error: 'Username has invalid format'});  
-//                 case '3':
-//                     console.log('Password has invalid format');
-//                     return res.status(400).send({error: 'Password has invalid format'});            
-//                 default:
-//                     console.log(e.name +': ' + e.message);
-//                     console.trace();
-//                     return res.status(400).send({error: 'Error on the server'});
-//             }
-//         } 
-//     };   
-// };   
+   
 
