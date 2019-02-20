@@ -31,12 +31,13 @@ router.post('/register', validate.validateAuthenticationRoute('/register'), asyn
       console.log('new user created ');
       var token = Token.createToken(userId);
       req.session.token = token;
-      //res.status(200).send({ registered: true, msg:'Registration successful'});
-      res.status(200).send({ registered: true});
+      res.status(200).send({ registered: true, msg:'Registration successful'});
+      //res.status(200).send({ registered: true});
     }          
   }
   catch(e){
-    switch(e.message) {
+    console.log(typeof(e.message))
+    switch(e.message){
       case Err.AuthenticationErrors.EMAIL_TAKEN:
         console.log('Email already taken');
         //return res.status(400).send({error: Err.AuthenticationErrors.EMAIL_TAKEN});
