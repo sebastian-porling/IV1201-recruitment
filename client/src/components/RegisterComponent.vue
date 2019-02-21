@@ -60,5 +60,6 @@ form {
   max-width: 900px;
   margin: 0 auto;
   margin-top: 100px;
+  padding: 10px;
 }
 </style>

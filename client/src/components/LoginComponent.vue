@@ -1,6 +1,5 @@
 <template>
   <!-- Material form login -->
-  <mdb-container id="login">
     <form @submit="loginApi" method="post">
       <p class="h4 text-center mb-4">Sign in</p>
       <div class="grey-text">
@@ -26,7 +25,6 @@
       </div>
       <span>Message: {{ msgFromServer }}</span>
     </form>
-  </mdb-container>
   <!-- Material form login -->
 </template>
 
@@ -66,9 +64,10 @@ export default {
 
 <style>
 /* Sets maximum width, centers and pushes it down */
-#login {
+#form {
   max-width: 900px;
   margin: 0 auto;
   margin-top: 100px;
+  padding: 10px;
 }
 </style>
