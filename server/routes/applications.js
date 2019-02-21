@@ -19,10 +19,14 @@ router.get('/competences', async function (req,res){
 
 
 /** 
- * @api {get} / Get applications
+ * @api {get} /all Get applications
 */
-router.get('/', async (req, res) => {
+router.get('/all', async (req, res) => {
   res.send(await Applications.findAllApplications());
+});
+
+router.get('/', VerifyUser, async (req, res) => {
+  res.send(await Applications.findApplicationWithId(req.userId));
 });
 
 /**

@@ -46,17 +46,24 @@ class AuthServices {
         password: password,
       });
       const data = res.data;
-      return data.msg;
+      return {
+        message: data.msg,
+        data: {
+          name: "Sebbe",
+          role: "applicant"
+        }
+      };
     } catch (e) {
       if (e.response) {
-        switch (e.response.data.error) {
+        throw e.response.data.error;
+        /*switch (e.response.data.error) {
           case 'Username or password incorrect':
             return 'Username or password incorrect'
           case 'email invalid':
             return 'email invalid'
           default:
             return e.response.data.error;
-        }
+        }*/
       }
     }
   }
