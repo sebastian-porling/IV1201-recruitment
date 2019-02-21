@@ -8,8 +8,8 @@ var bcrypt = require('bcryptjs');
  * @param password The password that should be hashed
  * @returns The hashed password
  */
-exports.hashPassword = function hashPassword(password){
-    var hashedPassword =  bcrypt.hashSync(password, 8);
+exports.hashPassword = function hashPassword(password) {
+    var hashedPassword = bcrypt.hashSync(password, 8);
     return hashedPassword;
 }
 /**
@@ -18,6 +18,6 @@ exports.hashPassword = function hashPassword(password){
  * @returns The hashed password
  */
 exports.verifyPassword = function verifyPassword(password, hashedPassword) {
-    var valid = bcrypt.compareSync(password, hashedPassword); 
-    return valid  
+    var valid = bcrypt.compareSync(password, hashedPassword);
+    return valid
 }

@@ -17,47 +17,48 @@
 </template>
 
 <script>
-  import AuthServices from "../AuthServices";
-  import {
+import AuthServices from "../AuthServices";
+import { mdbBtn, mdbInput } from "mdbvue";
+
+export default {
+  name: "RegisterComponent",
+  components: {
     mdbBtn,
     mdbInput
-  } from "mdbvue";
-
-  export default {
-    name: "RegisterComponent",
-    components: {
-      mdbBtn,
-      mdbInput
-    },
+  },
+  /**
+   * The data used for this component.
+   */
+  data() {
+    return {
+      register: false,
+      name: "",
+      email: "",
+      password: "",
+      msgFromServer: ""
+    };
+  },
+  methods: {
     /**
-     * The data used for this component.
+     * Will prevent default action by forms. And will register through authservices
      */
-    data() {
-      return {
-        register: false,
-        name: "",
-        email: "",
-        password: "",
-        msgFromServer: ""
-      };
-    },
-    methods: {
-      /**
-       * Will prevent default action by forms. And will register through authservices
-       */
-      async registerApi(event) {
-        event.preventDefault();
-        this.msgFromServer = await AuthServices.register(this.name, this.email, this.password);
-      }
-    },
-  };
+    async registerApi(event) {
+      event.preventDefault();
+      this.msgFromServer = await AuthServices.register(
+        this.name,
+        this.email,
+        this.password
+      );
+    }
+  }
+};
 </script>
 
 <style>
-  /* Sets maximum width, centers and pushes it down */
-  form {
-    max-width: 900px;
-    margin: 0 auto;
-    margin-top: 100px;
-  }
+/* Sets maximum width, centers and pushes it down */
+form {
+  max-width: 900px;
+  margin: 0 auto;
+  margin-top: 100px;
+}
 </style>
