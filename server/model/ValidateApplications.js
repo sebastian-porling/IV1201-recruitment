@@ -1,5 +1,5 @@
 /** 
- * Middleware used to validate that inputs from the user to routes in /api/applications are correct  
+ * Module used to validate data relevant to applications 
  * @module validateApplications
  */
 var validator = require('validator');
@@ -28,15 +28,12 @@ var availabilitySchema = {
 };
 var validateComp = ajv.compile(competenceSchema);
 var validateAvail = ajv.compile(availabilitySchema);
-/**
- * Verifies that the input from the user to a route in /api/applications is valid 
- * @param req Contains information about the request made by the client to the server.
- * @param res Used to construct a response to the client.
- * @param next The next middleware that should be called if the client is logged in as an admin.
- * @returns HTTP response if error occured else nothing
+
+/** 
+ * Function that validates the given user id. Throwing an error if validation fails. 
+ * @param id The id that is to be validated
+ * @return The filtered id if validation is successful 
  */
-
-
 const validateId = function (id) {
   var filteredId = xssFilters.inHTMLData(id);
   assert.strictEqual(id, filteredId, Err.ValidationErrors.INVALID_FORMAT_ID);
@@ -46,6 +43,10 @@ const validateId = function (id) {
 };
 exports.validateId = validateId;
 
+/** 
+ * Function that validates the given competences. Throwing an error if validation fails. 
+ * @param competences The competences that are to be validated
+ */
 const validateCompetences = function (competences) {
   assert.strictEqual(true, Array.isArray(competences), Err.ValidationErrors.INVALID_FORMAT_COMPETENCE);
   for (let comp of competences) {
@@ -59,7 +60,10 @@ const validateCompetences = function (competences) {
   }
 };
 exports.validateCompetences = validateCompetences;
-
+/**
+ * Function that validates the given availablities. Throwing an error if validation fails. 
+ * @param  availability The availabilites that are to be validated
+ */
 const validateAvailability = function (availability) {
   assert.strictEqual(true, Array.isArray(availability), Err.ValidationErrors.INVALID_FORMAT_AVAILABILITY);
   for (let avail of availability) {
@@ -75,6 +79,15 @@ const validateAvailability = function (availability) {
 };
 
 exports.validateAvailability = validateAvailability;
+
+/**
+ * Middleware that verifies that the request data from the user to a route in /api/applications is valid.
+ * @param route Parameter that is used to decide the type of validation that should be undertaken.  
+ * @param req Contains information about the request made by the client to the server.
+ * @param res Used to construct a response to the client.
+ * @param next The next middleware that should be called if validation is successful 
+ * @returns HTTP response if error occured else nothing
+ */
 
 exports.validateApplicationsRoute = function validateApplicationsRoute(route) {
   return async function (req, res, next) {

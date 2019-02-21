@@ -1,10 +1,11 @@
+/** Module that acts as an interface to the database allowing different queries related to users in the database. 
+ * @module User
+ */
 const db = require('./db');
 const validateAuth = require('../model/ValidateAuthentication');
 const validateApp = require('../model/ValidateApplications');
 var ObjectId = require('mongodb').ObjectID;
-/** Module that acts as an interface to the database allowing different queries related to users in the database. 
- * @module User
- */
+
 
 /**
  * Helper function for findUserById and findUserByEmail that initialises the database and performs the
@@ -12,7 +13,6 @@ var ObjectId = require('mongodb').ObjectID;
  * @param searchParams The query that should be executed
  * @returns The created token if successful 
  */
-
 async function findUser(searchParams) {
   const userCollection = await db.loadUsersCollection();
   return await userCollection.findOne(searchParams);
