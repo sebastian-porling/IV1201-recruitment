@@ -50,6 +50,7 @@ router.post('/register', validate.validateAuthenticationRoute('/register'), asyn
     }
   }
 });
+
 /**
  * Login the user with the given email and password
  * @api {post} /login post user
@@ -80,6 +81,7 @@ router.post('/login', validate.validateAuthenticationRoute(), async function(req
     }
   }
 });
+
 /**
  * Logut the user current active user. 
  * @api {get} /logout Logsout the user
@@ -89,6 +91,7 @@ router.get('/logout', function (req, res) {
   res.status(200).send({auth: false, msg: 'You have been logged out.' });
   //res.status(200).send({loggedIn: false});
 });
+
 /**
  * Returns the user page if the user can be verified.
  * @api {get} /userpage 

@@ -10,25 +10,22 @@
  * @param errormessage String that must be included in the thrown error message. 
  * @return The return value of the function fn if it succeeds. 
  */
-module.exports = async function retry(fn, attemptsLeft, error, errormessage){
-    try{
-        console.log('Retrying attempt: '+ attemptsLeft);
-        return await fn();
-  
-    }
-    catch(e){
-        if(attemptsLeft === 1){
-          throw e;
-        }
-        else{
-          if(e.name === error && e.message.match(new RegExp(errormessage)) != null){
-            return await retry(fn, attemptsLeft-1, error, errormessage);
-          }
-          else{
-            throw e; 
-          }
-  
-        }
-    }
-      
+module.exports = async function retry(fn, attemptsLeft, error, errormessage) {
+  try {
+    console.log('Retrying attempt: ' + attemptsLeft);
+    return await fn();
   }
+  catch (e) {
+    if (attemptsLeft === 1) {
+      throw e;
+    }
+    else {
+      if (e.name === error && e.message.match(new RegExp(errormessage)) != null) {
+        return await retry(fn, attemptsLeft - 1, error, errormessage);
+      }
+      else {
+        throw e;
+      }
+    }
+  }
+}

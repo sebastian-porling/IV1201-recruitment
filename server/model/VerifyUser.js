@@ -12,21 +12,21 @@ var Err = require('../utility/ErrorEnums');
  * @returns HTTP response if error occured else nothing
  */
 async function verifyUser(req, res, next) {
-  try{
+  try {
     var token = req.session.token;
-    if (!token){
-      throw Error(Err.AuthorizationErrors.NO_TOKEN_PROVIDED); 
+    if (!token) {
+      throw Error(Err.AuthorizationErrors.NO_TOKEN_PROVIDED);
     }
     const decodedToken = Token.verifyToken(token);
     req.userId = decodedToken.id;
     console.log('Token verified');
     next();
   }
-  catch(e){
-    switch(e.name) {
+  catch (e) {
+    switch (e.name) {
       case 'JsonWebTokenError':
         console.log('Failed to authenticate token');
-        console.log(e.name +': ' + e.message);
+        console.log(e.name + ': ' + e.message);
         console.log(e.stack)
         //return res.status(500).send({ message: Err.AuthorizationErrors.INVALID_TOKEN_ERROR });
         return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
@@ -34,10 +34,10 @@ async function verifyUser(req, res, next) {
         //return res.status(400).send({ error: Err.AuthorizationErrors.NO_TOKEN_PROVIDED });
         return res.status(400).send({ error: 'No token provided.' });
       default:
-        console.log(e.name +': ' + e.message);
+        console.log(e.name + ': ' + e.message);
         console.log(e.stack)
         //return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
-        return res.status(400).send({error: 'Error on the server'});
+        return res.status(400).send({ error: 'Error on the server' });
     }
   }
 }

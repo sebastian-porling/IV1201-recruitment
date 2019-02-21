@@ -12,10 +12,10 @@ script:
   - "npm test"
   - "npm run acc-test"
 deploy:
-    provider: heroku
-    api_key:
-        secure: "tCru2EXHyiKGUjYbe1C0jBK3r3ZKT0Ot2YAvhfLDoTG6dKjE8ActNtng6a1jNfVfM2GergJjXPcLvsFnXeLYtbVfWvFBPSSYTqmVYx5C3PA+Qi2Ok8cWiiXYqSQosBe7o1iCJNCWIevYjSpobtyEMRYeBqNKFugrXk08SY9F0wpiNtWU6eeKjTfYlLoFKKa23h4nVqXp/51V4VXuMongWAqFQf0ntvp7wpBsXiPm1CaiCjtjRwlehKo9u76/F/g94vXPaSpFMhMulTJCx9XOFvixBUrLuKxDRd2e9R/dmIgrC1LbE9z6jQNurZp/kKqD9J9j09WQk9CLps/RVk/y1bfgrGq0m4/FWiV6asFk7RrUOm+nIDAv97IfCUQFnBq2y3qO45pgvsA1CBdfKl1w58VFeW0nlDdm75pAnOlUDtRBvdvzDrwXXOAnrusGH3ZgghFa2uulMmbq4+6rH/DRF9fNZRvs1jah98abN0m5mwltkEFC073ta2nJw3qagCCFOfS353mP6cCQRS/c2AUlQid2u5JpxoBQFqMVgJZNCZPayUDEgSdKZtZqG6Te4mPmxIiGCSvMSaSOv75JG+FjpcRxM4YPySmeWEj2xfEu+uL1t94KULZrttHO59I8aCGvkr2K5yoDzaep44miKdVDWHVBVg0bZHq80RPqlus3ivg="
-    app: recruitement-application
-    on: 
-        repo: sebastian-porling/IV1201-recruitment
-        branch: test/init-acceptance-test
+  provider: heroku
+  api_key:
+    secure: "tCru2EXHyiKGUjYbe1C0jBK3r3ZKT0Ot2YAvhfLDoTG6dKjE8ActNtng6a1jNfVfM2GergJjXPcLvsFnXeLYtbVfWvFBPSSYTqmVYx5C3PA+Qi2Ok8cWiiXYqSQosBe7o1iCJNCWIevYjSpobtyEMRYeBqNKFugrXk08SY9F0wpiNtWU6eeKjTfYlLoFKKa23h4nVqXp/51V4VXuMongWAqFQf0ntvp7wpBsXiPm1CaiCjtjRwlehKo9u76/F/g94vXPaSpFMhMulTJCx9XOFvixBUrLuKxDRd2e9R/dmIgrC1LbE9z6jQNurZp/kKqD9J9j09WQk9CLps/RVk/y1bfgrGq0m4/FWiV6asFk7RrUOm+nIDAv97IfCUQFnBq2y3qO45pgvsA1CBdfKl1w58VFeW0nlDdm75pAnOlUDtRBvdvzDrwXXOAnrusGH3ZgghFa2uulMmbq4+6rH/DRF9fNZRvs1jah98abN0m5mwltkEFC073ta2nJw3qagCCFOfS353mP6cCQRS/c2AUlQid2u5JpxoBQFqMVgJZNCZPayUDEgSdKZtZqG6Te4mPmxIiGCSvMSaSOv75JG+FjpcRxM4YPySmeWEj2xfEu+uL1t94KULZrttHO59I8aCGvkr2K5yoDzaep44miKdVDWHVBVg0bZHq80RPqlus3ivg="
+  app: recruitement-application
+  on: 
+    repo: sebastian-porling/IV1201-recruitment
+    branch: test/init-acceptance-test
