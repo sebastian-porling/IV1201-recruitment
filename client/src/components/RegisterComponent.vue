@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import AuthServices from "../AuthServices";
+import AuthServices from "../services/AuthServices";
 import { mdbBtn, mdbInput } from "mdbvue";
 
 export default {
@@ -54,7 +54,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* Sets maximum width, centers and pushes it down */
 form {
   max-width: 900px;

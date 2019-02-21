@@ -48,7 +48,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* Sets the maximum height */
 body,
 html {

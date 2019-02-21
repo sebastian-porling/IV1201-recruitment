@@ -1,14 +1,14 @@
 <template>
   <!-- Material form login -->
     <form @submit="loginApi" method="post">
-      <p class="h4 text-center mb-4">Sign in</p>
+      <p class="h4 text-center mb-4">Admin Sign in</p>
       <div class="grey-text">
         <mdb-input
-          label="Your email"
-          v-model="email"
+          label="Your username"
+          v-model="username"
           icon="envelope"
-          type="email"
-          name="email"
+          type="username"
+          name="username"
           required
         />
         <mdb-input
@@ -33,7 +33,7 @@ import AuthServices from "../services/AuthServices";
 import { mdbBtn, mdbInput } from "mdbvue";
 import { mapActions, mapState } from 'vuex'
 export default {
-  name: "LoginComponent",
+  name: "AdminLoginComponent",
   components: {
     mdbBtn,
     mdbInput
@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       messageFromServer: "test",
-      email: "",
+      username: "",
       password: ""
     };
   },
@@ -57,7 +57,7 @@ export default {
     ]),
     async loginApi(event) {
       event.preventDefault();
-      await AuthServices.login(this.email, this.password).then((response) => {
+      await AuthServices.login(this.username, this.password).then((response) => {
         this.messageFromServer = response.message;
         this.login({name: response.data.name, token: null, role: response.data.role});
         this.$router.push('/user');
