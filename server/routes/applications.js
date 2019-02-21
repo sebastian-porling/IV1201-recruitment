@@ -8,6 +8,7 @@ const VerifyUser = require('../model/VerifyUser');
 const VerifyAdmin = require('../model/VerifyAdmin');
 const validate = require('../model/ValidateApplications');
 const Applications = require('../integration/Applications');
+var Err = require('../utility/ErrorEnums');
 const router = express.Router();
 
 /** 
@@ -51,9 +52,17 @@ router.delete('/:id', VerifyAdmin, validate.validateApplicationsRoute('/:id'), a
  * 
  * @apiParam {number} id Users unique id
 */
-router.put('/accept/:id', VerifyAdmin, validate.validateApplicationsRoute('/:id'), async (req, res) => {
-  await Applications.acceptApplication(req.params.id);
-  res.status(200).send();
+router.put('/accept/:id/:previousvalue', VerifyAdmin, validate.validateApplicationsRoute('/:id'), async (req, res) => {
+  try{
+    console.log(req.params.previousvalue);
+    await Applications.acceptApplication(req.params.id, req.params.previousvalue);
+    res.status(200).send('ok');
+  }
+  catch(e){
+    if(e.message === Err.DatabaseErrors.MONGO_TRANSACTION_ERROR){
+      res.status(400).send({error: "inconsistentClientData"})
+    }
+  }
 });
 
 /** 
@@ -61,9 +70,16 @@ router.put('/accept/:id', VerifyAdmin, validate.validateApplicationsRoute('/:id'
  * 
  * @apiParam {number} id Users unique id
  */
-router.put('/reject/:id', VerifyAdmin, validate.validateApplicationsRoute('/:id'), async (req, res) => {
-  await Applications.rejectApplication(req.params.id);
-  res.status(200).send();
+router.put('/reject/:id/:previousvalue', VerifyAdmin, validate.validateApplicationsRoute('/:id'), async (req, res) => {
+  try{
+    await Applications.rejectApplication(req.params.id, req.params.previousvalue);
+    res.status(200).send('ok');
+  }
+  catch(e){
+    if(e.message === Err.DatabaseErrors.MONGO_TRANSACTION_ERROR){
+      res.status(400).send({error: "inconsistentClientData"})
+    }
+  }
 });
 
 module.exports = router;

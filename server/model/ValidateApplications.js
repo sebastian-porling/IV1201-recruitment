@@ -46,6 +46,18 @@ const validateId = function (id) {
 };
 exports.validateId = validateId;
 
+const validateStatus = function(status){
+  if(status === undefined){
+    return 'undefined';
+  }
+  const filteredStatus = xssFilters.inHTMLData(status);
+  assert.strictEqual(id, filteredStatus, Err.ValidationErrors.INVALID_FORMAT_STATUS);
+  const statusEquals = validator.equals(status, 'accepted') || validator.equals(status, 'rejected')
+  assert.strictEqual(true, statusEquals, Err.ValidationErrors.INVALID_FORMAT_STATUS);
+
+}
+exports.validateStatus = validateStatus;
+
 const validateCompetences = function (competences) {
   assert.strictEqual(true, Array.isArray(competences), Err.ValidationErrors.INVALID_FORMAT_COMPETENCE);
   for (let comp of competences) {
@@ -94,6 +106,10 @@ exports.validateApplicationsRoute = function validateApplicationsRoute(route) {
     }
     catch (e) {
       switch (e.message) {
+        case Err.ValidationErrors.INVALID_FORMAT_STATUS:
+          console.log('status has invalid format');
+          return res.status(400).send({error: 'status has invalid format'})
+
         case Err.ValidationErrors.INVALID_FORMAT_ID:
           console.log('id has invalid format');
           return res.status(400).send({ error: 'id has invalid format.' });
