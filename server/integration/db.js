@@ -19,3 +19,17 @@ exports.loadUsersCollection = async function loadUsersCollection() {
   }
   return await retry(fn, MAX_RETRIES, MONGO_NETWORK_ERROR, ERROR_MESSAGE);
 }
+
+exports.getSession = async function getSession(){
+  const fn = async function () {
+    const client = await mongodb.MongoClient.connect(' mongodb://IV1201:IV1201@ds119993.mlab.com:19993/recruitment', {
+      useNewUrlParser: true
+    });
+    return client.startSession({ readPreference: { mode: "primary" } });
+  }
+  return await retry(fn, MAX_RETRIES, MONGO_NETWORK_ERROR, ERROR_MESSAGE);
+
+
+}
+
+

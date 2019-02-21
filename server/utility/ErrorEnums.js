@@ -20,6 +20,7 @@ const AuthenticationErrors = {
   USER_DOESNT_EXIST: 'AUC2',
   WRONG_USERNAME_OR_PASSWORD: 'AUC3'  
 };
+
 exports.AuthenticationErrors = AuthenticationErrors;
 
 /**
