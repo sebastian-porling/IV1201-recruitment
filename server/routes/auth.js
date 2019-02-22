@@ -64,7 +64,7 @@ router.post('/login', validate.validateAuthenticationRoute(), async function(req
     if (!passwordIsValid) throw Error(Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD);
     var token = Token.createToken(user._id);
     req.session.token = token;
-    res.status(200).send({ auth: true, msg:'login successful'});
+    res.status(200).send({ auth: true, msg:'login successful', user: user});
     //res.status(200).send({ loggedIn: true});
   }
   catch(e){

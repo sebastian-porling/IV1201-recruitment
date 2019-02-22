@@ -49,8 +49,8 @@ class AuthServices {
       return {
         message: data.msg,
         data: {
-          name: "Sebbe",
-          role: "applicant"
+          name: data.user.name + " " + data.user,
+          role: data.user.role 
         }
       };
     } catch (e) {
