@@ -1,3 +1,6 @@
+/** Module responsible for connecting to the database making it available for use. 
+ * @module db
+ */
 const mongodb = require('mongodb');
 const retry = require('../utility/Retry')
 const MAX_RETRIES = 5;

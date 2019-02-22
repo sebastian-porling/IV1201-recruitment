@@ -1,5 +1,5 @@
 /** 
- * Middleware used to validate that inputs from the user to routes in /auth are correct  
+ * Module used to validate data relevant to authentication.
  * @module ValidateAuthentication
  */
 var validator = require('validator');
@@ -15,6 +15,11 @@ var Err = require('../utility/ErrorEnums');
  */
 
 
+ /**
+  * Function that validates a given name. Throwing an error if validation fails. 
+  * @param name The name that is to be validated.
+  * @returns The filtered name if validation is successful. 
+  */
 const validateName = function (name) {
   var filteredName = xssFilters.inHTMLData(name);
   assert.strictEqual(name, filteredName, Err.ValidationErrors.INVALID_FORMAT_NAME);
@@ -24,6 +29,11 @@ const validateName = function (name) {
 }
 exports.validateName = validateName;
 
+/**
+  * Function that validates a given email. Throwing an error if validation fails. 
+  * @param email The email that is to be validated.
+  * @returns The filtered email if validation is successful.
+  */
 const validateEmail = function (email) {
   var filteredEmail = xssFilters.inHTMLData(email);
   assert.strictEqual(filteredEmail, email, Err.ValidationErrors.INVALID_FORMAT_EMAIL);
@@ -33,6 +43,11 @@ const validateEmail = function (email) {
 }
 exports.validateEmail = validateEmail;
 
+/**
+  * Function that validates a given password. Throwing an error if validation fails. 
+  * @param password The password that is to be validated.
+  * @returns The filtered passsword if validation is successful.
+  */
 const validatePassword = function (password) {
   var filteredPassword = xssFilters.inHTMLData(password);
   assert.strictEqual(filteredPassword, password, Err.ValidationErrors.INVALID_FORMAT_PASSWORD);
@@ -41,6 +56,14 @@ const validatePassword = function (password) {
 }
 exports.validatePassword = validatePassword;
 
+
+/**
+ * Middleware that verifies that request data to a route in /auth is valid
+ * @param route Parameter that is used to decide the type of validation that should be undertaken.  
+ * @param req Contains information about the request made by the client to the server.
+ * @param res Used to construct a response to the client.
+ * @param next The next middleware that should be called if validation is successful 
+ */
 exports.validateAuthenticationRoute = function validateAuthenticationRoute(route) {
   return async function (req, res, next) {
     try {

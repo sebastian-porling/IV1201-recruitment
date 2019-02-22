@@ -19,6 +19,7 @@ var Err = require('../utility/ErrorEnums');
 
  /**
  * Registers a user with the given name, email address and password. The email address functions as the users username.
+ * @api {post} /register post user
  */
 router.post('/register', validate.validateAuthenticationRoute('/register'), async function(req, res) {
   try{

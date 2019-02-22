@@ -29,8 +29,8 @@ async function init() {
       secret: 'sessionSecret',
       cookie: { maxAge: maxAge },                   //12 hours },
       store: new MongoStore({ db: db }),
-      saveUninitialized: true, //Default value. Change?
-      resave: true //Default value. Change?
+      saveUninitialized: true, 
+      resave: true 
 
     })
     );
