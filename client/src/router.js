@@ -26,16 +26,14 @@ const router = new Router({
     {
       path: '/login',
       name: 'Login',
-      component: LoginComponent,
-      children: 
-      [
-        {
-          path: 'admin',
-          name: 'AdminLogin',
-          component: AdminLoginComponent
-        } 
-      ]
+      component: LoginComponent
     },
+    {
+      path: '/login/admin',
+      name: 'AdminLogin',
+      component: AdminLoginComponent
+    },
+
     {
       path: '/register',
       name: 'Register',
@@ -46,17 +44,20 @@ const router = new Router({
       name: 'User',
       component: UserProfileComponent
     },
-    { 
+    /*{ 
       path: '*', 
       redirect: '/' 
-    }
+    }*/
   ]
 });
 
 
 router.beforeEach( async(to, from, next) => {
   let loggedIn = store.state.user.name !== null;
-  if (to.fullPath === '/login' || to.fullPath === '/register') {
+  if (to.fullPath === '/login' || to.fullPath === '/register' || to.fullPath === '/login/admin') {
+    if (loggedIn) {
+      router.push('/');
+    }
     next();
   } else {
     if (!loggedIn) {

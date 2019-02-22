@@ -3,7 +3,9 @@
   <form @submit="registerApi" method="post">
     <p class="h4 text-center mb-4">Sign up</p>
     <div class="grey-text">
-      <mdb-input label="Your name" v-model="name" icon="user" type="text" required/>
+      <mdb-input label="Your first name" v-model="name" icon="user" type="text" required/>
+      <mdb-input label="Your surname" v-model="surname" icon="user" type="text" required/>
+      <mdb-input label="Your social security number" v-model="ssn" icon="exclamation-triangle" type="text" required/>
       <mdb-input label="Your email" v-model="email" icon="envelope" type="email" required/>
       <mdb-input label="Confirm your email" icon="exclamation-triangle" type="text" required/>
       <mdb-input label="Your password" v-model="password" icon="lock" type="password" required/>
@@ -33,6 +35,8 @@ export default {
     return {
       register: false,
       name: "",
+      surname: "",
+      ssn: "",
       email: "",
       password: "",
       msgFromServer: ""
@@ -46,6 +50,8 @@ export default {
       event.preventDefault();
       this.msgFromServer = await AuthServices.register(
         this.name,
+        this.surname,
+        this.ssn,
         this.email,
         this.password
       );

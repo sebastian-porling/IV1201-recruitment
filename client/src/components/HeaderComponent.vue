@@ -7,7 +7,7 @@
       
       <mdb-navbar-nav>
         <mdb-nav-item to="/">Home</mdb-nav-item>
-        <mdb-nav-item to="/" v-if="loggedIn">{{this.user.name}}</mdb-nav-item>
+        <mdb-nav-item to="/user" v-if="loggedIn">{{this.user.name}}</mdb-nav-item>
         <mdb-nav-item to="/login" v-if="!loggedIn">Login</mdb-nav-item>
         <mdb-nav-item to="/register" v-if="!loggedIn">Register</mdb-nav-item>
       </mdb-navbar-nav>

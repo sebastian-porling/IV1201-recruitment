@@ -1,14 +1,18 @@
 <template>
-  <!-- Material form login -->
-    <form @submit="loginApi" method="post">
+<div>
+  <div class="spinner-grow" style="width: 10rem; height: 10rem;" role="status" v-bind:class="{'is-collapsed' : hidden }">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <!-- Material form login -->
+    <form @submit="loginApi" method="post" v-bind:class="{'is-collapsed' : !hidden }">
       <p class="h4 text-center mb-4">Admin Sign in</p>
       <div class="grey-text">
         <mdb-input
           label="Your username"
-          v-model="username"
-          icon="envelope"
-          type="username"
-          name="username"
+          v-model="user"
+          icon="user"
+          type="text"
+          name="user"
           required
         />
         <mdb-input
@@ -26,12 +30,14 @@
       <span>Message: {{ messageFromServer }}</span>
     </form>
   <!-- Material form login -->
+</div>
+  
 </template>
 
 <script>
 import AuthServices from "../services/AuthServices";
 import { mdbBtn, mdbInput } from "mdbvue";
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: "AdminLoginComponent",
   components: {
@@ -44,8 +50,9 @@ export default {
   data() {
     return {
       messageFromServer: "test",
-      username: "",
-      password: ""
+      user: "",
+      password: "",
+      hidden: true
     };
   },
   methods: {
@@ -57,12 +64,15 @@ export default {
     ]),
     async loginApi(event) {
       event.preventDefault();
-      await AuthServices.login(this.username, this.password).then((response) => {
+      this.hidden = false;
+      await AuthServices.login(this.user, this.password).then((response) => {
+        this.hidden = true;
         this.messageFromServer = response.message;
         this.login({name: response.data.name, token: null, role: response.data.role});
         this.$router.push('/user');
       })
       .catch((error) => {
+        this.hidden = true;
         this.messageFromServer = error;
       });
     }
@@ -77,5 +87,15 @@ form {
   margin: 0 auto;
   margin-top: 100px;
   padding: 10px;
+}
+.spinner-grow{
+	position: absolute;
+	left: 45%;
+	right: 40%;
+	top: 40%;
+	z-index: 2;
+}
+.is-collapsed{
+	display: none;
 }
 </style>
