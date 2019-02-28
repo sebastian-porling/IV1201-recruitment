@@ -29,6 +29,15 @@ const validateName = function (name) {
 }
 exports.validateName = validateName;
 
+const validateSsn = function (ssn) {
+  var filteredSsn = xssFilters.inHTMLData(ssn);
+  assert.strictEqual(ssn, filteredSsn);
+  assert.strictEqual(true, validator.isByteLength(filteredSsn, { min: 13, max: 13}), Err.ValidationErrors.INVALID_FORMAT_SSN);
+  assert.strictEqual(true, validator.matches(filteredSsn, /^(19|20)[0-9]{2}[0-1][0-9][0-3][0-9]-[0-9]{4}/), Err.ValidationErrors.INVALID_FORMAT_SSN);
+  return filteredSsn;
+}
+exports.validateSsn = validateSsn;
+
 /**
   * Function that validates a given email. Throwing an error if validation fails. 
   * @param email The email that is to be validated.
@@ -38,7 +47,7 @@ const validateEmail = function (email) {
   var filteredEmail = xssFilters.inHTMLData(email);
   assert.strictEqual(filteredEmail, email, Err.ValidationErrors.INVALID_FORMAT_EMAIL);
   assert.strictEqual(true, validator.isEmail(filteredEmail), Err.ValidationErrors.INVALID_FORMAT_EMAIL);
-  assert.strictEqual(true, validator.isByteLength(filteredEmail, { min: 1, max: 30 }), Err.ValidationErrors.INVALID_FORMAT_EMAIL);
+  assert.strictEqual(true, validator.isByteLength(filteredEmail, { min: 1, max: 50 }), Err.ValidationErrors.INVALID_FORMAT_EMAIL);
   return filteredEmail;
 }
 exports.validateEmail = validateEmail;
@@ -70,6 +79,8 @@ exports.validateAuthenticationRoute = function validateAuthenticationRoute(route
       //Validate name if register route. 
       if (route === '/register') {
         req.body.name = validateName(req.body.name);
+        req.body.surname = validateName(req.body.surname);
+        req.body.ssn = validateSsn(req.body.ssn);
       }
       req.body.email = validateEmail(req.body.email);
       req.body.password = validatePassword(req.body.password);
@@ -91,7 +102,11 @@ exports.validateAuthenticationRoute = function validateAuthenticationRoute(route
         case Err.ValidationErrors.INVALID_FORMAT_PASSWORD:
           console.log('Password has invalid format');
           return res.status(400).send({ error: 'Password has invalid format' });
-        //return res.status(400).send({error: Err.ValidationErrors.INVALID_FORMAT_PASSWORD});            
+        //return res.status(400).send({error: Err.ValidationErrors.INVALID_FORMAT_PASSWORD});   
+        
+        case Err.ValidationErrors.INVALID_FORMAT_SSN:
+          console.log('SSN has invalid format');
+          return res.status(400).send({ error: 'Social security number has invalid format' });
 
         default:
           console.log(e.name + ': ' + e.message);

@@ -36,6 +36,7 @@ var validateAvail = ajv.compile(availabilitySchema);
  */
 const validateId = function (id) {
   var filteredId = xssFilters.inHTMLData(id);
+  console.log(id + "?");
   assert.strictEqual(id, filteredId, Err.ValidationErrors.INVALID_FORMAT_ID);
   assert.strictEqual(true, validator.isHexadecimal(filteredId), Err.ValidationErrors.INVALID_FORMAT_ID);
   assert.strictEqual(true, validator.isByteLength(filteredId, { min: 24, max: 24 }), Err.ValidationErrors.INVALID_FORMAT_ID);

@@ -41,6 +41,20 @@ exports.createApplication = async function createApplication(id, competences, av
   await applications.updateOne({ _id: new ObjectId(validatedId) }, { $set: { competences: competences, availability: availability } }, { upsert: true });
 }
 
+/**
+ * Updates an application for the given user id.
+ * @param id The user id of the new application
+ * @param competences The given users comptences
+ * @param availability The time periods when the user is available 
+ */
+exports.updatepplication = async function updateApplication(id, competences, availability) {
+  const validatedId = validateApp.validateId(id);
+  validateApp.validateCompetences(competences);
+  validateApp.validateAvailability(availability);
+  const applications = await db.loadUsersCollection();
+  await applications.updateOne({ _id: new ObjectId(validatedId) }, { $set: { competences: competences, availability: availability } }, { upsert: true });
+}
+
 /** 
  * Delete the given application
  * @param id Th user id of the application that is to be deleted
@@ -69,5 +83,12 @@ exports.rejectApplication = async function rejectApplication(id) {
   const validatedId = validateApp.validateId(id);
   const applications = await db.loadUsersCollection();
   await applications.updateOne({ _id: new ObjectId(validatedId) }, { $set: { status: "rejected" } }, { upsert: true });
+}
 
+/**
+ * Get all the competences
+ */
+exports.getCompetences = async function getCompetences() {
+  const competences = await db.loadCompetenceCollection();
+  return await competences.find({}).toArray();
 }

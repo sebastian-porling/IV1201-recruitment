@@ -1,10 +1,26 @@
 <template>
   <mdb-container>
-    <div class="spinner-grow" style="width: 10rem; height: 10rem;" role="status" v-bind:class="{'is-collapsed' : hidden }">
+    <div
+      class="spinner-grow"
+      style="width: 10rem; height: 10rem;"
+      role="status"
+      v-bind:class="{'is-collapsed' : hidden }"
+    >
       <span class="sr-only">Loading...</span>
     </div>
-    <h1>Welcome {{user.name}}!</h1>
-    <mdb-card v-bind:class="{'is-collapsed' : !applicationExists }">
+    <h1> Welcome {{user.name}}!</h1>
+    <mdb-btn color="warning" @click.native="modal = true">Edit profile</mdb-btn>
+    <mdb-btn
+      v-bind:class="{'is-collapsed' : applicationExists }"
+      color="warning"
+      @click.native="modal = true"
+    >Create application</mdb-btn>
+    <mdb-btn
+      v-bind:class="{'is-collapsed' : !applicationExists }"
+      color="warning"
+      @click.native="modal = true"
+    >Edit application</mdb-btn>
+    <mdb-card v-bind:class="{'is-collapsed' : !applicationExists }" color="warning">
       <mdb-card-image
         src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg"
         alt="Card image cap"
@@ -17,37 +33,43 @@
       </mdb-card-body>
     </mdb-card>
     {{application}}
-  </mdb-container>
+    <MakeApplicationComponent v-bind:class="{'is-collapsed' : !modal}" v-model="modal"/>
+    </mdb-container>
 </template>
 
 <script>
 import {
+  
   mdbContainer,
   mdbCard,
   mdbCardBody,
   mdbCardText,
   mdbBtn,
-	mdbCardImage,
-	mdbCardTitle
+  mdbCardImage,
+  mdbCardTitle,
+  
 } from "mdbvue";
+import MakeApplicationComponent from './MakeApplicationComponent.vue'
 import { mapState } from "vuex";
 import ApplicationService from "../services/ApplicationService.js";
 export default {
   name: "UserProfileComponent",
   components: {
+    MakeApplicationComponent,
     mdbContainer,
     mdbCard,
     mdbCardBody,
     mdbCardText,
     mdbBtn,
-		mdbCardImage,
-		mdbCardTitle
+    mdbCardImage,
+    mdbCardTitle,
   },
   data() {
     return {
       application: null,
-			applicationExists: false,
-			hidden: false
+      applicationExists: false,
+      hidden: false,
+      modal: false
     };
   },
   computed: {
@@ -57,9 +79,9 @@ export default {
     }
   },
   async created() {
-    await ApplicationService.getUserApplication()
+    await ApplicationService.get()
       .then(data => {
-				this.hidden = true;
+        this.hidden = true;
         if (data.length != 0) {
           this.application = data;
           this.applicationExists = true;
@@ -70,7 +92,7 @@ export default {
       });
   },
   methods: {
-    async test3() {}
+    
   }
 };
 </script>
@@ -79,14 +101,14 @@ export default {
 .card img {
   width: 100%;
 }
-.spinner-grow{
-	position: absolute;
-	left: 45%;
-	right: 40%;
-	top: 40%;
-	z-index: 2;
+.spinner-grow {
+  position: absolute;
+  left: 45%;
+  right: 40%;
+  top: 40%;
+  z-index: 2;
 }
-.is-collapsed{
-	display: none;
+.is-collapsed {
+  display: none;
 }
 </style>

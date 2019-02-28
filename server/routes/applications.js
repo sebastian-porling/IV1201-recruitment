@@ -13,10 +13,13 @@ const router = express.Router();
 /** 
  * @api {get} /all Get applications
 */
-router.get('/all', async (req, res) => {
+router.get('/all', VerifyAdmin, async (req, res) => {
   res.send(await Applications.findAllApplications());
 });
 
+/**
+ * @api {get} / Get the logged in users application
+ */
 router.get('/', VerifyUser, async (req, res) => {
   res.send(await Applications.findApplicationWithId(req.userId));
 });
@@ -36,7 +39,19 @@ router.get('/:id', VerifyUser, validate.validateApplicationsRoute('/:id'), async
  * @apiParam [{Date, Date}] availability    List with dates, {from_date, to_date}
 */
 router.post('/', VerifyUser, validate.validateApplicationsRoute('post/'), async (req, res) => {
-  await Applications.createApplication(req.body.id, req.body.competences, req.body.availability)
+  await Applications.createApplication(req.userId, req.body.competences, req.body.availability)
+  res.status(200).send();
+});
+
+/**
+ * @api {put} / Update application
+ * 
+ * @apiParam {number} id Users unique id
+ * @apiParam [{string, number}] competences List with competences and years of experience
+ * @apiParam [{Date, Date}] availability    List with dates, {from_date, to_date}
+ */
+router.put('/:id', VerifyUser, validate.validateApplicationsRoute('post/'), async (req, res) => {
+  await Applications.updateApplication(req.userId, req.body.competences, req.body.availability)
   res.status(200).send();
 });
 

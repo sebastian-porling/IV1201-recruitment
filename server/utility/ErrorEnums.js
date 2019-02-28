@@ -57,7 +57,8 @@ const ValidationErrors = {
   INVALID_FORMAT_EMAIL: 'VAL4',
   INVALID_FORMAT_PASSWORD: 'VAL5',
   INVALID_FORMAT_NAME: 'VAL6',
-  INVALID_FORMAT_STATUS: 'VAL7'
+  INVALID_FORMAT_STATUS: 'VAL7',
+  INVALID_FORMAT_SSN: 'VAL8'
 };
 exports.ValidationErrors = ValidationErrors; 
 
