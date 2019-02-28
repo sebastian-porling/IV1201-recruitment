@@ -39,9 +39,11 @@ async function init() {
     app.use(cors());
 
     const applications = require('./routes/applications');
+    const competences = require('./routes/competences');
 
     app.use('/api/applications', applications);
     app.use('/auth', authRouter);
+    app.use('/api/competences', competences);
     // Handle production
     if (process.env.NODE_ENV == 'production') {
       //  Static older

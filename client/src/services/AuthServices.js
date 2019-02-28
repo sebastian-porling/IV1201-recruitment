@@ -9,13 +9,17 @@ class AuthServices {
   /**
   * Used to register a user on the server 
   * @param name the name of the user
+  * @param surname the surname of the user
+  * @param ssn the social security number of the user
   * @param email the users email used to login
   * @param password The users password
   */
-  static async register(name, email, password) {
+  static async register(name, surname, ssn, email, password) {
     try {
       const res = await axios.post(url + '/register', {
         name: name,
+        surname: surname,
+        ssn: ssn,
         password: password,
         email: email
       });
@@ -49,7 +53,7 @@ class AuthServices {
       return {
         message: data.msg,
         data: {
-          name: data.user.name + " " + data.user,
+          name: data.user.name + " " + data.user.surname,
           role: data.user.role 
         }
       };

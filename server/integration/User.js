@@ -8,7 +8,6 @@ const Err = require('../utility/ErrorEnums');
 const delayfunction = require('../utility/DelayFunction');
 var ObjectId = require('mongodb').ObjectID;
 
-
 /**
  * Helper function for findUserById and findUserByEmail that initialises the database and performs the
  * given query. 
@@ -20,6 +19,7 @@ async function findUser(searchParams) {
   return await userCollection.findOne(searchParams);
 
 }
+
 /**
   * Finds a user in the database given the users id. 
  * @param userId The user id of the user that is to be found  
@@ -29,6 +29,7 @@ exports.findUserById = async function findUserById(userId) {
   const validatedUserId = validateApp.validateId(userId);
   return await findUser({ _id: new ObjectId(validatedUserId) });
 }
+
 /**
  * Finds a user in the database given the users email.
  * @param email The email of the user that is to be found  
@@ -38,7 +39,23 @@ exports.findUserById = async function findUserById(userId) {
   const validatedEmail = validateAuth.validateEmail(email);
   return await findUser({ email: validatedEmail })
 }
+<<<<<<< HEAD
 exports.findUserByEmail = findUserByEmail;
+=======
+
+/**
+ * Finds a user in the database given the users email and social security number.
+ * @param email The email of the user that is to be found  
+ * @param ssn The social security number of the user that is to be found 
+ * @returns The found user if successful
+ */
+exports.findUserByEmailAndSSN = async function findUserByEmail(email, ssn) {
+  const validatedEmail = validateAuth.validateEmail(email);
+  const validatedSsn = validateAuth.validateSsn(ssn);
+  return await findUser({ email: validatedEmail, ssn: validatedSsn})
+}
+
+>>>>>>> Registration is not complete
 /**
  * Add a user to the database with the given name, email and password 
  * @param name The new users name 
@@ -82,6 +99,7 @@ exports.addUser = async function addUser(name, email, password) {
   }
 
 }
+
 /**
  * Delete the user with the given user id
  * @param userId The user id of the user that will be deleted.

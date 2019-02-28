@@ -5,7 +5,7 @@
     <div class="grey-text">
       <mdb-input label="Your first name" v-model="name" icon="user" type="text" required/>
       <mdb-input label="Your surname" v-model="surname" icon="user" type="text" required/>
-      <mdb-input label="Your social security number" v-model="ssn" icon="exclamation-triangle" type="text" required/>
+      <mdb-input label="Your ssn (YYYYMMDD-XXXX)" v-model="ssn" icon="exclamation-triangle" type="text" required/>
       <mdb-input label="Your email" v-model="email" icon="envelope" type="email" required/>
       <mdb-input label="Confirm your email" icon="exclamation-triangle" type="text" required/>
       <mdb-input label="Your password" v-model="password" icon="lock" type="password" required/>
