@@ -48,7 +48,7 @@ exports.addUser = async function addUser(name, email, password) {
   const validatedName = validateAuth.validateName(name);
   const validatedEmail = validateAuth.validateEmail(email);
   const validatedPassword = validateAuth.validatePassword(password);
-  const result = await userCollection.insertOne({ name: validatedName, email: validatedEmail, password: validatedPassword, role: 'applicant' });
+  const result = await userCollection.insertOne({ name: validatedName, email: validatedEmail, password: validatedPassword, role: 'user' });
   return result.ops[0]._id;
 }
 /**

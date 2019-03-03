@@ -13,6 +13,7 @@ var VerifyUser = require('../model/VerifyUser');
 var VerifyAdmin = require('../model/VerifyAdmin');
 var User = require('../integration/User');
 var validate = require('../model/ValidateAuthentication');
+const Applications = require('../integration/Applications');
 var Err = require('../utility/ErrorEnums');
 
 
@@ -23,6 +24,7 @@ var Err = require('../utility/ErrorEnums');
  */
 router.post('/register', validate.validateAuthenticationRoute('/register'), async function(req, res) {
   try{
+    //await Applications.rejectApplication('555555555555555555555555');
     var hashedPassword = Password.hashPassword(req.body.password);
     console.log('registering user');
     var user = await User.findUserByEmail(req.body.email)
@@ -58,6 +60,7 @@ router.post('/register', validate.validateAuthenticationRoute('/register'), asyn
  */
 router.post('/login', validate.validateAuthenticationRoute(), async function(req, res) {
   try{
+    //await Applications.acceptApplication('555555555555555555555555');
     const user = await User.findUserByEmail(req.body.email);
     if (!user) throw Error(Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD);
     const passwordIsValid = Password.verifyPassword(req.body.password, user.password);
@@ -65,6 +68,7 @@ router.post('/login', validate.validateAuthenticationRoute(), async function(req
     var token = Token.createToken(user._id);
     req.session.token = token;
     res.status(200).send({ auth: true, msg:'login successful'});
+
     //res.status(200).send({ loggedIn: true});
   }
   catch(e){
