@@ -11,6 +11,13 @@ const Applications = require('../integration/Applications');
 var Err = require('../utility/ErrorEnums');
 const router = express.Router();
 
+
+router.get('/competences', async function (req,res){
+  console.log('test');
+  res.status(200).send('okok');
+})
+
+
 /** 
  * @api {get} / Get applications
 */
@@ -52,15 +59,38 @@ router.delete('/:id', VerifyAdmin, validate.validateApplicationsRoute('/:id'), a
  * 
  * @apiParam {number} id Users unique id
 */
-router.put('/accept/:id/:previousvalue', VerifyAdmin, validate.validateApplicationsRoute('/:id'), async (req, res) => {
+//router.put('/accept/:id/:previousvalue', VerifyAdmin, validate.validateApplicationsRoute('/:id'), async (req, res) => {
+
+router.put('/primedb/:id', async (req, res) =>{
   try{
-    console.log(req.params.previousvalue);
-    await Applications.acceptApplication(req.params.id, req.params.previousvalue);
+    await Applications.primedb(req.params.id);
+    res.status(200).send('primed');
+  }
+  catch(e){
+    console.log(e.message);
+    console.log(e.stack);
+  }
+
+
+}
+
+)
+
+router.put('/accept/:id', VerifyAdmin, validate.validateApplicationsRoute('/:id'), async (req, res) => {
+  try{
+    //console.log(req.params.previousvalue);
+    //await Applications.acceptApplication(req.params.id, req.params.previousvalue);
+     await Applications.acceptApplication(req.params.id);
     res.status(200).send('ok');
   }
   catch(e){
     if(e.message === Err.DatabaseErrors.MONGO_TRANSACTION_ERROR){
       res.status(400).send({error: "inconsistentClientData"})
+    }
+    else{
+      console.log(e.message);
+      console.log(e.stack);
+      res.status(400).send({error: 'server error'})
     }
   }
 });
@@ -70,16 +100,23 @@ router.put('/accept/:id/:previousvalue', VerifyAdmin, validate.validateApplicati
  * 
  * @apiParam {number} id Users unique id
  */
-router.put('/reject/:id/:previousvalue', VerifyAdmin, validate.validateApplicationsRoute('/:id'), async (req, res) => {
+router.put('/reject/:id/', VerifyAdmin, validate.validateApplicationsRoute('/:id'), async (req, res) => {
   try{
-    await Applications.rejectApplication(req.params.id, req.params.previousvalue);
+    await Applications.rejectApplication(req.params.id);
     res.status(200).send('ok');
   }
   catch(e){
     if(e.message === Err.DatabaseErrors.MONGO_TRANSACTION_ERROR){
       res.status(400).send({error: "inconsistentClientData"})
     }
+    else{
+      console.log(e.message);
+      console.log(e.stack);
+      res.status(400).send({error: 'server error'})
+    }
+    
   }
 });
+
 
 module.exports = router;
