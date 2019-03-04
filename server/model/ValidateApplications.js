@@ -44,7 +44,6 @@ const validateId = function (id) {
 exports.validateId = validateId;
 
 
-
 const validateStatus = function(status){
   if(status === undefined){
     return 'undefined';
@@ -61,6 +60,7 @@ exports.validateStatus = validateStatus;
  * Function that validates the given competences. Throwing an error if validation fails. 
  * @param competences The competences that are to be validated
  */
+
 const validateCompetences = function (competences) {
   assert.strictEqual(true, Array.isArray(competences), Err.ValidationErrors.INVALID_FORMAT_COMPETENCE);
   for (let comp of competences) {
@@ -95,7 +95,6 @@ const validateAvailability = function (availability) {
 exports.validateAvailability = validateAvailability;
 
 
-
 const validateTimestamp = function(timestamp){
   const filteredTimestamp = xssFilters.inHTMLData(timestamp);
   options = {strict: true};
@@ -103,6 +102,7 @@ const validateTimestamp = function(timestamp){
   return filteredTimestamp; 
 }
 exports.validateTimestamp = validateTimestamp; 
+
 
 /**
  * Middleware that verifies that the request data from the user to a route in /api/applications is valid.

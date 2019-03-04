@@ -6,7 +6,6 @@ const Err = require('../utility/ErrorEnums');
 const timeStamp = require('../utility/Timestamp');
 const delayfunction = require('../utility/DelayFunction');
 
-
 /** Module that acts as an interface to the database allowing different queries related to users in the database. 
  * @module Applications
  */
@@ -26,6 +25,7 @@ exports.findApplicationWithId = async function findApplicationWithId(id) {
   const applications = await db.loadUsersCollection();
   return await applications.find({ _id: new ObjectId(validatedId) }, { projection: { role: 0, password: 0, username: 0 } }).toArray();
 } 
+
 
 
 /**
@@ -61,13 +61,11 @@ exports.deleteApplication = async function deleteApplication(id) {
   await applications.updateOne({ _id: new ObjectId(validatedId) }, { $unset: { competences: 1, availability: 1, status: 1 } }, { upsert: true });
 }
 
-
-
-
 /**
  * Accept the given application
  * @param id The user id of the application that is to be accepted.
  */
+
 exports.acceptApplication = async function acceptApplication(id, timestamp) {
   const session = await db.startSession();
   const applications =  await db.loadUsersCollection();
@@ -148,6 +146,7 @@ exports.primedb = async function primedb(id){
   await applications.updateOne({ _id: new ObjectId(id) }, { $set: { timestamp: testTimestamp } }, { upsert: true });
   console.log('db primed'); 
 }
+
 
 
 
