@@ -59,7 +59,6 @@ router.delete('/:id', VerifyAdmin, validate.validateApplicationsRoute('/:id'), a
  * 
  * @apiParam {number} id Users unique id
 */
-//router.put('/accept/:id/:previousvalue', VerifyAdmin, validate.validateApplicationsRoute('/:id'), async (req, res) => {
 
 router.put('/primedb/:id', async (req, res) =>{
   try{
