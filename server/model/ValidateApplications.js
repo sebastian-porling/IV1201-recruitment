@@ -94,6 +94,16 @@ const validateAvailability = function (availability) {
 
 exports.validateAvailability = validateAvailability;
 
+
+
+const validateTimestamp = function(timestamp){
+  const filteredTimestamp = xssFilters.inHTMLData(timestamp);
+  options = {strict: true};
+  assert.strictEqual(true, validator.isISO8601(filteredTimestamp, options), Err.ValidationErrors.INVALID_FORMAT_TIMESTAMP);
+  return filteredTimestamp; 
+}
+exports.validateTimestamp = validateTimestamp; 
+
 /**
  * Middleware that verifies that the request data from the user to a route in /api/applications is valid.
  * @param route Parameter that is used to decide the type of validation that should be undertaken.  
@@ -102,7 +112,6 @@ exports.validateAvailability = validateAvailability;
  * @param next The next middleware that should be called if validation is successful 
  * @returns HTTP response if error occured else nothing
  */
-
 exports.validateApplicationsRoute = function validateApplicationsRoute(route) {
   return async function (req, res, next) {
     try {
@@ -110,7 +119,11 @@ exports.validateApplicationsRoute = function validateApplicationsRoute(route) {
         //Validate id from params
         req.params.id = validateId(req.params.id);
       }
-      if (route === 'post/') {
+      else if(route === '/:id/:timestamp'){
+        req.params.id = validateId(req.params.id);
+        req.params.timestamp = validateTimestamp(req.params.timestamp);
+      }
+      else if (route === 'post/') {
         //Validate id from body
         req.body.id = validateId(req.body.id);
         validateCompetences(req.body.competences);
@@ -142,7 +155,11 @@ exports.validateApplicationsRoute = function validateApplicationsRoute(route) {
           console.log(e.name + ': ' + e.message);
           console.log('Invalid: ' + ajv.errorsText(validateAvailability.errors));
           return res.status(400).send({ error: 'availability has invalid format' });
-        //return res.status(400).send({error: Err.ValidationErrors.INVALID_FORMAT_AVAILABILITY});              
+        //return res.status(400).send({error: Err.ValidationErrors.INVALID_FORMAT_AVAILABILITY});  
+        case Err.ValidationErrors.INVALID_FORMAT_TIMESTAMP:
+          console.log('timestamp has invalid format');
+          return res.status(400).send({error: 'timestamp has invalid format'})
+
 
         default:
           console.log(e.name + ': ' + e.message);
