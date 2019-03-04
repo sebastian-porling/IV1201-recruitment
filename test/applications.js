@@ -8,7 +8,6 @@ let chaiHttp = require('chai-http');
 let should = chai.should();
 
 chai.use(chaiHttp);
-
 /**
  * Test for the Application REST API.
  */
