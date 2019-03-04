@@ -23,19 +23,14 @@ var Err = require('../utility/ErrorEnums');
  */
 router.post('/register', validate.validateAuthenticationRoute('/register'), async function(req, res) {
   try{
-    //await Applications.rejectApplication('555555555555555555555555');
     var hashedPassword = Password.hashPassword(req.body.password);
     console.log('registering user');
-    var user = await User.findUserByEmail(req.body.email)
-    if (user) throw Error(Err.AuthenticationErrors.EMAIL_TAKEN);
-    else{
-      const userId = await User.addUser(req.body.name, req.body.email, hashedPassword);
-      console.log('new user created ');
-      var token = Token.createToken(userId);
-      req.session.token = token;
-      res.status(200).send({ registered: true, msg:'Registration successful'});
-      //res.status(200).send({ registered: true});
-    }          
+    const userId = await User.addUser(req.body.name, req.body.email, hashedPassword);
+    console.log('new user created ');
+    var token = Token.createToken(userId);
+    req.session.token = token;
+    res.status(200).send({ registered: true, msg:'Registration successful'});
+    //res.status(200).send({ registered: true});         
   }
   catch(e){
     console.log(typeof(e.message))
@@ -44,6 +39,9 @@ router.post('/register', validate.validateAuthenticationRoute('/register'), asyn
         console.log('Email already taken');
         //return res.status(400).send({error: Err.AuthenticationErrors.EMAIL_TAKEN});
         return res.status(400).send({error: 'Email already taken'});
+      case  Err.DatabaseErrors.MONGO_WRITE_TRANSACTION_ERROR:
+          return res.status(400).send({error: "writeTransactionError"})
+        
       default:
         console.log(e.name +': ' + e.message);
         console.log(e.stack)

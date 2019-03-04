@@ -13,61 +13,6 @@ const maxAge = 43200000; //12 hours (time in miliseconds)
 
 const app = express();
 
-
-const mongodb = require('mongodb');
-async function transactionTest(){
-  try{
-  const client = await mongodb.MongoClient.connect('mongodb://localhost:27017/recruitment/admin?replicaSet=rs0', {
-    useNewUrlParser: true, replicaSet: 'rs0'
-  });
-  const db = await client.db('recruitment').collection('test');
-  //await db.drop();
-  await db.insertOne({trx : 0});
-  }
-  catch(e){
-    console.log(e.message);
-    console.log(e.stack);
-  }
-//   //const client = await mongodb.MongoClient.connect('mongodb://localhost:27017/recruitment/admin?replicaSet=rs0', {
-//     const client = await mongodb.MongoClient.connect('mongodb://localhost:27017/?replicaSet=rs0"', {
-//   useNewUrlParser: true, replicaSet: 'rs0'
-  
-// });
-
-// const db = await client.db('recruitment').collection('person');
-
-// // drop and recreate person collection with 2 documents _id 1, 2
-// await db.drop();
-// await db.insertOne({"_id": 1, "fname": "fname-1", "lname": "lname-1"});
-// await db.insertOne({"_id": 2, "fname": "fname-2", "lname": "lname-2"});
-
-// var session1 = await client.startSession();
-// //var session1PersonColl = session1.getDatabase('test').getCollection('person');
-// //await session1.startTransaction({readConcern: {level: 'snapshot'}, writeConcern: {w: 'majority'}});
-// await session1.startTransaction();
-
-// await db.insertOne({"_id": 3, "fname": "fname-3", "lname": "lname-3"}, {session1});
-
-// console.log(await db.find().toArray());
-// console.log('\n\n');
-
-
-// // notice that the insert on session1 is only visible to it.
-// console.log(await db.find({},{session1}).toArray());
-// console.log('\n\n');
-// // commit and end the session
-// session1.commitTransaction()
-// session1.endSession()
-
-// // show the documents after committing the transaction
-// console.log(await db.find().toArray());
-// console.log('\n\n');
-
-
-
-}
-
-
 /**
  *  All code for routes etc should be in this function 
  */
@@ -75,7 +20,7 @@ async function init() {
 
   try {
 
-    const dbUrl = process.env.MONGOLAB_URI || 'mongodb://IV1201:IV1201@ds119993.mlab.com:19993/recruitment';
+    const dbUrl = process.env.MONGOLAB_URI || 'mongodb://IV1201:IV1201@recruitment-shard-00-00-gxbqo.mongodb.net:27017,recruitment-shard-00-01-gxbqo.mongodb.net:27017,recruitment-shard-00-02-gxbqo.mongodb.net:27017/test?ssl=true&replicaSet=recruitment-shard-0&authSource=admin&retryWrites=true';
     const dbName = 'recruitment';
     const client = new MongoClient(dbUrl, { useNewUrlParser: true });
     connection = await client.connect();
@@ -117,5 +62,5 @@ async function init() {
 
 }
 
-transactionTest();
 init();
+

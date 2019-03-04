@@ -76,16 +76,17 @@ router.put('/primedb/:id', async (req, res) =>{
 
 )
 
-router.put('/accept/:id', VerifyAdmin, validate.validateApplicationsRoute('/:id'), async (req, res) => {
+router.put('/accept/:id/:timestamp', VerifyAdmin, validate.validateApplicationsRoute('/:id/:timestamp'), async (req, res) => {
   try{
-    //console.log(req.params.previousvalue);
-    //await Applications.acceptApplication(req.params.id, req.params.previousvalue);
-     await Applications.acceptApplication(req.params.id);
+     await Applications.acceptApplication(req.params.id, req.params.timestamp);
     res.status(200).send('ok');
   }
   catch(e){
-    if(e.message === Err.DatabaseErrors.MONGO_TRANSACTION_ERROR){
-      res.status(400).send({error: "inconsistentClientData"})
+    if(e.message === Err.DatabaseErrors.MONGO_WRITE_TRANSACTION_ERROR){
+      res.status(400).send({error: "writeTransactionError"})
+    }
+    else if(e.message === Err.DatabaseErrors.UPDATE_UNSUCCESSFUL){
+      res.status(400).send({error: "clientDataOutdated"});
     }
     else{
       console.log(e.message);
@@ -100,14 +101,17 @@ router.put('/accept/:id', VerifyAdmin, validate.validateApplicationsRoute('/:id'
  * 
  * @apiParam {number} id Users unique id
  */
-router.put('/reject/:id/', VerifyAdmin, validate.validateApplicationsRoute('/:id'), async (req, res) => {
+router.put('/reject/:id/:timestamp', VerifyAdmin, validate.validateApplicationsRoute('/:id/:timestamp'), async (req, res) => {
   try{
-    await Applications.rejectApplication(req.params.id);
+    await Applications.rejectApplication(req.params.id, req.params.timestamp);
     res.status(200).send('ok');
   }
   catch(e){
-    if(e.message === Err.DatabaseErrors.MONGO_TRANSACTION_ERROR){
-      res.status(400).send({error: "inconsistentClientData"})
+    if(e.message === Err.DatabaseErrors.MONGO_WRITE_TRANSACTION_ERROR){
+      res.status(400).send({error: "writeTransactionError"})
+    }
+    else if(e.message === Err.DatabaseErrors.UPDATE_UNSUCCESSFUL){
+      res.status(400).send({error: "clientDataOutdated"});
     }
     else{
       console.log(e.message);
