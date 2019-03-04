@@ -10,9 +10,6 @@ const delayfunction = require('../utility/DelayFunction');
  * @module Applications
  */
 
-const db = require('./db');
-var ObjectId = require('mongodb').ObjectID;
-const validateApp = require('../model/ValidateApplications');
 
 
 /**
