@@ -9,7 +9,7 @@
       <span class="sr-only">Loading...</span>
     </div>
     <h1> Welcome {{user.name}}!</h1>
-    <mdb-btn color="warning" @click.native="modal = true">Edit profile</mdb-btn>
+    <mdb-btn color="warning" disabled>Edit profile</mdb-btn>
     <mdb-btn
       v-bind:class="{'is-collapsed' : applicationExists }"
       color="warning"
@@ -20,19 +20,6 @@
       color="warning"
       @click.native="modal = true"
     >Edit application</mdb-btn>
-    <mdb-card v-bind:class="{'is-collapsed' : !applicationExists }" color="warning">
-      <mdb-card-image
-        src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%282%29.jpg"
-        alt="Card image cap"
-        waves
-      ></mdb-card-image>
-      <mdb-card-body>
-        <mdb-card-title>Card with waves effect</mdb-card-title>
-        <mdb-card-text>Some quick example text to build on the card title and make up the bulk of the card's content.</mdb-card-text>
-        <mdb-btn color="primary">Button</mdb-btn>
-      </mdb-card-body>
-    </mdb-card>
-    {{application}}
     <MakeApplicationComponent v-bind:class="{'is-collapsed' : !modal}" v-model="modal"/>
     </mdb-container>
 </template>
@@ -41,12 +28,7 @@
 import {
   
   mdbContainer,
-  mdbCard,
-  mdbCardBody,
-  mdbCardText,
   mdbBtn,
-  mdbCardImage,
-  mdbCardTitle,
   
 } from "mdbvue";
 import MakeApplicationComponent from './MakeApplicationComponent.vue'
@@ -57,19 +39,15 @@ export default {
   components: {
     MakeApplicationComponent,
     mdbContainer,
-    mdbCard,
-    mdbCardBody,
-    mdbCardText,
     mdbBtn,
-    mdbCardImage,
-    mdbCardTitle,
   },
   data() {
     return {
       application: null,
       applicationExists: false,
       hidden: false,
-      modal: false
+      modal: false,
+      status: null
     };
   },
   computed: {
@@ -82,9 +60,10 @@ export default {
     await ApplicationService.get()
       .then(data => {
         this.hidden = true;
-        if (data.length != 0) {
+        if (data.status != null) {
           this.application = data;
           this.applicationExists = true;
+          this.status = data.status;
         }
       })
       .catch(error => {

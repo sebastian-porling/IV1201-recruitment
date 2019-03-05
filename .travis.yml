@@ -18,4 +18,4 @@ deploy:
   app: recruitement-application
   on: 
     repo: sebastian-porling/IV1201-recruitment
-    branch: test/init-acceptance-test
+    all_branches: true

@@ -20,9 +20,9 @@ class ApplicationService{
 					}
 				});
 			} else {
-				res =  await axios.get(url + '/');
+				res =  await axios.get(url);
 			}
-			return res.data;
+			return res.data[0];
 		} catch (error) {
 			throw error;
 		}

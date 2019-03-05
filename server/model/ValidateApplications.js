@@ -22,8 +22,8 @@ var availabilitySchema = {
   "maxProperties": 2,
   "minProperties": 2,
   "properties": {
-    "from_date": { "type": "string", "format": "date-time" },
-    "to_date": { "type": "string", "format": "date-time" }
+    "from_date": { "type": "string", "format": "date" },
+    "to_date": { "type": "string", "format": "date" }
   }
 };
 var validateComp = ajv.compile(competenceSchema);
@@ -36,7 +36,6 @@ var validateAvail = ajv.compile(availabilitySchema);
  */
 const validateId = function (id) {
   var filteredId = xssFilters.inHTMLData(id);
-  console.log(id + "?");
   assert.strictEqual(id, filteredId, Err.ValidationErrors.INVALID_FORMAT_ID);
   assert.strictEqual(true, validator.isHexadecimal(filteredId), Err.ValidationErrors.INVALID_FORMAT_ID);
   assert.strictEqual(true, validator.isByteLength(filteredId, { min: 24, max: 24 }), Err.ValidationErrors.INVALID_FORMAT_ID);
@@ -82,6 +81,7 @@ exports.validateCompetences = validateCompetences;
 const validateAvailability = function (availability) {
   assert.strictEqual(true, Array.isArray(availability), Err.ValidationErrors.INVALID_FORMAT_AVAILABILITY);
   for (let avail of availability) {
+
     assert.strictEqual(true, validateAvail(avail), Err.ValidationErrors.INVALID_FORMAT_AVAILABILITY);
     var from_date = xssFilters.inHTMLData(avail.from_date);
     var to_date = xssFilters.inHTMLData(avail.to_date);
@@ -126,7 +126,7 @@ exports.validateApplicationsRoute = function validateApplicationsRoute(route) {
       }
       else if (route === 'post/') {
         //Validate id from body
-        req.body.id = validateId(req.body.id);
+        req.body.id = validateId(req.userId);
         validateCompetences(req.body.competences);
         validateAvailability(req.body.availability);
       }
