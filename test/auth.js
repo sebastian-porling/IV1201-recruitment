@@ -27,7 +27,6 @@ describe('Auth', function () {
         .post('/auth/login')
         .send(user)
         .end((err, res) => {
-
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('auth');
@@ -221,6 +220,41 @@ describe('Auth', function () {
      * Not implemented yet, because we don't have any way of removing users.
      */
     it('should register ', (done) => {
+      /*const registerUser = {
+        email: "test@test.com",
+        password: "testtest",
+        name: "test",
+        surname: "test",
+        ssn: "19990101-2931"
+      }
+      const userCredentials = {
+        email: "test@test.com",
+        password: "testtest"
+      }
+      chai.request('http://127.0.0.1:5000')
+      .post('/auth/register')
+      .send(registerUser)
+      .end((err, res) => {
+        
+        res.should.have.status(200);
+        console.log("registers");
+      });
+      //now let's login the user before we run any tests
+      var authenticatedUser = chai.request.agent('http://127.0.0.1:5000');
+      authenticatedUser
+      .post('/auth/login')
+      .send(userCredentials)
+      .end((err, res) => {
+        console.log("logs in");
+        res.should.have.status(200);
+      });
+      authenticatedUser
+      .delete('/auth/deleteuser/' + userCredentials.password)
+      .end((err, res) => {
+        console.log("deletes user");
+        res.should.have.status(200);
+        done();
+      });*/
       done();
     });
   });
