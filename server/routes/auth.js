@@ -97,11 +97,7 @@ router.post('/loginadmin', validate.validateAuthenticationRoute('/loginadmin'), 
     const passwordIsValid = Password.verifyPassword(req.body.password, admin.password);
     if (!passwordIsValid) throw Error(Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD);
     var token = Token.createToken(admin._id);
-<<<<<<< HEAD
     req.session.token = token;
-=======
-    //req.session.token = token;
->>>>>>> Added adminloginComponent
     res.status(200).send({ auth: true, msg:'admin login successful', admin: admin, token: token});
     //res.status(200).send({ loggedIn: true});
   }
