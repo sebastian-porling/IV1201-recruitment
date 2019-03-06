@@ -52,14 +52,39 @@
         </tr>
       </mdb-tbl-body>
     </mdb-tbl> -->
-    <span>Application: {{ application }}</span>
-   <li v-for="app in application" v-bind:value="app" v-bind:key="app._id">
+    <!-- <span>Application: {{ application }}</span> -->
 
+   <div v-for="app in application" v-bind:value="app" v-bind:key="app._id">
+
+    
     <div>
-      
-      {{ app}}
+      <div>id: {{app._id}} </div>
+      <span> Name: {{app.name}},  </span>
+      <span> Surname: {{app.surname}} </span>
+       <div>Availabilities </div>
+      <div v-for="date in app.availability" v-bind:value="date" v-bind:key="date.from">  
+        <div> From: {{date.from_date}} </div>
+        <div> To: {{date.to_date}} </div>
+      </div>
+      <div> Competences </div>
+      <div v-for="competence in app.competences" v-bind:value="competence" v-bind:key="competence.competence">  
+        <div> Competence: {{competence.competence}} </div>
+        <div> Years of experience: {{competence.years_of_experience}} </div>
+      </div>
+      <div>Status: {{app.status}} </div>
     </div>
-  </li>
+     <div v-if="app.status !=='rejected' && app.status !=='approved'">
+        <mdb-btn color="success">Success</mdb-btn>
+        <mdb-btn color="danger">Danger</mdb-btn>
+      </div>
+      <div v-else>
+        <mdb-btn class=grayed-out-button >Success</mdb-btn>
+        <mdb-btn class=grayed-out-button >Danger</mdb-btn>
+</div>
+
+   
+   
+  </div>
   <!-- <mdb-accordion :panes="panes"/> -->
   </mdbContainer>
 
@@ -70,27 +95,19 @@
 
 <script>
 import {
- mdbTbl, 
- mdbTblHead, 
- mdbTblBody,
  mdbContainer,
- mdbBtn,
-  mdbAccordion
+ mdbBtn
   
 } from "mdbvue";
-import MakeApplicationComponent from './MakeApplicationComponent.vue'
-import { mapState } from "vuex";
+//import MakeApplicationComponent from './MakeApplicationComponent.vue'
+//import { mapState } from "vuex";
 import ApplicationService from "../services/ApplicationService.js";
 export default {
   name: "AdminProfileComponent",
   components: {
-    MakeApplicationComponent,
+    //MakeApplicationComponent,
     mdbContainer,
     mdbBtn,
-    mdbTbl,
-    mdbTblHead, 
-    mdbTblBody,
-     mdbAccordion
   },
   data() {
     return {
@@ -132,6 +149,10 @@ export default {
 </script>
 
 <style scoped>
+.grayed-out-button{
+  color: rgba(211, 211, 211, 0.76)
+}
+
 .card img {
   width: 100%;
 }

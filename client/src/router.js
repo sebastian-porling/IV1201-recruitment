@@ -69,7 +69,7 @@ router.beforeEach( async(to, from, next) => {
     next();
   } else {
     if(!loggedIn){
-      router.push('/login');
+      //router.push('/login');
     }
     if (to.path == '/user' && loggedIn && role != 'applicant') {
       store.dispatch('logout');
