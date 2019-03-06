@@ -37,6 +37,7 @@ import {
 import MakeApplicationComponent from './MakeApplicationComponent.vue'
 import { mapState, mapActions } from "vuex";
 import ApplicationService from "../services/ApplicationService.js";
+import { constants } from 'fs';
 export default {
   name: "UserProfileComponent",
   components: {
@@ -68,15 +69,16 @@ export default {
      *  Will logout and redirect user if it is not authorized. (No or old token)
 		 */	
     await ApplicationService.get()
-      .then(data => {
+      .then((data) => {
         this.hidden = true;
-        if (data.status != null) {
+        if (data != undefined) {
           this.application = data;
           this.applicationExists = true;
           this.status = data.status;
         }
       })
       .catch(error => {
+        console.log(error);
         this.logout();
         this.$router.push('/login');
       })

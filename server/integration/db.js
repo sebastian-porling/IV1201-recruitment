@@ -2,10 +2,10 @@
  * @module db
  */
 const mongodb = require('mongodb');
-/*const retry = require('../utility/Retry')
+const retry = require('../utility/Retry')
 const MAX_RETRIES = 5;
 const MONGO_NETWORK_ERROR = 'MongoNetworkError'
-const ERROR_MESSAGE = 'failed to connect to server'*/
+const ERROR_MESSAGE = 'failed to connect to server'
 
 /**
  * Loads the user collection
@@ -50,8 +50,6 @@ exports.startSession = async function startSession(){
     return client.startSession({ readPreference: { mode: "primary" } });
   }
   return await retry(fn, MAX_RETRIES, MONGO_NETWORK_ERROR, ERROR_MESSAGE);
-
-
 }
 
 exports.getClient = async function getClient(){
@@ -65,8 +63,6 @@ exports.getClient = async function getClient(){
 
   }
   return await retry(fn, MAX_RETRIES, MONGO_NETWORK_ERROR, ERROR_MESSAGE);
-
-
 }
 
 
