@@ -4,19 +4,23 @@
     <!-- Navbar brand -->
     <mdb-navbar-toggler class="middle">
       <mdb-navbar-brand>Recruitment</mdb-navbar-brand>
+      
       <mdb-navbar-nav>
-        <mdb-nav-item to="/" active>Home</mdb-nav-item>
-        <mdb-nav-item to="/login">Login</mdb-nav-item>
-        <mdb-nav-item to="/register">Register</mdb-nav-item>
+        <mdb-nav-item to="/">Home</mdb-nav-item>
+        <mdb-nav-item to="/user" v-if="loggedIn">{{this.user.name}}</mdb-nav-item>
+        <mdb-nav-item to="/login" v-if="!loggedIn">Login</mdb-nav-item>
+        <mdb-nav-item to="/register" v-if="!loggedIn">Register</mdb-nav-item>
+        <mdb-nav-item to="/loginadmin" v-if="!loggedIn">Recruiter Login</mdb-nav-item>
       </mdb-navbar-nav>
       {{msgFromServer}}
-      <mdb-btn v-on:click="logoutApi()">Logout</mdb-btn>
+      <mdb-btn v-on:click="logoutApi()" v-if="loggedIn">Logout</mdb-btn>
     </mdb-navbar-toggler>
   </mdb-navbar>
 </template>
 
 <script>
-import AuthServices from "../AuthServices";
+import AuthServices from "../services/AuthServices";
+import {mapState, mapActions} from 'vuex'
 import {
   mdbNavbar,
   mdbNavItem,
@@ -36,6 +40,12 @@ export default {
       msgFromServer: ""
     };
   },
+  computed: {
+    ...mapState(['user']),
+    loggedIn() {
+      return this.user.name !== null;
+    },
+  },
   /**
    * Components needed for this module.
    */
@@ -51,14 +61,21 @@ export default {
     /**
      * Will change the variable msgFromServer when called.
      */
+    ...mapActions({
+      logout: 'logout'
+    }),
     async logoutApi() {
-      this.msgFromServer = await AuthServices.logout();
+      await AuthServices.logout().then((msg) => {
+        this.msgFromServer = msg;
+        this.logout();
+        this.$router.push('/');
+      });
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 /* Sets width of the navbar */
 #header {
   max-width: 900px;
@@ -66,7 +83,8 @@ export default {
 }
 @media screen and (min-width: 992px) {
   .middle {
-    display: inline-block;
+    display: block;
+    min-width: 900px;
     margin-left: 50%;
     transform: translateX(-50%);
   }

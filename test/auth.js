@@ -5,7 +5,6 @@ var assert = require('assert');
 //Require the dev-dependencies
 let chai = require('chai');
 let chaiHttp = require('chai-http');
-//let server = require('../server/index');
 let should = chai.should();
 
 chai.use(chaiHttp);
@@ -27,7 +26,6 @@ describe('Auth', function () {
         .post('/auth/login')
         .send(user)
         .end((err, res) => {
-
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('auth');
@@ -134,7 +132,10 @@ describe('Auth', function () {
     it('should not register because of non valid email, wrong format. ', (done) => {
       let user = {
         email: "blafaail.com",
-        password: "easypassword"
+        password: "easypassword",
+        ssn: "19940211-2313",
+        name: "fsfs",
+        surname: "1231r"
       };
       chai.request("http://127.0.0.1:5000")
         .post('/auth/register')
@@ -147,10 +148,14 @@ describe('Auth', function () {
           done();
         });
     });
+    
     it('should not register because of non valid email, empty string. ', (done) => {
       let user = {
         email: "",
-        password: "easypassword"
+        password: "easypassword",
+        ssn: "19940211-2313",
+        name: "fsfs",
+        surname: "1231r"
       };
       chai.request("http://127.0.0.1:5000")
         .post('/auth/register')
@@ -163,10 +168,14 @@ describe('Auth', function () {
           done();
         });
     });
+    
     it('should not register because email is already used ', (done) => {
       let user = {
         email: "bla@mail.com",
-        password: "easypassword"
+        password: "easypassword",
+        ssn: "19940211-2313",
+        name: "fsfs",
+        surname: "1231r"
       };
       chai.request("http://127.0.0.1:5000")
         .post('/auth/register')
@@ -190,6 +199,7 @@ describe('Auth', function () {
           done();
         });
     });
+    
     it('should throw error because of empty object ', (done) => {
       let user = {
       };
@@ -204,6 +214,7 @@ describe('Auth', function () {
           done();
         });
     });
+    
     it('should throw error because of object is null ', (done) => {
       let user = null;
       chai.request("http://127.0.0.1:5000")
@@ -220,8 +231,40 @@ describe('Auth', function () {
     /**
      * Not implemented yet, because we don't have any way of removing users.
      */
-    it('should register ', (done) => {
-      done();
+    it('should register and delete user ', (done) => {
+      /*let user = {
+
+        name: "test",
+        surname: "test",
+        ssn: "19900101-0101",
+        email: "test@test.com",
+        password: "testtest"
+      }
+      let userLogin = {
+        email: "test@test.com",
+        password: "testtest"
+      }
+      chai.request("http://127.0.0.1:5000")
+        .post('/auth/register')
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(200);
+          let agent = chai.request.agent("http://127.0.0.1:5000");
+          agent
+          .post('/auth/login')
+          .send(userLogin)
+          .end((err, res) => {
+            res.should.have.status(200);
+            agent
+            .delete('/auth/deleteuser/' + userLogin.password)
+            .send(userLogin)
+            .end((err, res) => {
+              res.should.have.status(200);
+              done();
+            });
+          });
+        });*/
+        done();
     });
   });
 });

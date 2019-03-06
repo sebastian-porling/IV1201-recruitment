@@ -40,19 +40,11 @@ Scenario('Click on register', (I) => {
   I.click('Register');
   I.seeInCurrentUrl('/register')
   I.see('Sign up');
-  I.see('Your name');
+  I.see('Your first name');
+  I.see('Your surname');
+  I.see("Your ssn (YYYYMMDD-XXXX)");
   I.see('Your email');
   I.see('Confirm your email');
   I.see('Your password');
   I.see('REGISTER');
-});
-
-/**
- * Test if the logout button gives us message
- */
-Scenario('Click on logout', (I) => {
-  I.amOnPage('/');
-  I.click(locate('.navbar-toggler-icon'));
-  I.click('Logout');
-  // Implement so we can see that we have been logged out.
 });

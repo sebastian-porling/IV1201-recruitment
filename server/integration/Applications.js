@@ -4,7 +4,7 @@ var ObjectId = require('mongodb').ObjectID;
 const validateApp = require('../model/ValidateApplications');
 const Err = require('../utility/ErrorEnums');
 const timeStamp = require('../utility/Timestamp');
-const delayfunction = require('../utility/DelayFunction');
+//const delayfunction = require('../utility/DelayFunction');
 
 /** Module that acts as an interface to the database allowing different queries related to users in the database. 
  * @module Applications
@@ -20,10 +20,10 @@ const delayfunction = require('../utility/DelayFunction');
 exports.findApplicationWithId = async function findApplicationWithId(id) {
   const validatedId = validateApp.validateId(id);
   const applications = await db.loadUsersCollection();
-  return await applications.find({ _id: new ObjectId(validatedId) }, { projection: { role: 0, password: 0, username: 0 } }).toArray();
-} 
-
-
+  
+  return await applications.find({ _id: new ObjectId(validatedId), competences: {$exists: true}, availability: {$exists: true} }, { projection: { role: 0, password: 0, username: 0 } }).toArray();
+  //Need to check that application isnt empty when we get it!!!!!!!!!!!!!!!!!
+}
 
 /**
  * Finds all applications stored in the database
@@ -45,7 +45,21 @@ exports.createApplication = async function createApplication(id, competences, av
   validateApp.validateCompetences(competences);
   validateApp.validateAvailability(availability);
   const applications = await db.loadUsersCollection();
-  await applications.updateOne({ _id: new ObjectId(validatedId) }, { $set: { competences: competences, availability: availability } }, { upsert: true });
+  await applications.updateOne({ _id: new ObjectId(validatedId) }, { $set: { competences: competences, availability: availability, status: 'unhandled' } }, { upsert: true });
+}
+
+/**
+ * Updates an application for the given user id.
+ * @param id The user id of the new application
+ * @param competences The given users comptences
+ * @param availability The time periods when the user is available 
+ */
+exports.updatepplication = async function updateApplication(id, competences, availability) {
+  const validatedId = validateApp.validateId(id);
+  validateApp.validateCompetences(competences);
+  validateApp.validateAvailability(availability);
+  const applications = await db.loadUsersCollection();
+  await applications.updateOne({ _id: new ObjectId(validatedId) }, { $set: { competences: competences, availability: availability, status: 'unhandled' } }, { upsert: true });
 }
 
 /** 
@@ -98,7 +112,10 @@ exports.acceptApplication = async function acceptApplication(id, timestamp) {
   }
 
 }
-
+/**
+ * Reject the given application
+ * @param id The user id of the application thay is to rejected
+ */
 exports.rejectApplication = async function rejectApplication(id, timestamp) {
   const session = await db.startSession();
   const applications =  await db.loadUsersCollection();
@@ -132,8 +149,15 @@ exports.rejectApplication = async function rejectApplication(id, timestamp) {
       throw e
     }
     
-
   }
+}
+
+/**
+ * Get all the competences
+ */
+exports.getCompetences = async function getCompetences() {
+  const competences = await db.loadCompetenceCollection();
+  return await competences.find({}).toArray();
 }
 
 
@@ -143,7 +167,4 @@ exports.primedb = async function primedb(id){
   await applications.updateOne({ _id: new ObjectId(id) }, { $set: { timestamp: testTimestamp } }, { upsert: true });
   console.log('db primed'); 
 }
-
-
-
 
