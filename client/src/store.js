@@ -4,11 +4,17 @@ import VuexPersist from 'vuex-persist'
 
 Vue.use(Vuex);
 
+/**
+ * Makes an instance of VuexPersist.
+ */
 const vuexLocalStorage = new VuexPersist({
   key: 'vuex-persistance',
   storage: window.localStorage
 });
 
+/**
+ * Makes an instance of Vuex.
+ */
 const store = new Vuex.Store({
 	plugins: [vuexLocalStorage.plugin],
 	state: {

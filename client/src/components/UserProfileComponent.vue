@@ -1,3 +1,7 @@
+<!--  
+This component is the user page. Here the user will be able to 
+create, update applications. And update the user information.
+-->
 <template>
   <mdb-container>
     <div
@@ -26,7 +30,6 @@
 
 <script>
 import {
-  
   mdbContainer,
   mdbBtn,
   
@@ -52,11 +55,18 @@ export default {
   },
   computed: {
     ...mapState(["user"]),
+    /**
+		 *  @returns {Boolean} the state if the user is logged in or not.
+		 */	
     loggedIn() {
       return this.user.name !== null;
     }
   },
   async created() {
+    /**
+		 *  Gets the application data of the logged in user.
+     *  Will logout and redirect user if it is not authorized. (No or old token)
+		 */	
     await ApplicationService.get()
       .then(data => {
         this.hidden = true;

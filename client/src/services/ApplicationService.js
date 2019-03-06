@@ -7,8 +7,9 @@ const url = 'api/applications';
 class ApplicationService{
 
 	/**
-	 * 
-	 * @param {*} id 
+	 * Gets the logged in users application if id is not given.
+	 * Gets the application of the given id.
+	 * @param {Hex} id 
 	 */
 	static async get(id = null){
 		try {
@@ -29,7 +30,7 @@ class ApplicationService{
 	}
 
 	/**
-	 * 
+	 * Gets all the applications.
 	 */
 	static async getAll(){
 		try {
@@ -41,8 +42,8 @@ class ApplicationService{
 	}
 
 	/**
-	 * 
-	 * @param {*} id 
+	 * Rejects the given application
+	 * @param {Hex} id 
 	 */
 	static async reject(id){
 		try {
@@ -54,8 +55,8 @@ class ApplicationService{
 	}
 
 	/**
-	 * 
-	 * @param {*} id 
+	 * Accepts the given application
+	 * @param {Hex} id 
 	 */
 	static async accept(id){
 		try {
@@ -67,9 +68,9 @@ class ApplicationService{
 	}
 
 	/**
-	 * 
-	 * @param {*} competences 
-	 * @param {*} availability 
+	 * Creates an application.
+	 * @param {String, Integer} competences 
+	 * @param {Date, Date} availability 
 	 */
 	static async create(competences, availability){
 		try {
@@ -84,9 +85,9 @@ class ApplicationService{
 	}
 
 	/**
-	 * 
-	 * @param {*} competences 
-	 * @param {*} availability 
+	 * Updates an application.
+	 * @param {String, Integer} competences 
+	 * @param {Date, Date} availability 
 	 */
 	static async update(competences, availability){
 		try {
@@ -101,8 +102,8 @@ class ApplicationService{
 	}
 
 	/**
-	 * 
-	 * @param {*} id 
+	 * Deletes an application with the given id.
+	 * @param {Hex} id 
 	 */
 	static async delete(id){
 		try {
@@ -114,7 +115,7 @@ class ApplicationService{
 	}
 
 	/**
-	 * 
+	 * Get all the competences.
 	 */
 	static async getCompetences(){
 		try{
