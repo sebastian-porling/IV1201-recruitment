@@ -14,6 +14,12 @@ module.exports = {
             '/api': {
                 target: 'http://localhost:5000'
             },
+            '/api/applications/': {
+                target: 'http://localhost:5000'
+            },
+            '/api/competences/': {
+                target: 'http://localhost:5000'
+            },
             '/auth': {
                 target: 'http://localhost:5000'
             }

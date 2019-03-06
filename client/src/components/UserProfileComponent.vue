@@ -32,7 +32,7 @@ import {
   
 } from "mdbvue";
 import MakeApplicationComponent from './MakeApplicationComponent.vue'
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import ApplicationService from "../services/ApplicationService.js";
 export default {
   name: "UserProfileComponent",
@@ -67,11 +67,14 @@ export default {
         }
       })
       .catch(error => {
-        return alert(error);
-      });
+        this.logout();
+        this.$router.push('/login');
+      })
   },
   methods: {
-    
+    ...mapActions([
+      'logout'
+    ]),
   }
 };
 </script>
