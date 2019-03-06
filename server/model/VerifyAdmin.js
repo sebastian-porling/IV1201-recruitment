@@ -14,9 +14,9 @@ var Err = require('../utility/ErrorEnums');
  */
 async function verifyAdmin(req, res, next) {
   try {
-    //var token = req.session.token;
+    var token = req.session.token;
     //var token = req.headers['x-access-token'];
-    var token = req.headers['authorization'];
+    //var token = req.headers['authorization'];
     if (!token) throw Error(Err.AuthorizationErrors.NO_TOKEN_PROVIDED);
     var decodedToken = Token.verifyToken(token);
     user = await User.findUserById(decodedToken.id);
