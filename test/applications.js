@@ -12,6 +12,7 @@ chai.use(chaiHttp);
 /**
  * Test for the Application REST API.
  */
+/*
 describe('Applications', function () {
   const registerUser = {
     email: "test@applications.com",
@@ -432,5 +433,4 @@ describe('Applications', function () {
       });
     });
   });
-  */
-});
+});*/
