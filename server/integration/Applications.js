@@ -151,8 +151,8 @@ exports.rejectApplication = async function rejectApplication(id, timestamp) {
       throw e
     }
     
-
   }
+}
 
 /**
  * Get all the competences
@@ -169,7 +169,4 @@ exports.primedb = async function primedb(id){
   await applications.updateOne({ _id: new ObjectId(id) }, { $set: { timestamp: testTimestamp } }, { upsert: true });
   console.log('db primed'); 
 }
-
-
-
 

@@ -39,9 +39,7 @@ exports.findUserById = async function findUserById(userId) {
   const validatedEmail = validateAuth.validateEmail(email);
   return await findUser({ email: validatedEmail })
 }
-<<<<<<< HEAD
 exports.findUserByEmail = findUserByEmail;
-=======
 
 /**
  * Finds a user in the database given the users email and social security number.
@@ -55,7 +53,6 @@ exports.findUserByEmailAndSSN = async function findUserByEmail(email, ssn) {
   return await findUser({ email: validatedEmail, ssn: validatedSsn})
 }
 
->>>>>>> Registration is not complete
 /**
  * Add a user to the database with the given name, email and password 
  * @param name The new users name 

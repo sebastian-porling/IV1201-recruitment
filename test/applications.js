@@ -29,7 +29,7 @@ describe('Applications', function () {
     email: "fake@admin.com",
     password: "fakeAdmin"
   }
-  
+  /*
   //now let's login the user before we run any tests
   var authenticatedUser = chai.request.agent('http://127.0.0.1:5000');
   before((done) => {
@@ -432,4 +432,5 @@ describe('Applications', function () {
       });
     });
   });
+  */
 });
