@@ -119,9 +119,11 @@ export default {
 	methods: {
 		async createApplication(){
 			await ApplicationService.create(this.competences, this.availabilities).then((data) => {
-				console.log("success");
+				//console.log("success");
+				data 
 			}).catch((error) => {
-				console.log("error");
+				error
+				//console.log("error");
 			});
 		},
 		deleteAvailability(index){

@@ -6,6 +6,7 @@ import LoginComponent from '@/components/LoginComponent.vue';
 import AdminLoginComponent from '@/components/AdminLoginComponent.vue';
 import RegisterComponent from '@/components/RegisterComponent.vue';
 import UserProfileComponent from '@/components/UserProfileComponent.vue';
+import AdminProfileComponent from '@/components/AdminProfileComponent.vue';
 
 Vue.config.productionTip = false;
 
@@ -29,7 +30,7 @@ const router = new Router({
       component: LoginComponent
     },
     {
-      path: '/login/admin',
+      path: '/loginadmin',
       name: 'AdminLogin',
       component: AdminLoginComponent
     },
@@ -44,6 +45,12 @@ const router = new Router({
       name: 'User',
       component: UserProfileComponent
     },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: AdminProfileComponent
+
+    }
     /*{ 
       path: '*', 
       redirect: '/' 
@@ -54,15 +61,15 @@ const router = new Router({
 
 router.beforeEach( async(to, from, next) => {
   let loggedIn = store.state.user.name !== null;
-  if (to.fullPath === '/login' || to.fullPath === '/register' || to.fullPath === '/login/admin') {
-    if (loggedIn) {
-      router.push('/');
-    }
+  if (to.fullPath === '/login' || to.fullPath === '/register' || to.fullPath === '/loginadmin') {
+    // if (loggedIn) {
+    //   router.push('/');
+    // }
     next();
   } else {
-    if (!loggedIn) {
-      router.push('/login');
-    }
+    // if (!loggedIn) {
+    //   router.push('/login');
+    // }
   }
   next();
 });

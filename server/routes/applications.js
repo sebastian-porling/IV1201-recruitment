@@ -28,6 +28,7 @@ router.get('/', VerifyUser, async (req, res) => {
  * @api {get} /:id Get user application
  */
 router.get('/:id', VerifyUser, validate.validateApplicationsRoute('/:id'), async (req, res) => {
+  console.log('getting id ')
   res.send(await Applications.findApplicationWithId(req.params.id));
 });
 

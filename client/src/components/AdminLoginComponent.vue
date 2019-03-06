@@ -5,14 +5,14 @@
     </div>
     <!-- Material form login -->
     <form @submit="loginApi" method="post" v-bind:class="{'is-collapsed' : !hidden }">
-      <p class="h4 text-center mb-4">Admin Sign in</p>
+      <p class="h4 text-center mb-4">Sign in Admin</p>
       <div class="grey-text">
         <mdb-input
-          label="Your username"
-          v-model="user"
+          label="Your Username"
+          v-model="username"
           icon="user"
           type="text"
-          name="user"
+          name="username"
           required
         />
         <mdb-input
@@ -49,8 +49,8 @@ export default {
    */
   data() {
     return {
-      messageFromServer: "test",
-      user: "",
+      messageFromServer: "testt",
+      username: "",
       password: "",
       hidden: true
     };
@@ -65,15 +65,16 @@ export default {
     async loginApi(event) {
       event.preventDefault();
       this.hidden = false;
-      await AuthServices.login(this.user, this.password).then((response) => {
+      await AuthServices.loginAdmin(this.username, this.password).then((response) => {
         this.hidden = true;
         this.messageFromServer = response.message;
-        this.login({name: response.data.name, token: null, role: response.data.role});
-        this.$router.push('/user');
+        //this.login({name: response.data.name, token: null, role: response.data.role});
+        this.$router.push('/admin');
       })
       .catch((error) => {
         this.hidden = true;
         this.messageFromServer = error;
+        //this.messageFromServer = 'errorerror';
       });
     }
   }
