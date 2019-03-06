@@ -13,8 +13,12 @@ var Err = require('../utility/ErrorEnums');
  */
 async function verifyUser(req, res, next) {
   try {
-    var token = req.session.token;
+    //var token = req.session.token;
+    //var token = req.headers['x-access-token'];
+    var token = req.headers['authorization'];
+    console.log(req.headers.authorization)
     if (!token) {
+      console.log('no token')
       throw Error(Err.AuthorizationErrors.NO_TOKEN_PROVIDED);
     }
     const decodedToken = Token.verifyToken(token);
@@ -30,15 +34,20 @@ async function verifyUser(req, res, next) {
         console.log(e.stack)
         //return res.status(500).send({ message: Err.AuthorizationErrors.INVALID_TOKEN_ERROR });
         return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-      case Err.AuthorizationErrors.NO_TOKEN_PROVIDED:
-        //return res.status(400).send({ error: Err.AuthorizationErrors.NO_TOKEN_PROVIDED });
-        return res.status(400).send({ error: 'No token provided.' });
       default:
-        console.log(e.name + ': ' + e.message);
-        console.log(e.stack)
-        //return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
-        return res.status(400).send({ error: 'Error on the server' });
-    }
-  }
+        switch(e.message){
+          case Err.AuthorizationErrors.NO_TOKEN_PROVIDED:
+            console.log('got error')
+            //return res.status(400).send({ error: Err.AuthorizationErrors.NO_TOKEN_PROVIDED });
+            return res.status(400).send({ error: 'No token provided.' });
+          default:
+            //console.log(e.name + ': ' + e.message);
+            //console.log(e.stack)
+            console.log(e.name)
+            //return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
+            return res.status(400).send({ error: 'Error on the server' });
+        }
+      }
+    }  
 }
 module.exports = verifyUser;

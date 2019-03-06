@@ -6,6 +6,7 @@ import LoginComponent from '@/components/LoginComponent.vue';
 import AdminLoginComponent from '@/components/AdminLoginComponent.vue';
 import RegisterComponent from '@/components/RegisterComponent.vue';
 import UserProfileComponent from '@/components/UserProfileComponent.vue';
+import AdminProfileComponent from '@/components/AdminProfileComponent.vue';
 
 Vue.config.productionTip = false;
 
@@ -29,7 +30,7 @@ const router = new Router({
       component: LoginComponent
     },
     {
-      path: '/login/admin',
+      path: '/loginadmin',
       name: 'AdminLogin',
       component: AdminLoginComponent
     },
@@ -44,6 +45,12 @@ const router = new Router({
       name: 'User',
       component: UserProfileComponent
     },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: AdminProfileComponent
+
+    }
     /*{ 
       path: '*', 
       redirect: '/' 

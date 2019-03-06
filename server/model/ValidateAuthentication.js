@@ -82,8 +82,14 @@ exports.validateAuthenticationRoute = function validateAuthenticationRoute(route
         req.body.surname = validateName(req.body.surname);
         req.body.ssn = validateSsn(req.body.ssn);
       }
-      req.body.email = validateEmail(req.body.email);
-      req.body.password = validatePassword(req.body.password);
+      if(route ==='/loginadmin'){
+        req.body.name = validateName(req.body.name);
+        req.body.password = validatePassword(req.body.password);
+      }
+      else{
+        req.body.email = validateEmail(req.body.email);
+        req.body.password = validatePassword(req.body.password);
+      }
       //All data valid 
       next()
     }

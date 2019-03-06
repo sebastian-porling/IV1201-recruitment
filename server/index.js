@@ -20,20 +20,20 @@ async function init() {
 
   try {
 
-    const dbUrl = process.env.MONGOLAB_URI || 'mongodb://IV1201:IV1201@ds119993.mlab.com:19993/recruitment';
-    const dbName = 'recruitment';
-    const client = new MongoClient(dbUrl, { useNewUrlParser: true });
-    connection = await client.connect();
-    var db = connection.db(dbName);
-    app.use(session({
-      secret: 'sessionSecret',
-      cookie: { maxAge: maxAge },                   //12 hours },
-      store: new MongoStore({ db: db }),
-      saveUninitialized: true, 
-      resave: true 
+    //const dbUrl = process.env.MONGOLAB_URI || 'mongodb://IV1201:IV1201@ds119993.mlab.com:19993/recruitment';
+    //const dbName = 'recruitment';
+    //const client = new MongoClient(dbUrl, { useNewUrlParser: true });
+    //connection = await client.connect();
+    //var db = connection.db(dbName);
+    // app.use(session({
+    //   secret: 'sessionSecret',
+    //   cookie: { maxAge: maxAge },                   //12 hours },
+    //   store: new MongoStore({ db: db }),
+    //   saveUninitialized: true, 
+    //   resave: true 
 
-    })
-    );
+    // })
+    // );
 
     app.use(bodyParser.json());
     app.use(cors());

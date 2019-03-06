@@ -58,13 +58,47 @@ router.post('/register', validate.validateAuthenticationRoute('/register'), asyn
  */
 router.post('/login', validate.validateAuthenticationRoute(), async function(req, res) {
   try{
+    console.log('logging in user')
     const user = await User.findUserByEmail(req.body.email);
     if (!user) throw Error(Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD);
     const passwordIsValid = Password.verifyPassword(req.body.password, user.password);
     if (!passwordIsValid) throw Error(Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD);
     var token = Token.createToken(user._id);
-    req.session.token = token;
-    res.status(200).send({ auth: true, msg:'login successful', user: user});
+    //req.session.token = token;
+    res.status(200).send({ auth: true, msg:'login successful', user: user, token: token});
+    //res.status(200).send({ loggedIn: true});
+  }
+  catch(e){
+    switch(e.message) {
+      case Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD:
+        console.log('Username or password incorrect')
+        //return res.status(400).send({ error: Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD});
+        return res.status(400).send({ error: 'Username or password incorrect'});
+      default:
+        console.log(e.name +': ' + e.message);
+        console.log(e.stack)
+        //return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
+        return res.status(400).send({error: 'Error on the server'});
+
+    }
+  }
+});
+
+
+/**
+ * Login the admin with the given name and password
+ * @api {post} /loginadmin post user
+ */
+router.post('/loginadmin', validate.validateAuthenticationRoute('/loginadmin'), async function(req, res) {
+  try{
+    console.log('logging in admin')
+    const admin = await User.findAdminByName(req.body.name);
+    if (!admin) throw Error(Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD);
+    const passwordIsValid = Password.verifyPassword(req.body.password, admin.password);
+    if (!passwordIsValid) throw Error(Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD);
+    var token = Token.createToken(admin._id);
+    //req.session.token = token;
+    res.status(200).send({ auth: true, msg:'admin login successful', admin: admin, token: token});
     //res.status(200).send({ loggedIn: true});
   }
   catch(e){
