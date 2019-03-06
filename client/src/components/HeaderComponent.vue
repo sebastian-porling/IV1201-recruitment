@@ -10,6 +10,7 @@
         <mdb-nav-item to="/user" v-if="loggedIn">{{this.user.name}}</mdb-nav-item>
         <mdb-nav-item to="/login" v-if="!loggedIn">Login</mdb-nav-item>
         <mdb-nav-item to="/register" v-if="!loggedIn">Register</mdb-nav-item>
+        <mdb-nav-item to="/loginadmin" v-if="!loggedIn">Recruiter Login</mdb-nav-item>
       </mdb-navbar-nav>
       {{msgFromServer}}
       <mdb-btn v-on:click="logoutApi()" v-if="loggedIn">Logout</mdb-btn>
