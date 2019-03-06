@@ -58,6 +58,7 @@ router.post('/register', validate.validateAuthenticationRoute('/register'), asyn
  */
 router.post('/login', validate.validateAuthenticationRoute(), async function(req, res) {
   try{
+    console.log('logging in user')
     const user = await User.findUserByEmail(req.body.email);
     if (!user) throw Error(Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD);
     const passwordIsValid = Password.verifyPassword(req.body.password, user.password);
