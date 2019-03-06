@@ -15,7 +15,8 @@ var ObjectId = require('mongodb').ObjectID;
  * @returns The created token if successful 
  */
 async function findUser(searchParams) {
-  const userCollection = await db.loadUsersCollection();
+  var client = db.getconnection();
+  const userCollection = await client.db('recruitment').collection('recruitment');
   return await userCollection.findOne(searchParams);
 }
 
@@ -60,8 +61,9 @@ exports.findUserByEmailAndSSN = async function findUserByEmail(email, ssn) {
  * @returns The id of the new user. 
  */
 exports.addUser = async function addUser(name, surname, ssn, email, password) {
-  const session = await db.startSession();
-  const userCollection = await db.loadUsersCollection();
+  var client = db.getconnection();
+  const session = await client.startSession({ readPreference: { mode: "primary" } });
+  const userCollection = await client.db('recruitment').collection('recruitment');
   const opts = { session, returnOriginal: false, new: true,
                 writeConcern: { w: "majority", wtimeout: 5000 } };
   await session.startTransaction();
@@ -105,7 +107,8 @@ exports.addUser = async function addUser(name, surname, ssn, email, password) {
  */
 exports.deleteUser = async function deleteUser(userId) {
   const validatedUserId = validateApp.validateId(userId);
-  const userCollection = await db.loadUsersCollection();
+  var client = db.getconnection();
+  const userCollection = await client.db('recruitment').collection('recruitment');
   return await userCollection.deleteOne({ _id: new ObjectId(validatedUserId) });
 }
 

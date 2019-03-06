@@ -19,7 +19,8 @@ const timeStamp = require('../utility/Timestamp');
 */
 exports.findApplicationWithId = async function findApplicationWithId(id) {
   const validatedId = validateApp.validateId(id);
-  const applications = await db.loadUsersCollection();
+  var client = db.getconnection();
+  const applications = await client.db('recruitment').collection('recruitment');
   const res = await applications.find({ _id: new ObjectId(validatedId), competences: {$exists: true}, availability: {$exists: true} }, { projection: { role: 0, password: 0, username: 0 } }).toArray();
   return res;
   //Need to check that application isnt empty when we get it!!!!!!!!!!!!!!!!!
@@ -30,7 +31,8 @@ exports.findApplicationWithId = async function findApplicationWithId(id) {
  * @returns All applications stored in the database 
  */
 exports.findAllApplications = async function findAllApplications() {
-  const applications = await db.loadUsersCollection();
+  var client = db.getconnection();
+  const applications = await client.db('recruitment').collection('recruitment');
   return await applications.find({ competences: { $exists: true }, availability: { $exists: true } }, { projection: { role: 0, password: 0, username: 0 } }).toArray();
 }
 
@@ -44,7 +46,8 @@ exports.createApplication = async function createApplication(id, competences, av
   const validatedId = validateApp.validateId(id);
   validateApp.validateCompetences(competences);
   validateApp.validateAvailability(availability);
-  const applications = await db.loadUsersCollection();
+  var client = db.getconnection();
+  const applications = await client.db('recruitment').collection('recruitment');
   await applications.updateOne({ _id: new ObjectId(validatedId) }, { $set: { competences: competences, availability: availability, status: 'unhandled' } }, { upsert: true });
 }
 
@@ -58,7 +61,8 @@ exports.updatepplication = async function updateApplication(id, competences, ava
   const validatedId = validateApp.validateId(id);
   validateApp.validateCompetences(competences);
   validateApp.validateAvailability(availability);
-  const applications = await db.loadUsersCollection();
+  var client = db.getconnection();
+  const applications = await client.db('recruitment').collection('recruitment');
   await applications.updateOne({ _id: new ObjectId(validatedId) }, { $set: { competences: competences, availability: availability, status: 'unhandled' } }, { upsert: true });
 }
 
@@ -68,7 +72,8 @@ exports.updatepplication = async function updateApplication(id, competences, ava
  */
 exports.deleteApplication = async function deleteApplication(id) {
   const validatedId = validateApp.validateId(id);
-  const applications = await db.loadUsersCollection();
+  var client = db.getconnection();
+  const applications = await client.db('recruitment').collection('recruitment');
   await applications.updateOne({ _id: new ObjectId(validatedId) }, { $unset: { competences: 1, availability: 1, status: 1 } }, { upsert: true });
 }
 
@@ -78,9 +83,9 @@ exports.deleteApplication = async function deleteApplication(id) {
  */
 
 exports.acceptApplication = async function acceptApplication(id, timestamp) {
-  const session = await db.startSession();
-  const applications =  await db.loadUsersCollection();
-  await session.startTransaction();
+  var client = db.getconnection();
+  const session = await client.startSession({ readPreference: { mode: "primary" } });
+  const applications = await client.db('recruitment').collection('recruitment');
   const opts = { session, returnOriginal: false, new: true,
                 writeConcern: { w: "majority", wtimeout: 5000 } };
   try{
@@ -117,8 +122,9 @@ exports.acceptApplication = async function acceptApplication(id, timestamp) {
  * @param id The user id of the application thay is to rejected
  */
 exports.rejectApplication = async function rejectApplication(id, timestamp) {
-  const session = await db.startSession();
-  const applications =  await db.loadUsersCollection();
+  var client = db.getconnection();
+  const session = await client.startSession({ readPreference: { mode: "primary" } });
+  const applications = await client.db('recruitment').collection('recruitment');
   const opts = { session, returnOriginal: false, new: true,
                 writeConcern: { w: "majority", wtimeout: 5000 } };
   await session.startTransaction();
@@ -156,13 +162,15 @@ exports.rejectApplication = async function rejectApplication(id, timestamp) {
  * Get all the competences
  */
 exports.getCompetences = async function getCompetences() {
-  const competences = await db.loadCompetenceCollection();
+  var client = db.getconnection();
+  const competences = await client.db('recruitment').collection('competences');
   return await competences.find({}).toArray();
 }
 
 
 exports.primedb = async function primedb(id){
-  const applications = await db.loadUsersCollection();
+  var client = db.getconnection();
+  const applications = await client.db('recruitment').collection('recruitment');
   const testTimestamp = "2019-03-03T18:14:14.486Z";
   await applications.updateOne({ _id: new ObjectId(id) }, { $set: { timestamp: testTimestamp } }, { upsert: true });
   console.log('db primed'); 

@@ -10,16 +10,16 @@ var authRouter = require('./routes/auth');
 const MongoStore = require('connect-mongo')(session);
 const MongoClient = require('mongodb').MongoClient;
 const maxAge = 43200000; //12 hours (time in miliseconds)
+var db = require('./integration/db')
 
 const app = express();
-
+db.establishConnection();
 /**
  *  All code for routes etc should be in this function 
  */
 async function init() {
 
   try {
-
     const dbUrl = process.env.MONGOLAB_URI || 'mongodb://IV1201:IV1201@recruitment-shard-00-00-gxbqo.mongodb.net:27017,recruitment-shard-00-01-gxbqo.mongodb.net:27017,recruitment-shard-00-02-gxbqo.mongodb.net:27017/test?ssl=true&replicaSet=recruitment-shard-0&authSource=admin&retryWrites=true';
     const dbName = 'recruitment';
     const client = new MongoClient(dbUrl, { useNewUrlParser: true });
@@ -34,7 +34,7 @@ async function init() {
 
     })
     );
-
+    
     app.use(bodyParser.json());
     app.use(cors());
 

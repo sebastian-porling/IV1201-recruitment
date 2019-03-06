@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 /**
  * Test for the Application REST API.
  */
-/*
+
 describe('Applications', function () {
   const registerUser = {
     email: "test@applications.com",
@@ -30,11 +30,8 @@ describe('Applications', function () {
     email: "fake@admin.com",
     password: "fakeAdmin"
   }
-<<<<<<< HEAD
-  /*
-=======
   
->>>>>>> e6d2849680fbe96b923cf939f918071472eb1877
+  
   //now let's login the user before we run any tests
   var authenticatedUser = chai.request.agent('http://127.0.0.1:5000');
   before((done) => {
@@ -282,7 +279,7 @@ describe('Applications', function () {
     });
   });
   describe('/PUT /accept/:id', function () {
-    afterEach((done) => {
+    /*afterEach((done) => {
       authenticatedUser
       .post('/auth/login')
       .send(userCredentials)
@@ -331,10 +328,10 @@ describe('Applications', function () {
           done();
         });
       });
-    });
+    });*/
   });
   describe('/GET /reject/:id', function () {
-    afterEach((done) => {
+    /*afterEach((done) => {
       authenticatedUser
       .post('/auth/login')
       .send(userCredentials)
@@ -383,10 +380,10 @@ describe('Applications', function () {
           done();
         });
       });
-    });
+    });*/
   });
   describe('/DELETE /:id', function () {
-    afterEach((done) => {
+    /*afterEach((done) => {
       authenticatedUser
       .post('/auth/login')
       .send(userCredentials)
@@ -435,6 +432,6 @@ describe('Applications', function () {
           done();
         });
       });
-    });
+    });*/
   });
-});*/
+});
