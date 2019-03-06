@@ -231,40 +231,40 @@ describe('Auth', function () {
     /**
      * Not implemented yet, because we don't have any way of removing users.
      */
-    it('should register and delete user ', (done) => {
-      let user = {
+    // it('should register and delete user ', (done) => {
+    //   let user = {
 
-        name: "test",
-        surname: "test",
-        ssn: "19900101-0101",
-        email: "test@test.com",
-        password: "testtest"
-      }
-      let userLogin = {
-        email: "test@test.com",
-        password: "testtest"
-      }
-      chai.request("http://127.0.0.1:5000")
-        .post('/auth/register')
-        .send(user)
-        .end((err, res) => {
-          res.should.have.status(200);
-          let agent = chai.request.agent("http://127.0.0.1:5000");
-          agent
-          .post('/auth/login')
-          .send(userLogin)
-          .end((err, res) => {
-            res.should.have.status(200);
-            agent
-            .delete('/auth/deleteuser/' + userLogin.password)
-            .send(userLogin)
-            .end((err, res) => {
-              res.should.have.status(200);
-              done();
-            });
-          });
-        });
-        done();
-    });
+    //     name: "test",
+    //     surname: "test",
+    //     ssn: "19900101-0101",
+    //     email: "test@test.com",
+    //     password: "testtest"
+    //   }
+    //   let userLogin = {
+    //     email: "test@test.com",
+    //     password: "testtest"
+    //   }
+    //   chai.request("http://127.0.0.1:5000")
+    //     .post('/auth/register')
+    //     .send(user)
+    //     .end((err, res) => {
+    //       res.should.have.status(200);
+    //       let agent = chai.request.agent("http://127.0.0.1:5000");
+    //       agent
+    //       .post('/auth/login')
+    //       .send(userLogin)
+    //       .end((err, res) => {
+    //         res.should.have.status(200);
+    //         agent
+    //         .delete('/auth/deleteuser/' + userLogin.password)
+    //         .send(userLogin)
+    //         .end((err, res) => {
+    //           res.should.have.status(200);
+    //           done();
+    //         });
+    //       });
+    //     });
+    //     done();
+    // });
   });
 });
