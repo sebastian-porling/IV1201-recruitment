@@ -13,7 +13,7 @@ const ERROR_MESSAGE = 'failed to connect to server'*/
  */
 
 exports.loadUsersCollection = async function loadUsersCollection() {
-  const fn = async function () {
+  //const fn = async function () {
     const client = await mongodb.MongoClient.connect(' mongodb://IV1201:IV1201@recruitment-shard-00-00-gxbqo.mongodb.net:27017,recruitment-shard-00-01-gxbqo.mongodb.net:27017,recruitment-shard-00-02-gxbqo.mongodb.net:27017/test?ssl=true&replicaSet=recruitment-shard-0&authSource=admin&retryWrites=true', {
       useNewUrlParser: true,
       replicaSet: 'recruitment-shard-0' ,
@@ -30,8 +30,10 @@ exports.loadUsersCollection = async function loadUsersCollection() {
  */
 exports.loadCompetenceCollection = async function loadCompetenceCollection() {
   //const fn = async function () {
-    const client = await mongodb.MongoClient.connect(' mongodb://IV1201:IV1201@ds119993.mlab.com:19993/recruitment', {
-      useNewUrlParser: true
+    const client = await mongodb.MongoClient.connect(' mongodb://IV1201:IV1201@recruitment-shard-00-00-gxbqo.mongodb.net:27017,recruitment-shard-00-01-gxbqo.mongodb.net:27017,recruitment-shard-00-02-gxbqo.mongodb.net:27017/test?ssl=true&replicaSet=recruitment-shard-0&authSource=admin&retryWrites=true', {
+      useNewUrlParser: true,
+      replicaSet: 'recruitment-shard-0' ,
+      readConcern: { level: "majority" }
     });
     return client.db('recruitment').collection('competences');
   //}

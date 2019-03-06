@@ -14,14 +14,16 @@ var Err = require('../utility/ErrorEnums');
  */
 async function verifyAdmin(req, res, next) {
   try {
-    var token = req.session.token;
+    //var token = req.session.token;
+    //var token = req.headers['x-access-token'];
+    var token = req.headers['authorization'];
     if (!token) throw Error(Err.AuthorizationErrors.NO_TOKEN_PROVIDED);
     var decodedToken = Token.verifyToken(token);
     user = await User.findUserById(decodedToken.id);
     if (!user) {
       throw Error(Err.AuthorizationErrors.USER_DOESNT_EXIST);
     }
-    else if (!(user.role === "admin")) {
+    else if (!(user.role === "recruiter")) {
       throw Error(Err.AuthorizationErrors.UNAUTHORIZED_ACCESS_ATTEMPT);
     }
     else {
@@ -33,7 +35,7 @@ async function verifyAdmin(req, res, next) {
     if (e.name === 'JsonWebTokenError') {
       console.log('Failed to authenticate token');
       //return res.status(400).send({ error: Err.AuthorizationErrors.INVALID_TOKEN_ERROR });
-      return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+      return res.status(401).send({ auth: false, message: 'Failed to authenticate token.' });
     }
     else {
       switch (e.message) {

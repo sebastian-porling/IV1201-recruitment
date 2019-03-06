@@ -111,3 +111,13 @@ exports.deleteUser = async function deleteUser(userId) {
   return await userCollection.deleteOne({ _id: new ObjectId(validatedUserId) });
 }
 
+
+/**
+ * Finds an admin/recruiter in the database given the Admins name 
+ * @param name The name of the admin 
+ * @returns The found admin if successful
+ */
+exports.findAdminByName = async function findAdminByName(name) {
+  const validatedName = validateAuth.validateName(name);
+  return await findUser({ name: validatedName, role: 'recruiter' });
+}
