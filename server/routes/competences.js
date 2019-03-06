@@ -3,7 +3,7 @@ const Applications = require('../integration/Applications');
 const router = express.Router();
 
 /**
- * 
+ * @api {get} / Gets competences
  */
 router.get('/', async (req, res) => {
 	const result = await Applications.getCompetences();

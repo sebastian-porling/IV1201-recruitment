@@ -1,3 +1,7 @@
+<!--	
+This component takes care of the application for the user. 
+Here can the user create and modify the application. 
+-->
 <template>
 	<div>
 		<mdb-modal @close="toggleModal(!show)">
@@ -94,9 +98,18 @@ import {
 	mdbRow,
 	mdbCol
 	} from "mdbvue";
+/**
+ * 	Checks if the from date is before the to date.
+ *  @returns {Boolean} 
+ */	
 function validateAvailability(from, to){
 	return from < to;
 }
+/**
+ *  Checks if the years are within the limits
+ * 	and if competence is not null.
+ *  @returns {Boolean} 
+ */	
 function validateCompetence(competence, years){
 	if(competence == null || years == null){
 		return false;
@@ -140,7 +153,11 @@ export default {
 	methods: {
 		...mapActions([
       'logout'
-    ]),
+		]),
+		/**
+		 *  Will create/update application.
+		 * 	Will show a message if the application was a success or failure.
+		 */	
 		async createApplication(){
 			await ApplicationService.create(this.competences, this.availabilities).then((data) => {
 				console.log("success");
@@ -152,12 +169,24 @@ export default {
 				console.log("error", error.response.data.error);
 			});
 		},
+		/**
+		 * 	Deletes the given index from availability array.
+		 *  @param {Integer} index 
+		 */	
 		deleteAvailability(index){
 			this.availabilities.splice(index,1)
-    },
+		},
+		/**
+		 *  Deletes the given index from competence array.
+		 *  @param {Integer} index 
+		 */	
     deleteCompetence(index){
 			this.competences.splice(index,1)
 		},
+		/**
+		 * 	Adds competence to array.
+		 * 	Will show error if the competence/years is invalid
+		 */	
 		addCompetence(){
 			if(validateCompetence(this.formCompetence, this.formYears)){
 				this.competences.push({competence: this.formCompetence, years_of_experience: parseInt(this.formYears)});
@@ -169,6 +198,10 @@ export default {
 			}
 			
 		},
+		/**
+		 *  Adds availability to arrray.
+		 * 	Will show error if the dates are invalid.
+		 */	
 		addAvailability(){
 			if(validateAvailability(this.formFromDate, this.formToDate)){
 				this.availabilities.push({from_date: this.formFromDate, to_date: this.formToDate});
@@ -179,6 +212,9 @@ export default {
 				setTimeout(()=>{ this.availabilityError = null; }, 2000);
 			}
 		},
+		/**
+		 *  Will toggle the modal box.
+		 */	
     toggleModal(value){
       this.$emit('input', value);
 		},
@@ -188,11 +224,17 @@ export default {
 		
 	},
 	async created(){
+		/**
+		 *  Will get the competences.
+		 */	
 		await ApplicationService.getCompetences().then(data => {
       data.forEach(element => {
         this.options.push({text: element.sv, value: element.sv});
       });
 		});
+		/**
+		 * Will get the application data of the logged in user.
+		 */
 		await ApplicationService.get()
       .then(data => {
         if (data.length != 0) {
