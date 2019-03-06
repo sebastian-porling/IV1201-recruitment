@@ -232,12 +232,8 @@ describe('Auth', function () {
      * Not implemented yet, because we don't have any way of removing users.
      */
     it('should register and delete user ', (done) => {
-<<<<<<< HEAD
-      /*
-      let user = {
-=======
       /*let user = {
->>>>>>> Removed some test
+
         name: "test",
         surname: "test",
         ssn: "19900101-0101",
