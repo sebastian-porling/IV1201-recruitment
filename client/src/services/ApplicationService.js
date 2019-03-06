@@ -1,11 +1,11 @@
 import axios from 'axios';
 const url = 'api/applications';
 
-const JWTToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjN2JmMDk0ZDkwMjU3ODVlMjk5MTk4MCIsImlhdCI6MTU1MTg4MjY2MywiZXhwIjoxNTUxOTY5MDYzfQ.6e4pLHaDztw0fnvmCoxNEzMk7u3-BEVaHHmgIjxysms"
+// const JWTToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjN2JmMDk0ZDkwMjU3ODVlMjk5MTk4MCIsImlhdCI6MTU1MTg4MjY2MywiZXhwIjoxNTUxOTY5MDYzfQ.6e4pLHaDztw0fnvmCoxNEzMk7u3-BEVaHHmgIjxysms"
 
-axios.defaults.headers = {
-	Authorization: JWTToken
-}
+// axios.defaults.headers = {
+// 	Authorization: JWTToken
+// }
 
 /**
  * Class used for handling applications

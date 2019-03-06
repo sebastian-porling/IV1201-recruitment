@@ -64,7 +64,7 @@ router.post('/login', validate.validateAuthenticationRoute(), async function(req
     const passwordIsValid = Password.verifyPassword(req.body.password, user.password);
     if (!passwordIsValid) throw Error(Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD);
     var token = Token.createToken(user._id);
-    //req.session.token = token;
+    req.session.token = token;
     res.status(200).send({ auth: true, msg:'login successful', user: user, token: token});
     //res.status(200).send({ loggedIn: true});
   }
@@ -97,7 +97,7 @@ router.post('/loginadmin', validate.validateAuthenticationRoute('/loginadmin'), 
     const passwordIsValid = Password.verifyPassword(req.body.password, admin.password);
     if (!passwordIsValid) throw Error(Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD);
     var token = Token.createToken(admin._id);
-    //req.session.token = token;
+    req.session.token = token;
     res.status(200).send({ auth: true, msg:'admin login successful', admin: admin, token: token});
     //res.status(200).send({ loggedIn: true});
   }
