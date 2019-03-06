@@ -100,7 +100,6 @@ class AuthServices {
     } 
   }
   catch (e) {
-    throw e
     if (e.response) {
       //throw e.response.data.error;
       throw e
@@ -118,31 +117,28 @@ class AuthServices {
       }*/
     }
   }
-}
-
-
   /**
   * Used to logout a user on the server 
   */
-  static async logout() {
-    try {
-      const res = await axios.get(url + '/logout');
-      const data = res.data;
-      return data.msg;
-    }
-    catch (e) {
-      if (e.response) {
-        switch (e.response.data.error) {
-          case 'Username or password incorrect':
-            return 'Username or password incorrect'
-          case 'email incorrect':
-            return 'email invalid'
-          default:
-            return e.response.data.error;
-        }
+ static async logout() {
+  try {
+    const res = await axios.get(url + '/logout');
+    const data = res.data;
+    return data.msg;
+  }
+  catch (e) {
+    if (e.response) {
+      switch (e.response.data.error) {
+        case 'Username or password incorrect':
+          return 'Username or password incorrect'
+        case 'email incorrect':
+          return 'email invalid'
+        default:
+          return e.response.data.error;
       }
     }
   }
+}
 }
 
 export default AuthServices;

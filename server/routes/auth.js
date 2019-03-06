@@ -13,7 +13,6 @@ var VerifyUser = require('../model/VerifyUser');
 var VerifyAdmin = require('../model/VerifyAdmin');
 var User = require('../integration/User');
 var validate = require('../model/ValidateAuthentication');
-const Applications = require('../integration/Applications');
 var Err = require('../utility/ErrorEnums');
 
 

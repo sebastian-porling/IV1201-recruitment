@@ -5,7 +5,7 @@ const db = require('./db');
 const validateAuth = require('../model/ValidateAuthentication');
 const validateApp = require('../model/ValidateApplications');
 const Err = require('../utility/ErrorEnums');
-const delayfunction = require('../utility/DelayFunction');
+//const delayfunction = require('../utility/DelayFunction');
 var ObjectId = require('mongodb').ObjectID;
 
 /**
@@ -39,10 +39,7 @@ exports.findUserById = async function findUserById(userId) {
   const validatedEmail = validateAuth.validateEmail(email);
   return await findUser({ email: validatedEmail })
 }
-<<<<<<< HEAD
 exports.findUserByEmail = findUserByEmail;
-=======
->>>>>>> e6d2849680fbe96b923cf939f918071472eb1877
 
 /**
  * Finds a user in the database given the users email and social security number.

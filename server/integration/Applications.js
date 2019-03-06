@@ -4,7 +4,7 @@ var ObjectId = require('mongodb').ObjectID;
 const validateApp = require('../model/ValidateApplications');
 const Err = require('../utility/ErrorEnums');
 const timeStamp = require('../utility/Timestamp');
-const delayfunction = require('../utility/DelayFunction');
+//const delayfunction = require('../utility/DelayFunction');
 
 /** Module that acts as an interface to the database allowing different queries related to users in the database. 
  * @module Applications
@@ -116,7 +116,6 @@ exports.acceptApplication = async function acceptApplication(id, timestamp) {
  * Reject the given application
  * @param id The user id of the application thay is to rejected
  */
-<<<<<<< HEAD
 exports.rejectApplication = async function rejectApplication(id, timestamp) {
   const session = await db.startSession();
   const applications =  await db.loadUsersCollection();
@@ -167,19 +166,5 @@ exports.primedb = async function primedb(id){
   const testTimestamp = "2019-03-03T18:14:14.486Z";
   await applications.updateOne({ _id: new ObjectId(id) }, { $set: { timestamp: testTimestamp } }, { upsert: true });
   console.log('db primed'); 
-=======
-exports.rejectApplication = async function rejectApplication(id) {
-  const validatedId = validateApp.validateId(id);
-  const applications = await db.loadUsersCollection();
-  await applications.updateOne({ _id: new ObjectId(validatedId) }, { $set: { status: "rejected" } }, { upsert: true });
-}
-
-/**
- * Get all the competences
- */
-exports.getCompetences = async function getCompetences() {
-  const competences = await db.loadCompetenceCollection();
-  return await competences.find({}).toArray();
->>>>>>> e6d2849680fbe96b923cf939f918071472eb1877
 }
 
