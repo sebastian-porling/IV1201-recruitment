@@ -2,7 +2,7 @@
 	<div>
 		<mdb-modal @close="toggleModal(!show)">
       <mdb-modal-header>
-        <mdb-modal-title>Create application</mdb-modal-title>
+        <mdb-modal-title>Application</mdb-modal-title>
       </mdb-modal-header>
       <mdb-modal-body>
 				<div>
@@ -32,6 +32,7 @@
 				</mdb-col>
 				<mdb-btn color="success" class="add" @click="addAvailability()">+</mdb-btn>
 			</mdb-row>
+			<span class="error">{{availabilityError}}</span>
 		</div>
 		
 		<p>What competences do you have?</p>
@@ -67,7 +68,10 @@
 				</mdb-col>
 				<mdb-btn color="success" class="add" @click="addCompetence()">+</mdb-btn>
 			</mdb-row>
+			<span class="error">{{competenceError}}</span>
 			</mdb-modal-body>
+			<span class="error">{{applicationError}}</span>
+				<span class="success">{{applicationSuccess}}</span>
       <mdb-modal-footer>
         <mdb-btn color="secondary" @click.native="toggleModal(!show)">Close</mdb-btn>
         <mdb-btn color="primary" @click="createApplication()">Save changes</mdb-btn>
@@ -77,7 +81,8 @@
 </template>
 
 <script>
-import ApplicationService from "../services/ApplicationService.js"
+import ApplicationService from "../services/ApplicationService.js";
+import { mapActions } from "vuex";
 import {
 	mdbInput,
 	mdbModal,
@@ -89,6 +94,18 @@ import {
 	mdbRow,
 	mdbCol
 	} from "mdbvue";
+function validateAvailability(from, to){
+	return from < to;
+}
+function validateCompetence(competence, years){
+	if(competence == null || years == null){
+		return false;
+	}
+	if(years > 100 || years < 1){
+		return false;
+	}
+	return true;
+}
 export default {
 	name: "MakeApplicationComponent",
 	components: {
@@ -113,15 +130,26 @@ export default {
 			formYears: null,
 			formCompetence: null,
 			formFromDate: null,
-			formToDate: null
+			formToDate: null,
+			availabilityError: null,
+			competenceError: null,
+			applicationError: null,
+			applicationSuccess: null
 		}
 	},
 	methods: {
+		...mapActions([
+      'logout'
+    ]),
 		async createApplication(){
 			await ApplicationService.create(this.competences, this.availabilities).then((data) => {
 				console.log("success");
+				this.applicationSuccess = "Successfully added application";
+				setTimeout(()=>{ this.applicationSuccess = null; }, 2000);
 			}).catch((error) => {
-				console.log("error");
+				this.applicationError = error.response.data.error;
+				setTimeout(()=>{ this.applicationError = null; }, 2000);
+				console.log("error", error.response.data.error);
 			});
 		},
 		deleteAvailability(index){
@@ -131,18 +159,30 @@ export default {
 			this.competences.splice(index,1)
 		},
 		addCompetence(){
-			this.competences.push({competence: this.formCompetence, years_of_experience: parseInt(this.formYears)});
-			this.formCompetence = null;
-			this.formYears = null;
+			if(validateCompetence(this.formCompetence, this.formYears)){
+				this.competences.push({competence: this.formCompetence, years_of_experience: parseInt(this.formYears)});
+				this.formCompetence = null;
+				this.formYears = null;
+			}else{
+				this.competenceError = "Invalid competence or years of experience";
+				setTimeout(()=>{ this.competenceError = null; }, 2000);
+			}
+			
 		},
 		addAvailability(){
-			this.availabilities.push({from_date: this.formFromDate, to_date: this.formToDate});
-			this.formFromDate = null;
-			this.formToDate = null;
+			if(validateAvailability(this.formFromDate, this.formToDate)){
+				this.availabilities.push({from_date: this.formFromDate, to_date: this.formToDate});
+				this.formFromDate = null;
+				this.formToDate = null;
+			}else{
+				this.availabilityError = "Invalid dates on availability";
+				setTimeout(()=>{ this.availabilityError = null; }, 2000);
+			}
 		},
     toggleModal(value){
       this.$emit('input', value);
-    }
+		},
+		
 	},
 	computed: {
 		
@@ -162,7 +202,7 @@ export default {
 				}
       })
       .catch(error => {
-        return alert(error);
+				console.log(error.response);
       });
 	}
 }
@@ -180,5 +220,13 @@ export default {
 		height: 30px;
 		text-align: center;
 		padding: 0px;
+	}
+	.error{
+		text-align: center;
+		color: red;
+	}
+	.success{
+		text-align: center;
+		color: green;
 	}
 </style>

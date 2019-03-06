@@ -54,14 +54,23 @@ const router = new Router({
 
 router.beforeEach( async(to, from, next) => {
   let loggedIn = store.state.user.name !== null;
-  if (to.fullPath === '/login' || to.fullPath === '/register' || to.fullPath === '/login/admin') {
+  let role = store.state.user.role;
+  if (to.fullPath === '/login' || to.fullPath === '/register' || to.fullPath === '/login/admin' || to.fullPath === "/") {
     if (loggedIn) {
       router.push('/');
     }
     next();
   } else {
-    if (!loggedIn) {
+    if(!loggedIn){
       router.push('/login');
+    }
+    if (to.path == '/user' && loggedIn && role != 'applicant') {
+      store.dispatch('logout');
+      router.push('/login');
+    }
+    if (to.path == '/admin' && loggedIn && role != 'recruiter'){
+      store.dispatch('logout');
+      router.push('/login/admin');
     }
   }
   next();
