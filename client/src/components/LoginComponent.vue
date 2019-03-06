@@ -68,6 +68,7 @@ export default {
       await AuthServices.login(this.email, this.password).then((response) => {
         this.hidden = true;
         this.messageFromServer = response.message;
+        console.log(response);
         this.login({name: response.data.name, token: null, role: response.data.role});
         this.$router.push('/user');
       })

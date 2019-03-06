@@ -7,7 +7,6 @@ const router = express.Router();
  */
 router.get('/', async (req, res) => {
 	const result = await Applications.getCompetences();
-	console.log(result);
   res.send(result);
 });
 

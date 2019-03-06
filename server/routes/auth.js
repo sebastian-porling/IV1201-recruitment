@@ -25,7 +25,7 @@ router.post('/register', validate.validateAuthenticationRoute('/register'), asyn
   try{
     var hashedPassword = Password.hashPassword(req.body.password);
     console.log('registering user');
-    const userId = await User.addUser(req.body.name, req.body.email, hashedPassword);
+    const userId = await User.addUser(req.body.name, req.body.surname, req.body.ssn, req.body.email, hashedPassword);
     console.log('new user created ');
     var token = Token.createToken(userId);
     req.session.token = token;

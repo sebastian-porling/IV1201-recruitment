@@ -20,8 +20,8 @@ const timeStamp = require('../utility/Timestamp');
 exports.findApplicationWithId = async function findApplicationWithId(id) {
   const validatedId = validateApp.validateId(id);
   const applications = await db.loadUsersCollection();
-  
-  return await applications.find({ _id: new ObjectId(validatedId), competences: {$exists: true}, availability: {$exists: true} }, { projection: { role: 0, password: 0, username: 0 } }).toArray();
+  const res = await applications.find({ _id: new ObjectId(validatedId), competences: {$exists: true}, availability: {$exists: true} }, { projection: { role: 0, password: 0, username: 0 } }).toArray();
+  return res;
   //Need to check that application isnt empty when we get it!!!!!!!!!!!!!!!!!
 }
 

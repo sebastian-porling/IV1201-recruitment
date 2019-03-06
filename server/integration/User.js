@@ -17,7 +17,6 @@ var ObjectId = require('mongodb').ObjectID;
 async function findUser(searchParams) {
   const userCollection = await db.loadUsersCollection();
   return await userCollection.findOne(searchParams);
-
 }
 
 /**
@@ -60,7 +59,7 @@ exports.findUserByEmailAndSSN = async function findUserByEmail(email, ssn) {
  * @param password The new users password (Assumed to be hashed)
  * @returns The id of the new user. 
  */
-exports.addUser = async function addUser(name, email, password) {
+exports.addUser = async function addUser(name, surname, ssn, email, password) {
   const session = await db.startSession();
   const userCollection = await db.loadUsersCollection();
   const opts = { session, returnOriginal: false, new: true,
@@ -70,9 +69,11 @@ exports.addUser = async function addUser(name, email, password) {
     const validatedName = validateAuth.validateName(name);
     const validatedEmail = validateAuth.validateEmail(email);
     const validatedPassword = validateAuth.validatePassword(password);
-    var user = await findUserByEmail(validatedEmail)
+    const validatedSsn = validateAuth.validateSsn(ssn);
+    const validatedSurname = validateAuth.validateName(surname);
+    var user = await findUserByEmail(validatedEmail);
     if (user) throw Error(Err.AuthenticationErrors.EMAIL_TAKEN);
-    const result = await userCollection.insertOne({ name: validatedName, email: validatedEmail, password: validatedPassword, role: 'user' }, opts);
+    const result = await userCollection.insertOne({ name: validatedName, surname: validatedSurname, ssn: validatedSsn, email: validatedEmail, password: validatedPassword, role: 'applicant'}, opts);
     //await delayfunction.resolveAftermilliSeconds(5000);
     await session.commitTransaction();
     session.endSession();
