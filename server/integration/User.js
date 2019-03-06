@@ -4,6 +4,8 @@
 const db = require('./db');
 const validateAuth = require('../model/ValidateAuthentication');
 const validateApp = require('../model/ValidateApplications');
+const Err = require('../utility/ErrorEnums');
+const delayfunction = require('../utility/DelayFunction');
 var ObjectId = require('mongodb').ObjectID;
 
 
@@ -32,10 +34,11 @@ exports.findUserById = async function findUserById(userId) {
  * @param email The email of the user that is to be found  
  * @returns The found user if successful
  */
-exports.findUserByEmail = async function findUserByEmail(email) {
+ async function findUserByEmail(email) {
   const validatedEmail = validateAuth.validateEmail(email);
   return await findUser({ email: validatedEmail })
 }
+exports.findUserByEmail = findUserByEmail;
 /**
  * Add a user to the database with the given name, email and password 
  * @param name The new users name 
@@ -44,12 +47,40 @@ exports.findUserByEmail = async function findUserByEmail(email) {
  * @returns The id of the new user. 
  */
 exports.addUser = async function addUser(name, email, password) {
+  const session = await db.startSession();
   const userCollection = await db.loadUsersCollection();
-  const validatedName = validateAuth.validateName(name);
-  const validatedEmail = validateAuth.validateEmail(email);
-  const validatedPassword = validateAuth.validatePassword(password);
-  const result = await userCollection.insertOne({ name: validatedName, email: validatedEmail, password: validatedPassword, role: 'applicant' });
-  return result.ops[0]._id;
+  const opts = { session, returnOriginal: false, new: true,
+                writeConcern: { w: "majority", wtimeout: 5000 } };
+  await session.startTransaction();
+  try{
+    const validatedName = validateAuth.validateName(name);
+    const validatedEmail = validateAuth.validateEmail(email);
+    const validatedPassword = validateAuth.validatePassword(password);
+    var user = await findUserByEmail(validatedEmail)
+    if (user) throw Error(Err.AuthenticationErrors.EMAIL_TAKEN);
+    const result = await userCollection.insertOne({ name: validatedName, email: validatedEmail, password: validatedPassword, role: 'user' }, opts);
+    //await delayfunction.resolveAftermilliSeconds(5000);
+    await session.commitTransaction();
+    session.endSession();
+    return result.ops[0]._id;  
+  }
+  catch(e){
+    console.log(e.message)
+    console.log(e.stack);
+    if(e.errorLabels){
+        console.log(e.errorLabels)
+      }
+    await session.abortTransaction();
+    session.endSession();
+    if(e.message === 'WriteConflict'){
+      throw Error(Err.DatabaseErrors.MONGO_WRITE_TRANSACTION_ERROR);
+    }
+    else{
+      throw e
+    }
+    
+  }
+
 }
 /**
  * Delete the user with the given user id
@@ -61,3 +92,4 @@ exports.deleteUser = async function deleteUser(userId) {
   const userCollection = await db.loadUsersCollection();
   return await userCollection.deleteOne({ _id: new ObjectId(validatedUserId) });
 }
+

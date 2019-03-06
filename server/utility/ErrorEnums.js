@@ -20,6 +20,7 @@ const AuthenticationErrors = {
   USER_DOESNT_EXIST: 'AUC2',
   WRONG_USERNAME_OR_PASSWORD: 'AUC3'  
 };
+
 exports.AuthenticationErrors = AuthenticationErrors;
 
 /**
@@ -29,7 +30,8 @@ exports.AuthenticationErrors = AuthenticationErrors;
 const DatabaseErrors = {
   MONGO_ERROR: 'DB1', 
   MONGO_NETWORK_ERROR: 'DB2',
-  MONGO_TRANSACTION_ERROR: 'DB3'
+  MONGO_WRITE_TRANSACTION_ERROR: 'DB3',
+  UPDATE_UNSUCCESSFUL: 'DB4'
 };
 exports.DatabaseErrors = DatabaseErrors;
 
@@ -57,7 +59,8 @@ const ValidationErrors = {
   INVALID_FORMAT_EMAIL: 'VAL4',
   INVALID_FORMAT_PASSWORD: 'VAL5',
   INVALID_FORMAT_NAME: 'VAL6',
-  INVALID_FORMAT_STATUS: 'VAL7'
+  INVALID_FORMAT_STATUS: 'VAL7',
+  INVALID_FORMAT_TIMESTAMP: 'VAL8'
 };
 exports.ValidationErrors = ValidationErrors; 
 

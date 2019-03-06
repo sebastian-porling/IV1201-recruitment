@@ -12,7 +12,6 @@
  */
 module.exports = async function retry(fn, attemptsLeft, error, errormessage) {
   try {
-    console.log('Retrying attempt: ' + attemptsLeft);
     return await fn();
   }
   catch (e) {
@@ -21,6 +20,7 @@ module.exports = async function retry(fn, attemptsLeft, error, errormessage) {
     }
     else {
       if (e.name === error && e.message.match(new RegExp(errormessage)) != null) {
+        console.log('Retrying attempt: ' + attemptsLeft);
         return await retry(fn, attemptsLeft - 1, error, errormessage);
       }
       else {
