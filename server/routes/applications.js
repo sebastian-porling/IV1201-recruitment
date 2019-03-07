@@ -15,14 +15,32 @@ const router = express.Router();
  * @api {get} /all Get applications
 */
 router.get('/all', VerifyAdmin, async (req, res) => {
-  res.send(await Applications.findAllApplications());
+
+    res.send(await Applications.findAllApplications());
+  
 });
 
 /**
  * @api {get} / Get the logged in users application
  */
 router.get('/', VerifyUser, async (req, res) => {
+try{
   res.send(await Applications.findApplicationWithId(req.userId));
+  }
+  catch(e){
+    switch(e.message) {
+      case Err.DatabaseErrors.NO_APPLICATION_FOUND:
+        console.log("No application found with given id");
+        return res.status(400).send({error: 'No application found with given id.'});
+        //return res.status(400).send({error: Err.DatabaseErrors.NO_APPLICATION_FOUND});
+      default:
+        console.log(e.name +': ' + e.message);
+        console.log(e.stack)
+        return res.status(400).send({error: 'Error on the server'});
+        //return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
+
+    }
+  }
 });
 
 /**
