@@ -8,9 +8,10 @@ var client;
  * Initializes the database client 
  */
 exports.init  = async function init(){
-  client = await mongodb.MongoClient.connect(' mongodb://IV1201:IV1201@recruitment-shard-00-00-gxbqo.mongodb.net:27017,recruitment-shard-00-01-gxbqo.mongodb.net:27017,recruitment-shard-00-02-gxbqo.mongodb.net:27017/test?ssl=true&replicaSet=recruitment-shard-0&authSource=admin&retryWrites=true', {
+ const url = process.env.MONGOLAB_URI ||' mongodb://IV1201:IV1201@recruitment-shard-00-00-gxbqo.mongodb.net:27017,recruitment-shard-00-01-gxbqo.mongodb.net:27017,recruitment-shard-00-02-gxbqo.mongodb.net:27017/test?ssl=true&replicaSet=recruitment-shard-0&authSource=admin&retryWrites=true';
+  client = await mongodb.MongoClient.connect(url , {
     useNewUrlParser: true,
-    replicaSet: 'recruitment-shard-0' ,
+    replicaSet: process.env.REPLICA_SET ||'recruitment-shard-0' ,
     readConcern: { level: "majority" }
   });
   return client; 

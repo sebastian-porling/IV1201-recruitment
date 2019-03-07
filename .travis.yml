@@ -6,6 +6,8 @@ cache:
     - "node_modules"
 script:
   - "export NODE_ENV=production"
+  - "export MONGOLAB_URI='mongodb://IV1201:IV1201@test-cluster-shard-00-00-dmnli.mongodb.net:27017,test-cluster-shard-00-01-dmnli.mongodb.net:27017,test-cluster-shard-00-02-dmnli.mongodb.net:27017/test?ssl=true&replicaSet=test-cluster-shard-0&authSource=admin&retryWrites=true'"
+  - "export REPLICA_SET=test-cluster-shard-0"
   - "npm start &"
   - "sleep 5"
   - "echo $PORT"
