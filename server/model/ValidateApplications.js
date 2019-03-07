@@ -7,6 +7,7 @@ var xssFilters = require('xss-filters');
 const assert = require('assert');
 var Err = require('../utility/ErrorEnums');
 var Ajv = require('ajv');
+const Logger = require('../utility/Logger');
 var ajv = new Ajv({ allErrors: true, $data: true });
 //Schema used to validate that competence json is correct
 var competenceSchema = {
@@ -143,6 +144,7 @@ exports.validateApplicationsRoute = function validateApplicationsRoute(route) {
       next()
     }
     catch (e) {
+      Logger.log(e);
       switch (e.message) {
         case Err.ValidationErrors.INVALID_FORMAT_STATUS:
           console.log('status has invalid format');

@@ -1,3 +1,4 @@
+const Logger = require('../utility/Logger');
 /**
  * Used to retry a function if a specific error is caught 
  * @module Retry
@@ -15,6 +16,7 @@ module.exports = async function retry(fn, attemptsLeft, error, errormessage) {
     return await fn();
   }
   catch (e) {
+    Logger.log(e);
     if (attemptsLeft === 1) {
       throw e;
     }
