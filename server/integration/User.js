@@ -5,6 +5,7 @@ const db = require('./db');
 const validateAuth = require('../model/ValidateAuthentication');
 const validateApp = require('../model/ValidateApplications');
 const Err = require('../utility/ErrorEnums');
+const Logger = require('../utility/Logger');
 //const delayfunction = require('../utility/DelayFunction');
 var ObjectId = require('mongodb').ObjectID;
 
@@ -80,6 +81,7 @@ exports.addUser = async function addUser(name, surname, ssn, email, password) {
     return result.ops[0]._id;  
   }
   catch(e){
+    Logger.log(e);
     console.log(e.message)
     console.log(e.stack);
     if(e.errorLabels){

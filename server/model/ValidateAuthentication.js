@@ -6,6 +6,7 @@ var validator = require('validator');
 var xssFilters = require('xss-filters');
 const assert = require('assert');
 var Err = require('../utility/ErrorEnums');
+const Logger = require('../utility/Logger');
 
  /**
   * Function that validates a given name. Throwing an error if validation fails. 
@@ -91,6 +92,7 @@ exports.validateAuthenticationRoute = function validateAuthenticationRoute(route
       next()
     }
     catch (e) {
+      Logger.log(e);
       switch (e.message) {
         case Err.ValidationErrors.INVALID_FORMAT_NAME:
           console.log('Name has invalid format');

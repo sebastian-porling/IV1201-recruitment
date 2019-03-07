@@ -4,6 +4,7 @@
  */
 var Token = require('./Token');
 var Err = require('../utility/ErrorEnums');
+const Logger = require('../utility/Logger');
 /**
  * Verifies that the current client is logged in as a user.
  * @param req Contains information about the request made by the client to the server
@@ -24,6 +25,7 @@ async function verifyUser(req, res, next) {
     next();
   }
   catch (e) {
+    Logger.log(e);
     switch (e.name) {
       case 'JsonWebTokenError':
         console.log('Failed to authenticate token');

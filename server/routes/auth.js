@@ -14,6 +14,7 @@ var VerifyAdmin = require('../model/VerifyAdmin');
 var User = require('../integration/User');
 var validate = require('../model/ValidateAuthentication');
 var Err = require('../utility/ErrorEnums');
+const Logger = require('../utility/Logger');
 
 
 
@@ -33,6 +34,7 @@ router.post('/register', validate.validateAuthenticationRoute('/register'), asyn
     //res.status(200).send({ registered: true});         
   }
   catch(e){
+    Logger.log(e);
     console.log(typeof(e.message))
     switch(e.message){
       case Err.AuthenticationErrors.EMAIL_TAKEN:
@@ -68,6 +70,7 @@ router.post('/login', validate.validateAuthenticationRoute(), async function(req
     //res.status(200).send({ loggedIn: true});
   }
   catch(e){
+    Logger.log(e);
     switch(e.message) {
       case Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD:
         console.log('Username or password incorrect')
@@ -101,6 +104,7 @@ router.post('/loginadmin', validate.validateAuthenticationRoute('/loginadmin'), 
     //res.status(200).send({ loggedIn: true});
   }
   catch(e){
+    Logger.log(e);
     switch(e.message) {
       case Err.AuthenticationErrors.WRONG_USERNAME_OR_PASSWORD:
         console.log('Username or password incorrect')
@@ -139,6 +143,7 @@ router.get('/userpage', VerifyUser, async function(req, res){
     //return res.status(200).send({accessGrantedUser: true});
   }
   catch(e){
+    Logger.log(e);
     switch(e.message) {
       case Err.AuthorizationErrors.USER_DOESNT_EXIST:
         console.log("No user found");
@@ -164,6 +169,7 @@ router.get('/adminpage', VerifyAdmin, async function(req, res){
     return res.status(200).send('Welcome to the admin page '+ user.name);
   }
   catch(e){
+    Logger.log(e);
     switch(e.message) {
       case Err.AuthorizationErrors.USER_DOESNT_EXIST:
         console.log("No user found");
@@ -195,6 +201,7 @@ router.delete('/deleteuser/:password', VerifyUser, async function(req, res){
     res.status(200).send({ msg: 'user deleted' });
   }
   catch(e){
+    Logger.log(e);
     switch(e.message) {
       case Err.AuthorizationErrors.USER_DOESNT_EXIST:
         console.log("Couldn't delete user. User not in database")

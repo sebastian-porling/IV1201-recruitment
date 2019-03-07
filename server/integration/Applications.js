@@ -4,6 +4,8 @@ var ObjectId = require('mongodb').ObjectID;
 const validateApp = require('../model/ValidateApplications');
 const Err = require('../utility/ErrorEnums');
 const timeStamp = require('../utility/Timestamp');
+const Logger = require('../utility/Logger');
+
 //const delayfunction = require('../utility/DelayFunction');
 
 /** Module that acts as an interface to the database allowing different queries related to users in the database. 
@@ -101,6 +103,7 @@ exports.acceptApplication = async function acceptApplication(id, timestamp) {
     session.endSession();
   }
   catch(e){
+    Logger.log(e);
     console.log(e.message)
     console.log(e.stack);
     if(e.errorLabels){
@@ -141,6 +144,7 @@ exports.rejectApplication = async function rejectApplication(id, timestamp) {
     
   }
   catch(e){
+    Logger.log(e);
     console.log(e.message)
     console.log(e.stack);
     if(e.errorLabels){

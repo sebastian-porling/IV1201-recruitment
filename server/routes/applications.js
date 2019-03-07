@@ -9,6 +9,7 @@ const VerifyAdmin = require('../model/VerifyAdmin');
 const validate = require('../model/ValidateApplications');
 const Applications = require('../integration/Applications');
 var Err = require('../utility/ErrorEnums');
+const Logger = require('../utility/Logger');
 const router = express.Router();
 
 /** 
@@ -28,6 +29,7 @@ try{
   res.send(await Applications.findApplicationWithId(req.userId));
   }
   catch(e){
+    Logger.log(e);
     switch(e.message) {
       case Err.DatabaseErrors.NO_APPLICATION_FOUND:
         console.log("No application found with given id");
@@ -51,6 +53,7 @@ router.get('/:id', VerifyAdmin, validate.validateApplicationsRoute('/:id'), asyn
   res.send(await Applications.findApplicationWithId(req.params.id));
   }
   catch(e){
+    Logger.log(e);
     switch(e.message) {
       case Err.DatabaseErrors.NO_APPLICATION_FOUND:
         console.log("No application found with given id");
@@ -112,6 +115,7 @@ router.put('/primedb/:id', async (req, res) =>{
     res.status(200).send('primed');
   }
   catch(e){
+    Logger.log(e);
     console.log(e.message);
     console.log(e.stack);
   }
@@ -132,6 +136,7 @@ router.put('/accept/:id/:timestamp', VerifyAdmin, validate.validateApplicationsR
     res.status(200).send('ok');
   }
   catch(e){
+    Logger.log(e);
     if(e.message === Err.DatabaseErrors.MONGO_WRITE_TRANSACTION_ERROR){
       res.status(400).send({error: "writeTransactionError"})
     }
@@ -158,6 +163,7 @@ router.put('/reject/:id/:timestamp', VerifyAdmin, validate.validateApplicationsR
     res.status(200).send('ok');
   }
   catch(e){
+    Logger.log(e);
     if(e.message === Err.DatabaseErrors.MONGO_WRITE_TRANSACTION_ERROR){
       res.status(400).send({error: "writeTransactionError"})
     }
