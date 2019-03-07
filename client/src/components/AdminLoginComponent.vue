@@ -49,7 +49,7 @@ export default {
    */
   data() {
     return {
-      messageFromServer: "testt",
+      messageFromServer: "",
       username: "",
       password: "",
       hidden: true

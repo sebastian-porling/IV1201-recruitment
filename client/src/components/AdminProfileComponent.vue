@@ -1,8 +1,10 @@
 <template>
    <mdbContainer>
+    <div class = "title-container d-flex justify-content-center"><font class="title" size="8">Applications</font> </div>
    <div v-for="app in application" v-bind:value="app" v-bind:key="app._id">
 
-    
+  <div class=" d-flex justify-content-center">
+    <div class="application-container">
     <div dark class="indigo application ">
       <div> id: {{app._id}} </div>
       <span> Name: {{app.name}},  </span>
@@ -28,11 +30,10 @@
         <mdb-btn  color="blue-grey" >Accept</mdb-btn>
         <mdb-btn  color="blue-grey" >Reject</mdb-btn>
       </div>
-
-   
+     </div>
+    </div>
    
   </div>
-  <!-- <mdb-accordion :panes="panes"/> -->
   </mdbContainer>
 
     
@@ -66,24 +67,8 @@ export default {
 
     };
   },
-  // computed: {
-  //   ...mapState(["user"]),
-  //   loggedIn() {
-  //     return this.user.name !== null;
-  //   }
-  // },
   async created() {
     await this.getAll();
-    // await ApplicationService.getAll()
-    //   .then(data => {
-    //     this.application = data; 
-    //     //this.application = 'blabla'
-    // //    data.map(value => 
-    // //  this.panes.push({title: 'title', content: value})
-    //   })
-    //   .catch(error => {
-    //     return alert(error);
-    //   });
   },
  
   methods: {
@@ -130,11 +115,20 @@ export default {
   margin: 0 auto;
 } */
 
-.button-container{
+
+.title{
+  color:navy;
+}
+
+
+.application-container{
   width: 50%;
 }
+
+/* .button-container{
+  width: 100%;
+} */
 .application{
- width: 50%;
  text-align: center;
 }
 
