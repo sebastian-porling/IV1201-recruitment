@@ -1,69 +1,15 @@
 <template>
    <mdbContainer>
-    <!-- <mdb-tbl btn responsive striped>
-      <mdb-tbl-head>
-        <tr>
-          <th>#</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Username</th>
-        </tr>
-      </mdb-tbl-head>
-
-      <mdb-tbl-body>
-        <tr>
-          <div>
-            <span>
-              Hello
-              </span>
-              <span>
-              Hello
-              </span>
-              <span>
-              Hello
-              </span>
-              <span>
-              Hello
-              </span>
-              <span>
-              Hello
-              </span>
-              <span>
-              Hello
-              </span>
-            
-          </div>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>
-            <button type="button" class="btn btn-indigo btn-sm m-0">Button</button>
-          </td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>
-            <button type="button" class="btn btn-indigo btn-sm m-0">Button</button>
-          </td>
-        </tr>
-      </mdb-tbl-body>
-    </mdb-tbl> -->
-    <!-- <span>Application: {{ application }}</span> -->
-
    <div v-for="app in application" v-bind:value="app" v-bind:key="app._id">
 
     
-    <div>
-      <div>id: {{app._id}} </div>
+    <div dark class="indigo application ">
+      <div> id: {{app._id}} </div>
       <span> Name: {{app.name}},  </span>
       <span> Surname: {{app.surname}} </span>
        <div>Availabilities </div>
       <div v-for="date in app.availability" v-bind:value="date" v-bind:key="date.from">  
-        <div> From: {{date.from_date}} </div>
+        <div> From: {{date.from_date}}  </div>
         <div> To: {{date.to_date}} </div>
       </div>
       <div> Competences </div>
@@ -72,15 +18,16 @@
         <div> Years of experience: {{competence.years_of_experience}} </div>
       </div>
       <div>Status: {{app.status}} </div>
+      <div>Last edited: {{app.timestamp}} </div>
     </div>
-     <div v-if="app.status !=='rejected' && app.status !=='approved'">
-        <mdb-btn color="success">Success</mdb-btn>
-        <mdb-btn color="danger">Danger</mdb-btn>
+     <div class="button-container d-flex justify-content-center" v-if="app.status ==='unhandled'">
+        <mdb-btn @click="accept(app._id, app.timestamp)" color="success">Accept</mdb-btn>
+        <mdb-btn @click="reject(app._id, app.timestamp)" color="danger">Reject</mdb-btn>
       </div>
-      <div v-else>
-        <mdb-btn class=grayed-out-button >Success</mdb-btn>
-        <mdb-btn class=grayed-out-button >Danger</mdb-btn>
-</div>
+      <div class="button-container d-flex justify-content-center" v-if="app.status !=='unhandled'">
+        <mdb-btn  color="blue-grey" >Accept</mdb-btn>
+        <mdb-btn  color="blue-grey" >Reject</mdb-btn>
+      </div>
 
    
    
@@ -111,16 +58,12 @@ export default {
   },
   data() {
     return {
-      panes: null,
       application: null,
       applicationExists: false,
       hidden: false,
       modal: false,
-      status: null,
-      items: [
-      { message: 'Foo' },
-      { message: 'Bar' }
-    ]
+      status: null
+
     };
   },
   // computed: {
@@ -130,27 +73,74 @@ export default {
   //   }
   // },
   async created() {
-    await ApplicationService.getAll()
-      .then(data => {
-        this.application = data; 
-        //this.application = 'blabla'
-    //    data.map(value => 
-    //  this.panes.push({title: 'title', content: value})
-      })
-      .catch(error => {
-        return alert(error);
-      });
-  }
-  ,
+    await this.getAll();
+    // await ApplicationService.getAll()
+    //   .then(data => {
+    //     this.application = data; 
+    //     //this.application = 'blabla'
+    // //    data.map(value => 
+    // //  this.panes.push({title: 'title', content: value})
+    //   })
+    //   .catch(error => {
+    //     return alert(error);
+    //   });
+  },
+ 
   methods: {
+    reject: async function(id, timestamp){
+      try{
+        await ApplicationService.reject(id, timestamp);
+        await this.getAll();
+      }
+      catch(error){
+        return alert(error);
+      }
+
+    },
+    accept: async function (id, timestamp){
+      try{
+        await ApplicationService.accept(id, timestamp);
+        await this.getAll();
+      }
+      catch(error){
+        return alert(error);
+      }
+
+    },
+    getAll: async function (){
+          await ApplicationService.getAll().then(data => {
+          this.application = data; 
+          //this.application = 'blabla'
+      //    data.map(value => 
+      //  this.panes.push({title: 'title', content: value})
+        })
+        .catch(error => {
+          return alert(error);
+        });
+    }
     
   }
 };
 </script>
 
 <style scoped>
-.grayed-out-button{
-  color: rgba(211, 211, 211, 0.76)
+/* mdb-btn{
+  width: 20px;
+  height: 100%;
+  margin: 0 auto;
+} */
+
+.button-container{
+  width: 50%;
+}
+.application{
+ width: 50%;
+ text-align: center;
+}
+
+.application>div,span{
+ color: white;
+ width: 100%
 }
 
 .card img {

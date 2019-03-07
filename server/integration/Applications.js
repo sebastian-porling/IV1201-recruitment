@@ -45,7 +45,7 @@ exports.createApplication = async function createApplication(id, competences, av
   validateApp.validateCompetences(competences);
   validateApp.validateAvailability(availability);
   const applications = await db.loadUsersCollection();
-  await applications.updateOne({ _id: new ObjectId(validatedId) }, { $set: { competences: competences, availability: availability, status: 'unhandled' } }, { upsert: true });
+  await applications.updateOne({ _id: new ObjectId(validatedId) }, { $set: { competences: competences, availability: availability, status: 'unhandled', timestamp: timeStamp.generateTimestamp() } }, { upsert: true });
 }
 
 /**
@@ -59,7 +59,7 @@ exports.updatepplication = async function updateApplication(id, competences, ava
   validateApp.validateCompetences(competences);
   validateApp.validateAvailability(availability);
   const applications = await db.loadUsersCollection();
-  await applications.updateOne({ _id: new ObjectId(validatedId) }, { $set: { competences: competences, availability: availability, status: 'unhandled' } }, { upsert: true });
+  await applications.updateOne({ _id: new ObjectId(validatedId) }, { $set: { competences: competences, availability: availability, status: 'unhandled', timestamp: timeStamp.generateTimestamp() } }, { upsert: true });
 }
 
 /** 

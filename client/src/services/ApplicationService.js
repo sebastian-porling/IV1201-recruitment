@@ -51,9 +51,9 @@ class ApplicationService{
 	 * Rejects the given application
 	 * @param {Hex} id 
 	 */
-	static async reject(id){
+	static async reject(id, timestamp){
 		try {
-			let result = await axios.put(url + '/reject/'+ id);
+			let result = await axios.put(url + '/reject/'+ id+'/'+timestamp);
 			return result;
 		} catch (error) {
 			throw error;
@@ -64,9 +64,9 @@ class ApplicationService{
 	 * Accepts the given application
 	 * @param {Hex} id 
 	 */
-	static async accept(id){
+	static async accept(id, timestamp){
 		try {
-			let result = await axios.put(url + '/accept/' + id);
+			let result = await axios.put(url + '/accept/' + id+ '/'+timestamp);
 			return result;
 		} catch (error) {
 			throw error;
