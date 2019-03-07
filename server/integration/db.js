@@ -72,14 +72,15 @@ process.on('SIGINT', () => {
 /* Mongo.js*/
 
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://IV1201:IV1201@recruitment-shard-00-00-gxbqo.mongodb.net:27017,recruitment-shard-00-01-gxbqo.mongodb.net:27017,recruitment-shard-00-02-gxbqo.mongodb.net:27017/test?ssl=true&replicaSet=recruitment-shard-0&authSource=admin&retryWrites=true'"; 
+var url = process.env.MONGOLAB_URI || "mongodb://IV1201:IV1201@recruitment-shard-00-00-gxbqo.mongodb.net:27017,recruitment-shard-00-01-gxbqo.mongodb.net:27017,recruitment-shard-00-02-gxbqo.mongodb.net:27017/test?ssl=true&replicaSet=recruitment-shard-0&authSource=admin&retryWrites=true'"; 
+console.log(url);
 var assert = require('assert');
 
 var connection=[];
 // Create the database connection
 establishConnection = function(callback){
   MongoClient.connect(url, {useNewUrlParser: true,
-    replicaSet: 'recruitment-shard-0' ,
+    replicaSet: process.env.REPLICA_SET || 'recruitment-shard-0' ,
     readConcern: { level: "majority" }, poolSize: 10 },function(err, db) {
     assert.equal(null, err);
       connection = db
