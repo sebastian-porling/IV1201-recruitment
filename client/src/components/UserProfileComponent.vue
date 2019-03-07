@@ -78,9 +78,12 @@ export default {
         }
       })
       .catch(error => {
-        console.log(error);
-        this.logout();
-        this.$router.push('/login');
+        console.log(error.response.data.error);
+        if(error.response.data.error != "No application found with given id."){
+          this.logout();
+          this.$router.push('/login');
+        }
+        this.hidden = true;
       })
   },
   methods: {

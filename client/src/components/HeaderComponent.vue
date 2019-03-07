@@ -71,6 +71,7 @@ export default {
     async logoutApi() {
       await AuthServices.logout().then((msg) => {
         this.msgFromServer = msg;
+        setTimeout(()=>{ this.msgFromServer = null; }, 2000);
         this.logout();
         this.$router.push('/');
       });
