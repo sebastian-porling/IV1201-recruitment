@@ -1,23 +1,27 @@
+<!-- A header template, it has the navigation -->
 <template>
   <mdb-navbar expand="large" dark class="indigo">
     <!-- Navbar brand -->
-    <mdb-container>
-    <mdb-navbar-toggler>
-        <mdb-navbar-brand>Recruitment</mdb-navbar-brand>
+    <mdb-navbar-toggler class="middle">
+      <mdb-navbar-brand>Recruitment</mdb-navbar-brand>
+      
       <mdb-navbar-nav>
-        <mdb-nav-item to="/" active>Home</mdb-nav-item>
-        <mdb-nav-item to="/login">Login</mdb-nav-item>
-        <mdb-nav-item to="/register">Register</mdb-nav-item>
+        <mdb-nav-item to="/">Home</mdb-nav-item>
+        <mdb-nav-item to="/user" v-if="loggedIn && userRole === 'applicant'">{{this.user.name}}</mdb-nav-item>
+        <mdb-nav-item to="/admin" v-if="loggedIn && userRole === 'recruiter' ">{{this.user.name}}</mdb-nav-item>
+        <mdb-nav-item to="/login" v-if="!loggedIn">Login</mdb-nav-item>
+        <mdb-nav-item to="/register" v-if="!loggedIn">Register</mdb-nav-item>
+        <mdb-nav-item to="/loginadmin" v-if="!loggedIn">Recruiter Login</mdb-nav-item>
       </mdb-navbar-nav>
       {{msgFromServer}}
-      <mdb-btn v-on:click="logoutApi()">Logout</mdb-btn>
+      <mdb-btn v-on:click="logoutApi()" v-if="loggedIn">Logout</mdb-btn>
     </mdb-navbar-toggler>
-    </mdb-container>
   </mdb-navbar>
 </template>
 
 <script>
-import AuthServices from "../AuthServices";
+import AuthServices from "../services/AuthServices";
+import {mapState, mapActions} from 'vuex'
 import {
   mdbNavbar,
   mdbNavItem,
@@ -26,14 +30,29 @@ import {
   mdbNavbarBrand,
   mdbBtn
 } from "mdbvue";
+
 export default {
   name: "HeaderComponent",
   data() {
+    /**
+     * The data that can be changed in this module.
+     */
     return {
-      loginURL: "test.se",
       msgFromServer: ""
     };
   },
+  computed: {
+    ...mapState(['user']),
+    loggedIn() {
+      return this.user.name !== null;
+    },
+    userRole(){
+      return this.user.role;
+    },
+  },
+  /**
+   * Components needed for this module.
+   */
   components: {
     mdbNavbar,
     mdbNavItem,
@@ -43,16 +62,36 @@ export default {
     mdbBtn
   },
   methods: {
-      async logoutApi() {
-      this.msgFromServer = await AuthServices.logout();
+    /**
+     * Will change the variable msgFromServer when called.
+     */
+    ...mapActions({
+      logout: 'logout'
+    }),
+    async logoutApi() {
+      await AuthServices.logout().then((msg) => {
+        this.msgFromServer = msg;
+        setTimeout(()=>{ this.msgFromServer = null; }, 2000);
+        this.logout();
+        this.$router.push('/');
+      });
     }
-  },
+  }
 };
 </script>
 
-<style>
-mdb-container{
+<style scoped>
+/* Sets width of the navbar */
+#header {
+  max-width: 900px;
+  margin: 0 auto;
+}
+@media screen and (min-width: 992px) {
+  .middle {
+    display: block;
     min-width: 900px;
-    margin: 0 auto;
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
 }
 </style>

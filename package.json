@@ -1,16 +1,21 @@
 {
-  "name": "mevn-test",
+  "name": "Recruitment-application",
   "version": "1.0.0",
-  "description": "Full-stack vue, express, node.js and mongodb app",
+  "description": "For the course IV1201",
+  "engines": {
+    "node": "11.9.0"
+  },
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/mocha ",
     "start": "node server/index.js",
-    "dev": "nodemon server/index.js"
+    "dev": "nodemon server/index.js",
+    "acc-test": "./node_modules/.bin/codeceptjs run --steps"
   },
   "author": "Sebastian Porling",
   "license": "MIT",
   "dependencies": {
+    "ajv": "^6.9.1",
     "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
@@ -18,12 +23,22 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "jsonschema": "^1.2.4",
     "jsonwebtoken": "^8.4.0",
     "mongodb": "^3.1.13",
+    "supertest": "^3.4.2",
     "validator": "^10.11.0",
-    "vue-router": "^3.0.2"
+    "vue-router": "^3.0.2",
+    "xss-filters": "^1.2.7"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.1",
+    "codeceptjs": "^2.0.4",
+    "eslint": "^5.14.0",
+    "eslint-plugin-node": "^8.0.1",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.9",
+    "puppeteer": "^1.12.2"
   }
 }

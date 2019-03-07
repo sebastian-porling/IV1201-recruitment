@@ -88,4 +88,4 @@ typings/
 client/package-lock.json
 package-lock.json
 
-
+/output
