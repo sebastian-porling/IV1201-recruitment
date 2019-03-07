@@ -14,9 +14,6 @@ var Err = require('../utility/ErrorEnums');
 async function verifyUser(req, res, next) {
   try {
     var token = req.session.token;
-    //var token = req.headers['x-access-token'];
-    //var token = req.headers['authorization'];
-    //console.log(req.headers.authorization)
     if (!token) {
       console.log('no token')
       throw Error(Err.AuthorizationErrors.NO_TOKEN_PROVIDED);

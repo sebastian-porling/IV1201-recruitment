@@ -2,12 +2,11 @@
  * @module db
  */
 const mongodb = require('mongodb');
-const retry = require('../utility/Retry')
-const MAX_RETRIES = 5;
-const MONGO_NETWORK_ERROR = 'MongoNetworkError'
-const ERROR_MESSAGE = 'failed to connect to server'
 var client;
 
+/**
+ * Initializes the database client 
+ */
 exports.init  = async function init(){
   client = await mongodb.MongoClient.connect(' mongodb://IV1201:IV1201@recruitment-shard-00-00-gxbqo.mongodb.net:27017,recruitment-shard-00-01-gxbqo.mongodb.net:27017,recruitment-shard-00-02-gxbqo.mongodb.net:27017/test?ssl=true&replicaSet=recruitment-shard-0&authSource=admin&retryWrites=true', {
     useNewUrlParser: true,
@@ -16,13 +15,13 @@ exports.init  = async function init(){
   });
   return client; 
 }
-
+/**
+ * Loads the recruitment database
+ * @returns The recruitment database
+ */
 exports.loadDatabase = async function loadDatabase(){
   return client.db('recruitment')
 }
-
-
-
 
 /**
  * Loads the user collection
@@ -30,15 +29,7 @@ exports.loadDatabase = async function loadDatabase(){
  */
 
 exports.loadUsersCollection = async function loadUsersCollection() {
-  //const fn = async function () {
-    // const client = await mongodb.MongoClient.connect(' mongodb://IV1201:IV1201@recruitment-shard-00-00-gxbqo.mongodb.net:27017,recruitment-shard-00-01-gxbqo.mongodb.net:27017,recruitment-shard-00-02-gxbqo.mongodb.net:27017/test?ssl=true&replicaSet=recruitment-shard-0&authSource=admin&retryWrites=true', {
-    //   useNewUrlParser: true,
-    //   replicaSet: 'recruitment-shard-0' ,
-    //   readConcern: { level: "majority" }
-    // });
     return client.db('recruitment').collection('recruitment');
-  //}
-  //return await retry(fn, MAX_RETRIES, MONGO_NETWORK_ERROR, ERROR_MESSAGE);
 }
 
 /**
@@ -46,44 +37,23 @@ exports.loadUsersCollection = async function loadUsersCollection() {
  * @returns the collection
  */
 exports.loadCompetenceCollection = async function loadCompetenceCollection() {
-  //const fn = async function () {
-    // const client = await mongodb.MongoClient.connect(' mongodb://IV1201:IV1201@recruitment-shard-00-00-gxbqo.mongodb.net:27017,recruitment-shard-00-01-gxbqo.mongodb.net:27017,recruitment-shard-00-02-gxbqo.mongodb.net:27017/test?ssl=true&replicaSet=recruitment-shard-0&authSource=admin&retryWrites=true', {
-    //   useNewUrlParser: true,
-    //   replicaSet: 'recruitment-shard-0' ,
-    //   readConcern: { level: "majority" }
-    // });
     return client.db('recruitment').collection('competences');
-  //}
-  //return await retry(fn, MAX_RETRIES, MONGO_NETWORK_ERROR, ERROR_MESSAGE);
 }
 
+/**
+ * Returns a new database session
+ * @returns the started session
+ */
 exports.startSession = async function startSession(){
-  // const fn = async function () {
-  //   const client = await mongodb.MongoClient.connect(' mongodb://IV1201:IV1201@recruitment-shard-00-00-gxbqo.mongodb.net:27017,recruitment-shard-00-01-gxbqo.mongodb.net:27017,recruitment-shard-00-02-gxbqo.mongodb.net:27017/test?ssl=true&replicaSet=recruitment-shard-0&authSource=admin&retryWrites=true', {
-  //     useNewUrlParser: true,
-  //     replicaSet: 'recruitment-shard-0' ,
-  //     readConcern: { level: "majority" }
-  //   });
     return client.startSession({ readPreference: { mode: "primary" } });
-  //}
-  //return await retry(fn, MAX_RETRIES, MONGO_NETWORK_ERROR, ERROR_MESSAGE);
-
-
 }
 
+/**
+ * Returns the database client
+ * @returns the database client 
+ */
 exports.getClient = async function getClient(){
-  // const fn = async function () {
-  //   const client = await mongodb.MongoClient.connect(' mongodb://IV1201:IV1201@recruitment-shard-00-00-gxbqo.mongodb.net:27017,recruitment-shard-00-01-gxbqo.mongodb.net:27017,recruitment-shard-00-02-gxbqo.mongodb.net:27017/test?ssl=true&replicaSet=recruitment-shard-0&authSource=admin&retryWrites=true', {
-  //     useNewUrlParser: true,
-  //     replicaSet: 'recruitment-shard-0' ,
-  //     readConcern: { level: "majority" }
-  //   });
     return client;
-
-  //}
-  //return await retry(fn, MAX_RETRIES, MONGO_NETWORK_ERROR, ERROR_MESSAGE);
-
-
 }
 
 

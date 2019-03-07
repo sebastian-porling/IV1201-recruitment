@@ -43,15 +43,20 @@ const validateId = function (id) {
 };
 exports.validateId = validateId;
 
-
+/** 
+ * Function that validates the giving status ensuring it has the correct format.  
+ * @param status The status that is to be validated 
+ * @return The filtered status if validation is successful 
+ */
 const validateStatus = function(status){
   if(status === undefined){
     return 'undefined';
   }
   const filteredStatus = xssFilters.inHTMLData(status);
-  assert.strictEqual(id, filteredStatus, Err.ValidationErrors.INVALID_FORMAT_STATUS);
-  const statusEquals = validator.equals(status, 'accepted') || validator.equals(status, 'rejected')
+  assert.strictEqual(status, filteredStatus, Err.ValidationErrors.INVALID_FORMAT_STATUS);
+  const statusEquals = validator.equals(filteredStatus, 'accepted') || validator.equals(filteredStatus, 'rejected')
   assert.strictEqual(true, statusEquals, Err.ValidationErrors.INVALID_FORMAT_STATUS);
+  return filteredStatus;
 
 }
 exports.validateStatus = validateStatus;
@@ -95,7 +100,11 @@ const validateAvailability = function (availability) {
 
 exports.validateAvailability = validateAvailability;
 
-
+/**
+ * Validates the given timestamp. Throwing an error if validation fails. 
+ * @param timestamp The timestamp that is to be validated
+ * @returns The filtered timestamp if validation is successful.
+ */
 const validateTimestamp = function(timestamp){
   const filteredTimestamp = xssFilters.inHTMLData(timestamp);
   options = {strict: true};

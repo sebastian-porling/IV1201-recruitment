@@ -11,13 +11,6 @@ const Applications = require('../integration/Applications');
 var Err = require('../utility/ErrorEnums');
 const router = express.Router();
 
-
-router.get('/competences', async function (req,res){
-  console.log('test');
-  res.status(200).send('okok');
-})
-
-
 /** 
  * @api {get} /all Get applications
 */
@@ -36,7 +29,23 @@ router.get('/', VerifyUser, async (req, res) => {
  * @api {get} /:id Get user application
  */
 router.get('/:id', VerifyAdmin, validate.validateApplicationsRoute('/:id'), async (req, res) => {
+  try{
   res.send(await Applications.findApplicationWithId(req.params.id));
+  }
+  catch(e){
+    switch(e.message) {
+      case Err.DatabaseErrors.NO_APPLICATION_FOUND:
+        console.log("No application found with given id");
+        return res.status(400).send({error: 'No application found with given id.'});
+        //return res.status(400).send({error: Err.DatabaseErrors.NO_APPLICATION_FOUND});
+      default:
+        console.log(e.name +': ' + e.message);
+        console.log(e.stack)
+        return res.status(400).send({error: 'Error on the server'});
+        //return res.status(400).send({error: Err.ServerErrors.ERROR_ON_SERVER});
+
+    }
+  }
 });
 
 /** 
@@ -93,7 +102,12 @@ router.put('/primedb/:id', async (req, res) =>{
 }
 
 )
-
+/** 
+ * @api {put} /reject/:id Accept application
+ * 
+ * @apiParam {number} id Users unique id
+ * @apiParam {string} the timestamp of the application when it was accepted
+ */
 router.put('/accept/:id/:timestamp', VerifyAdmin, validate.validateApplicationsRoute('/:id/:timestamp'), async (req, res) => {
   try{
      await Applications.acceptApplication(req.params.id, req.params.timestamp);
@@ -118,6 +132,7 @@ router.put('/accept/:id/:timestamp', VerifyAdmin, validate.validateApplicationsR
  * @api {put} /reject/:id Reject application
  * 
  * @apiParam {number} id Users unique id
+ * @apiParam {string} the timestamp of the application when it was rejected
  */
 router.put('/reject/:id/:timestamp', VerifyAdmin, validate.validateApplicationsRoute('/:id/:timestamp'), async (req, res) => {
   try{

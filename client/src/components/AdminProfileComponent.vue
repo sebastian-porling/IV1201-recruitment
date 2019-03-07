@@ -1,8 +1,9 @@
+<!-- Represents the Recruiters view here the recruiter can see the applications and approve or reject them  -->
 <template>
    <mdbContainer>
     <div class = "title-container d-flex justify-content-center"><font class="title" size="8">Applications</font> </div>
+   <!-- Generate elements for each application -->
    <div v-for="app in application" v-bind:value="app" v-bind:key="app._id">
-
   <div class=" d-flex justify-content-center">
     <div class="application-container">
     <div dark class="indigo application ">
@@ -47,13 +48,10 @@ import {
  mdbBtn
   
 } from "mdbvue";
-//import MakeApplicationComponent from './MakeApplicationComponent.vue'
-//import { mapState } from "vuex";
 import ApplicationService from "../services/ApplicationService.js";
 export default {
   name: "AdminProfileComponent",
   components: {
-    //MakeApplicationComponent,
     mdbContainer,
     mdbBtn,
   },
@@ -72,6 +70,10 @@ export default {
   },
  
   methods: {
+    /** Reject an unhandled application  
+     * @param id The id of the user whos applcation is to be rejected
+     * @param timestamp The application timestamp used to ensure that the admin has the latest version of the application 
+    */
     reject: async function(id, timestamp){
       try{
         await ApplicationService.reject(id, timestamp);
@@ -82,6 +84,10 @@ export default {
       }
 
     },
+    /** Accept an unhandled application
+     * @param id The id of the user whos applcation is to be rejected
+     * @param timestamp The application timestamp used to ensure that the admin has the latest version of the application 
+      */
     accept: async function (id, timestamp){
       try{
         await ApplicationService.accept(id, timestamp);
@@ -92,12 +98,10 @@ export default {
       }
 
     },
+    /** Retrieve all applications on the server */
     getAll: async function (){
           await ApplicationService.getAll().then(data => {
           this.application = data; 
-          //this.application = 'blabla'
-      //    data.map(value => 
-      //  this.panes.push({title: 'title', content: value})
         })
         .catch(error => {
           return alert(error);
@@ -109,12 +113,6 @@ export default {
 </script>
 
 <style scoped>
-/* mdb-btn{
-  width: 20px;
-  height: 100%;
-  margin: 0 auto;
-} */
-
 
 .title{
   color:navy;
@@ -125,9 +123,6 @@ export default {
   width: 50%;
 }
 
-/* .button-container{
-  width: 100%;
-} */
 .application{
  text-align: center;
 }
