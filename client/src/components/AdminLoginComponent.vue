@@ -49,7 +49,7 @@ export default {
    */
   data() {
     return {
-      messageFromServer: "testt",
+      messageFromServer: "",
       username: "",
       password: "",
       hidden: true
@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     /**
-     * Will prevent default form action and use the authservice login.
+     * Will prevent default form action and use the authservice loginAdmin.
      */
     ...mapActions([
       'login'
@@ -68,13 +68,12 @@ export default {
       await AuthServices.loginAdmin(this.username, this.password).then((response) => {
         this.hidden = true;
         this.messageFromServer = response.message;
-        //this.login({name: response.data.name, token: null, role: response.data.role});
+        this.login({name: response.data.name, token: null, role: response.data.role});
         this.$router.push('/admin');
       })
       .catch((error) => {
         this.hidden = true;
         this.messageFromServer = error;
-        //this.messageFromServer = 'errorerror';
       });
     }
   }

@@ -62,7 +62,7 @@ const router = new Router({
 router.beforeEach( async(to, from, next) => {
   let loggedIn = store.state.user.name !== null;
   let role = store.state.user.role;
-  if (to.fullPath === '/login' || to.fullPath === '/register' || to.fullPath === '/login/admin' || to.fullPath === "/") {
+  if (to.fullPath === '/login' || to.fullPath === '/register' || to.fullPath === '/loginadmin' || to.fullPath === "/") {
     if (loggedIn) {
       router.push('/');
     }

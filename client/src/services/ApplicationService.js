@@ -1,12 +1,6 @@
 import axios from 'axios';
 const url = 'api/applications';
 
-// const JWTToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjN2JmMDk0ZDkwMjU3ODVlMjk5MTk4MCIsImlhdCI6MTU1MTg4MjY2MywiZXhwIjoxNTUxOTY5MDYzfQ.6e4pLHaDztw0fnvmCoxNEzMk7u3-BEVaHHmgIjxysms"
-
-// axios.defaults.headers = {
-// 	Authorization: JWTToken
-// }
-
 /**
  * Class used for handling applications
  */
@@ -51,9 +45,9 @@ class ApplicationService{
 	 * Rejects the given application
 	 * @param {Hex} id 
 	 */
-	static async reject(id){
+	static async reject(id, timestamp){
 		try {
-			let result = await axios.put(url + '/reject/'+ id);
+			let result = await axios.put(url + '/reject/'+ id+'/'+timestamp);
 			return result;
 		} catch (error) {
 			throw error;
@@ -64,9 +58,9 @@ class ApplicationService{
 	 * Accepts the given application
 	 * @param {Hex} id 
 	 */
-	static async accept(id){
+	static async accept(id, timestamp){
 		try {
-			let result = await axios.put(url + '/accept/' + id);
+			let result = await axios.put(url + '/accept/' + id+ '/'+timestamp);
 			return result;
 		} catch (error) {
 			throw error;

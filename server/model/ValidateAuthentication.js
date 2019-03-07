@@ -6,14 +6,6 @@ var validator = require('validator');
 var xssFilters = require('xss-filters');
 const assert = require('assert');
 var Err = require('../utility/ErrorEnums');
-/**
- * Verifies that the input from the user to a route in /auth is valid 
- * @param req Contains information about the request made by the client to the server.
- * @param res Used to construct a response to the client.
- * @param next The next middleware that should be called if the client is logged in as an admin.
- * @returns HTTP response if error occured else nothing
- */
-
 
  /**
   * Function that validates a given name. Throwing an error if validation fails. 
@@ -28,7 +20,11 @@ const validateName = function (name) {
   return filteredName;
 }
 exports.validateName = validateName;
-
+/**
+  * Function that validates a given SSN (Social security Number). Throwing an error if validation fails. 
+  * @param ssn The SSN that is to be validated.
+  * @returns The filtered SSN if validation is successful.
+  */
 const validateSsn = function (ssn) {
   var filteredSsn = xssFilters.inHTMLData(ssn);
   assert.strictEqual(ssn, filteredSsn);
@@ -72,6 +68,7 @@ exports.validatePassword = validatePassword;
  * @param req Contains information about the request made by the client to the server.
  * @param res Used to construct a response to the client.
  * @param next The next middleware that should be called if validation is successful 
+ * @returns HTTP response if error occured else nothing
  */
 exports.validateAuthenticationRoute = function validateAuthenticationRoute(route) {
   return async function (req, res, next) {

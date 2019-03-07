@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 /**
  * Test for the Application REST API.
  */
-/*
+
 describe('Applications', function () {
   const registerUser = {
     email: "test@applications.com",
@@ -30,11 +30,7 @@ describe('Applications', function () {
     email: "fake@admin.com",
     password: "fakeAdmin"
   }
-<<<<<<< HEAD
-  /*
-=======
   
->>>>>>> e6d2849680fbe96b923cf939f918071472eb1877
   //now let's login the user before we run any tests
   var authenticatedUser = chai.request.agent('http://127.0.0.1:5000');
   before((done) => {
@@ -49,6 +45,7 @@ describe('Applications', function () {
       .end((err, res) => {
         res.should.have.status(200);
         userId = res.body.user._id;
+        timestamp = '2019-03-03T18:14:14.486Z';
         let application = {
           competences: [
             {competence: "Karuselldrift", years_of_experience: 2}
@@ -62,7 +59,11 @@ describe('Applications', function () {
         .send(application)
         .end((err, res) => {
           res.should.have.status(200);
-          done();
+          authenticatedUser.put('/api/applications/primedb/'+userId)
+           .end((err, res) => {
+            res.should.have.status(200);
+            done();
+           });
         });
       });
     });    
@@ -281,7 +282,7 @@ describe('Applications', function () {
       });
     });
   });
-  describe('/PUT /accept/:id', function () {
+  describe('/PUT /accept/:id/:timestamp', function () {
     afterEach((done) => {
       authenticatedUser
       .post('/auth/login')
@@ -292,8 +293,12 @@ describe('Applications', function () {
         .get('/auth/logout')
         .end((err, res) => {
           res.should.have.status(200);
-          done();
-        });
+          authenticatedUser.put('/api/applications/primedb/'+userId)
+           .end((err, res) => {
+            res.should.have.status(200);
+            done();
+           });
+        })    
       });
     });
     it('should not accept application because not authorized', (done) => {
@@ -303,7 +308,7 @@ describe('Applications', function () {
       .end((err, res) => {
         res.should.have.status(200);
         authenticatedUser
-        .put('/api/applications/accept/' + userId)
+        .put('/api/applications/accept/' + userId + '/'+timestamp)
         .end((err, res) => {
           res.should.have.status(400);
           done();
@@ -312,7 +317,7 @@ describe('Applications', function () {
     });
     it('should not accept application because not logged in', (done) => {
       chai.request('http://127.0.0.1:5000')
-      .put('/api/applications/accept/' + userId)
+      .put('/api/applications/accept/' + userId + '/'+timestamp)
       .end((err, res) => {
         res.should.have.status(400);
         done();
@@ -325,7 +330,7 @@ describe('Applications', function () {
       .end((err, res) => {
         res.should.have.status(200);
         authenticatedUser
-        .put('/api/applications/accept/' + userId)
+        .put('/api/applications/accept/' + userId + '/'+timestamp)
         .end((err, res) => {
           res.should.have.status(200);
           done();
@@ -333,7 +338,7 @@ describe('Applications', function () {
       });
     });
   });
-  describe('/GET /reject/:id', function () {
+  describe('/GET /reject/:id/:timestamp', function () {
     afterEach((done) => {
       authenticatedUser
       .post('/auth/login')
@@ -344,7 +349,11 @@ describe('Applications', function () {
         .get('/auth/logout')
         .end((err, res) => {
           res.should.have.status(200);
-          done();
+          authenticatedUser.put('/api/applications/primedb/'+userId)
+           .end((err, res) => {
+            res.should.have.status(200);
+            done();
+           });
         });
       });
     });
@@ -355,7 +364,7 @@ describe('Applications', function () {
       .end((err, res) => {
         res.should.have.status(200);
         authenticatedUser
-        .put('/api/applications/reject/' + userId)
+        .put('/api/applications/reject/' + userId + '/' + timestamp)
         .end((err, res) => {
           res.should.have.status(400);
           done();
@@ -364,7 +373,7 @@ describe('Applications', function () {
     });
     it('should not reject application because not logged in', (done) => {
       chai.request('http://127.0.0.1:5000')
-      .put('/api/applications/reject/' + userId)
+      .put('/api/applications/reject/' + userId + '/'+ timestamp)
       .end((err, res) => {
         res.should.have.status(400);
         done();
@@ -377,7 +386,7 @@ describe('Applications', function () {
       .end((err, res) => {
         res.should.have.status(200);
         authenticatedUser
-        .put('/api/applications/reject/' + userId)
+        .put('/api/applications/reject/' + userId + '/'+ timestamp)
         .end((err, res) => {
           res.should.have.status(200);
           done();
@@ -437,4 +446,4 @@ describe('Applications', function () {
       });
     });
   });
-});*/
+});

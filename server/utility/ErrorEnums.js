@@ -23,6 +23,8 @@ const AuthenticationErrors = {
 
 exports.AuthenticationErrors = AuthenticationErrors;
 
+
+
 /**
  * Enum representing database errors
  * @enum {String}
@@ -31,7 +33,8 @@ const DatabaseErrors = {
   MONGO_ERROR: 'DB1', 
   MONGO_NETWORK_ERROR: 'DB2',
   MONGO_WRITE_TRANSACTION_ERROR: 'DB3',
-  UPDATE_UNSUCCESSFUL: 'DB4'
+  UPDATE_UNSUCCESSFUL: 'DB4',
+  NO_APPLICATION_FOUND: 'DB5'
 };
 exports.DatabaseErrors = DatabaseErrors;
 

@@ -11,7 +11,6 @@ const timeStamp = require('../utility/Timestamp');
  */
 
 
-
 /**
  * Finds the application with the given user id. 
  * @param id The user id of the given application  
@@ -21,7 +20,13 @@ exports.findApplicationWithId = async function findApplicationWithId(id) {
   const validatedId = validateApp.validateId(id);
   const applications = await db.loadUsersCollection();
   const res = await applications.find({ _id: new ObjectId(validatedId), competences: {$exists: true}, availability: {$exists: true} }, { projection: { role: 0, password: 0, username: 0 } }).toArray();
-  return res;
+  //return Array.isArray(res);
+  if(!res.length){
+    throw Error(Err.DatabaseErrors.NO_APPLICATION_FOUND);
+  }
+  else{
+    return res;
+  }
   //Need to check that application isnt empty when we get it!!!!!!!!!!!!!!!!!
 }
 
@@ -45,7 +50,7 @@ exports.createApplication = async function createApplication(id, competences, av
   validateApp.validateCompetences(competences);
   validateApp.validateAvailability(availability);
   const applications = await db.loadUsersCollection();
-  await applications.updateOne({ _id: new ObjectId(validatedId) }, { $set: { competences: competences, availability: availability, status: 'unhandled' } }, { upsert: true });
+  await applications.updateOne({ _id: new ObjectId(validatedId) }, { $set: { competences: competences, availability: availability, status: 'unhandled', timestamp: timeStamp.generateTimestamp() } }, { upsert: true });
 }
 
 /**
@@ -59,7 +64,7 @@ exports.updatepplication = async function updateApplication(id, competences, ava
   validateApp.validateCompetences(competences);
   validateApp.validateAvailability(availability);
   const applications = await db.loadUsersCollection();
-  await applications.updateOne({ _id: new ObjectId(validatedId) }, { $set: { competences: competences, availability: availability, status: 'unhandled' } }, { upsert: true });
+  await applications.updateOne({ _id: new ObjectId(validatedId) }, { $set: { competences: competences, availability: availability, status: 'unhandled', timestamp: timeStamp.generateTimestamp() } }, { upsert: true });
 }
 
 /** 
@@ -75,8 +80,8 @@ exports.deleteApplication = async function deleteApplication(id) {
 /**
  * Accept the given application
  * @param id The user id of the application that is to be accepted.
+ * @param timestamp The timestamp of the application of the application that is to be accepted.
  */
-
 exports.acceptApplication = async function acceptApplication(id, timestamp) {
   const session = await db.startSession();
   const applications =  await db.loadUsersCollection();
@@ -114,7 +119,8 @@ exports.acceptApplication = async function acceptApplication(id, timestamp) {
 }
 /**
  * Reject the given application
- * @param id The user id of the application thay is to rejected
+ * @param id The user id of the application that is to rejected
+ * @param timestamp The timestamp of the application of the application that is to be rejected.
  */
 exports.rejectApplication = async function rejectApplication(id, timestamp) {
   const session = await db.startSession();

@@ -1,14 +1,6 @@
 import axios from 'axios';
-//import Axios from './Axios.js';
-//const axios = Axios.getAxios();
 const url = 'auth';
 
-  // const JWTToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjN2U3Mjc3MzYzYWFiOWZmNDcwM2QyMSIsImlhdCI6MTU1MTg3NTExMywiZXhwIjoxNTUxOTYxNTEzfQ.o9ko35lXZOY6_j2iaM-FgxftJKDGRfoBZia66fGXPL4"
-
-  //   axios.defaults.headers = {
-  //     Authorization: JWTToken
-  //   }
-   
 
 /**  
  *   Class used to handle authentication with the server using axios
@@ -68,15 +60,14 @@ class AuthServices {
       };
     } catch (e) {
       if (e.response) {
-        throw e.response.data.error;
-        /*switch (e.response.data.error) {
+        switch (e.response.data.error) {
           case 'Username or password incorrect':
-            return 'Username or password incorrect'
+            throw 'Username or password incorrect'
           case 'email invalid':
-            return 'email invalid'
+            throw 'email invalid'
           default:
-            return e.response.data.error;
-        }*/
+            throw e.response.data.error;
+        }
       }
     }
   }
@@ -96,26 +87,25 @@ class AuthServices {
     const data = res.data;
     //const data = {msg: 'yes'}
     return {
-      message: data.msg
+      message: data.msg,
+      data: {
+        name: data.admin.name + " " + data.admin.surname,
+        role: data.admin.role 
+      }
     } 
   }
   catch (e) {
     if (e.response) {
-      //throw e.response.data.error;
-      throw e
-    }
-      //return e.response.data.error;
-      //throw Error("error error ")
-      //throw e.response.data.error;
-      /*switch (e.response.data.error) {
+      switch (e.response.data.error) {
         case 'Username or password incorrect':
-          return 'Username or password incorrect'
+          throw 'Username or password incorrect'
         case 'email invalid':
-          return 'email invalid'
+          throw 'email invalid'
         default:
-          return e.response.data.error;
-      }*/
+          throw e.response.data.error;
+      }
     }
+   }
   }
   /**
   * Used to logout a user on the server 

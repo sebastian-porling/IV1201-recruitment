@@ -7,7 +7,8 @@
       
       <mdb-navbar-nav>
         <mdb-nav-item to="/">Home</mdb-nav-item>
-        <mdb-nav-item to="/user" v-if="loggedIn">{{this.user.name}}</mdb-nav-item>
+        <mdb-nav-item to="/user" v-if="loggedIn && userRole === 'applicant'">{{this.user.name}}</mdb-nav-item>
+        <mdb-nav-item to="/admin" v-if="loggedIn && userRole === 'recruiter' ">{{this.user.name}}</mdb-nav-item>
         <mdb-nav-item to="/login" v-if="!loggedIn">Login</mdb-nav-item>
         <mdb-nav-item to="/register" v-if="!loggedIn">Register</mdb-nav-item>
         <mdb-nav-item to="/loginadmin" v-if="!loggedIn">Recruiter Login</mdb-nav-item>
@@ -45,6 +46,9 @@ export default {
     loggedIn() {
       return this.user.name !== null;
     },
+    userRole(){
+      return this.user.role;
+    },
   },
   /**
    * Components needed for this module.
@@ -67,6 +71,7 @@ export default {
     async logoutApi() {
       await AuthServices.logout().then((msg) => {
         this.msgFromServer = msg;
+        setTimeout(()=>{ this.msgFromServer = null; }, 2000);
         this.logout();
         this.$router.push('/');
       });

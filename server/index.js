@@ -9,6 +9,7 @@ var session = require('express-session');
 var authRouter = require('./routes/auth');
 const MongoStore = require('connect-mongo')(session);
 const MongoClient = require('mongodb').MongoClient;
+const DB = require('./integration/db');
 const maxAge = 43200000; //12 hours (time in miliseconds)
 
 const app = express();
@@ -20,11 +21,13 @@ async function init() {
 
   try {
 
-    const dbUrl = process.env.MONGOLAB_URI || 'mongodb://IV1201:IV1201@recruitment-shard-00-00-gxbqo.mongodb.net:27017,recruitment-shard-00-01-gxbqo.mongodb.net:27017,recruitment-shard-00-02-gxbqo.mongodb.net:27017/test?ssl=true&replicaSet=recruitment-shard-0&authSource=admin&retryWrites=true';
-    const dbName = 'recruitment';
-    const client = new MongoClient(dbUrl, { useNewUrlParser: true });
-    connection = await client.connect();
-    var db = connection.db(dbName);
+    //const dbUrl = process.env.MONGOLAB_URI || 'mongodb://IV1201:IV1201@recruitment-shard-00-00-gxbqo.mongodb.net:27017,recruitment-shard-00-01-gxbqo.mongodb.net:27017,recruitment-shard-00-02-gxbqo.mongodb.net:27017/test?ssl=true&replicaSet=recruitment-shard-0&authSource=admin&retryWrites=true';
+    //const dbName = 'recruitment';
+    //const client = new MongoClient(dbUrl, { useNewUrlParser: true });
+    //connection = await client.connect();
+    //var db = connection.db(dbName);
+    await DB.init();
+    var db = await DB.loadDatabase();
     app.use(session({
       secret: 'sessionSecret',
       cookie: { maxAge: maxAge },                   //12 hours },

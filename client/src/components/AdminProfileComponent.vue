@@ -1,66 +1,40 @@
+<!-- Represents the Recruiters view here the recruiter can see the applications and approve or reject them  -->
 <template>
    <mdbContainer>
-    <!-- <mdb-tbl btn responsive striped>
-      <mdb-tbl-head>
-        <tr>
-          <th>#</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Username</th>
-        </tr>
-      </mdb-tbl-head>
-
-      <mdb-tbl-body>
-        <tr>
-          <div>
-            <span>
-              Hello
-              </span>
-              <span>
-              Hello
-              </span>
-              <span>
-              Hello
-              </span>
-              <span>
-              Hello
-              </span>
-              <span>
-              Hello
-              </span>
-              <span>
-              Hello
-              </span>
-            
-          </div>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>
-            <button type="button" class="btn btn-indigo btn-sm m-0">Button</button>
-          </td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>
-            <button type="button" class="btn btn-indigo btn-sm m-0">Button</button>
-          </td>
-        </tr>
-      </mdb-tbl-body>
-    </mdb-tbl> -->
-    <span>Application: {{ application }}</span>
-   <li v-for="app in application" v-bind:value="app" v-bind:key="app._id">
-
-    <div>
-      
-      {{ app}}
+    <div class = "title-container d-flex justify-content-center"><font class="title" size="8">Applications</font> </div>
+   <!-- Generate elements for each application -->
+   <div v-for="app in application" v-bind:value="app" v-bind:key="app._id">
+  <div class=" d-flex justify-content-center">
+    <div class="application-container">
+    <div dark class="indigo application ">
+      <div> id: {{app._id}} </div>
+      <span> Name: {{app.name}},  </span>
+      <span> Surname: {{app.surname}} </span>
+       <div>Availabilities </div>
+      <div v-for="date in app.availability" v-bind:value="date" v-bind:key="date.from">  
+        <div> From: {{date.from_date}}  </div>
+        <div> To: {{date.to_date}} </div>
+      </div>
+      <div> Competences </div>
+      <div v-for="competence in app.competences" v-bind:value="competence" v-bind:key="competence.competence">  
+        <div> Competence: {{competence.competence}} </div>
+        <div> Years of experience: {{competence.years_of_experience}} </div>
+      </div>
+      <div>Status: {{app.status}} </div>
+      <div>Last edited: {{app.timestamp}} </div>
     </div>
-  </li>
-  <!-- <mdb-accordion :panes="panes"/> -->
+     <div class="button-container d-flex justify-content-center" v-if="app.status ==='unhandled'">
+        <mdb-btn @click="accept(app._id, app.timestamp)" color="success">Accept</mdb-btn>
+        <mdb-btn @click="reject(app._id, app.timestamp)" color="danger">Reject</mdb-btn>
+      </div>
+      <div class="button-container d-flex justify-content-center" v-if="app.status !=='unhandled'">
+        <mdb-btn  color="blue-grey" >Accept</mdb-btn>
+        <mdb-btn  color="blue-grey" >Reject</mdb-btn>
+      </div>
+     </div>
+    </div>
+   
+  </div>
   </mdbContainer>
 
     
@@ -70,68 +44,94 @@
 
 <script>
 import {
- mdbTbl, 
- mdbTblHead, 
- mdbTblBody,
  mdbContainer,
- mdbBtn,
-  mdbAccordion
+ mdbBtn
   
 } from "mdbvue";
-import MakeApplicationComponent from './MakeApplicationComponent.vue'
-import { mapState } from "vuex";
 import ApplicationService from "../services/ApplicationService.js";
 export default {
   name: "AdminProfileComponent",
   components: {
-    MakeApplicationComponent,
     mdbContainer,
     mdbBtn,
-    mdbTbl,
-    mdbTblHead, 
-    mdbTblBody,
-     mdbAccordion
   },
   data() {
     return {
-      panes: null,
       application: null,
       applicationExists: false,
       hidden: false,
       modal: false,
-      status: null,
-      items: [
-      { message: 'Foo' },
-      { message: 'Bar' }
-    ]
+      status: null
+
     };
   },
-  // computed: {
-  //   ...mapState(["user"]),
-  //   loggedIn() {
-  //     return this.user.name !== null;
-  //   }
-  // },
   async created() {
-    await ApplicationService.getAll()
-      .then(data => {
-        this.application = data; 
-        //this.application = 'blabla'
-    //    data.map(value => 
-    //  this.panes.push({title: 'title', content: value})
-      })
-      .catch(error => {
-        return alert(error);
-      });
-  }
-  ,
+    await this.getAll();
+  },
+ 
   methods: {
+    /** Reject an unhandled application  
+     * @param id The id of the user whos applcation is to be rejected
+     * @param timestamp The application timestamp used to ensure that the admin has the latest version of the application 
+    */
+    reject: async function(id, timestamp){
+      try{
+        await ApplicationService.reject(id, timestamp);
+        await this.getAll();
+      }
+      catch(error){
+        return alert(error);
+      }
+
+    },
+    /** Accept an unhandled application
+     * @param id The id of the user whos applcation is to be rejected
+     * @param timestamp The application timestamp used to ensure that the admin has the latest version of the application 
+      */
+    accept: async function (id, timestamp){
+      try{
+        await ApplicationService.accept(id, timestamp);
+        await this.getAll();
+      }
+      catch(error){
+        return alert(error);
+      }
+
+    },
+    /** Retrieve all applications on the server */
+    getAll: async function (){
+          await ApplicationService.getAll().then(data => {
+          this.application = data; 
+        })
+        .catch(error => {
+          return alert(error);
+        });
+    }
     
   }
 };
 </script>
 
 <style scoped>
+
+.title{
+  color:navy;
+}
+
+
+.application-container{
+  width: 50%;
+}
+
+.application{
+ text-align: center;
+}
+
+.application>div,span{
+ color: white;
+ width: 100%
+}
+
 .card img {
   width: 100%;
 }
