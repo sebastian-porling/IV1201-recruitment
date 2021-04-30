@@ -5,6 +5,7 @@
 var User = require('../integration/User');
 var Token = require('./Token');
 var Err = require('../utility/ErrorEnums');
+const Logger = require('../utility/Logger');
 /**
  * Verifies that the current client is logged in as a user and has the role admin.  
  * @param req Contains information about the request made by the client to the server.
@@ -30,6 +31,7 @@ async function verifyAdmin(req, res, next) {
     }
   }
   catch (e) {
+    Logger.log(e);
     if (e.name === 'JsonWebTokenError') {
       console.log('Failed to authenticate token');
       //return res.status(400).send({ error: Err.AuthorizationErrors.INVALID_TOKEN_ERROR });
